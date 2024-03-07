@@ -17,6 +17,7 @@ return {
       -- Useful status updates for LSP.
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
       { 'j-hui/fidget.nvim', opts = {} },
+      { 'towolf/vim-helm', ft = 'helm' },
     },
     config = function()
       -- Brief Aside: **What is LSP?**
@@ -172,6 +173,13 @@ return {
               },
               -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
               -- diagnostics = { disable = { 'missing-fields' } },
+            },
+          },
+        },
+        helm_ls = {
+          ['helm-ls'] = {
+            yamlls = {
+              path = 'yaml-language-server',
             },
           },
         },
