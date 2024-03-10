@@ -68,10 +68,10 @@ vim.opt.colorcolumn = '80'
 vim.opt.background = 'dark'
 
 local disabled_built_ins = {
-  'netrw',
-  'netrwPlugin',
-  'netrwSettings',
-  'netrwFileHandlers',
+  -- 'netrw',
+  -- 'netrwPlugin',
+  -- 'netrwSettings',
+  -- 'netrwFileHandlers',
   'gzip',
   'zip',
   'zipPlugin',
