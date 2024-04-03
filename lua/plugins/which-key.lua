@@ -30,6 +30,7 @@ return {
         ['<leader>b'] = { name = '[B]uffers', _ = 'which_key_ignore' },
         ['<leader>d'] = { name = '[D]ebug', _ = 'which_key_ignore' },
         ['<leader>m'] = { name = '[M]ap', _ = 'which_key_ignore' },
+        ['<leader>t'] = { name = '[T]elescope', _ = 'which_key_ignore' },
       }
     end,
   },
