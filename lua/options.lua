@@ -10,7 +10,7 @@ vim.opt.number = true
 vim.opt.relativenumber = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
-vim.opt.mouse = 'a'
+vim.opt.mouse = "a"
 
 -- Don't show the mode, since it's already in status line
 vim.opt.showmode = false
@@ -18,12 +18,12 @@ vim.opt.showmode = false
 -- Sync clipboard between OS and Neovim.
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
-vim.opt.clipboard = 'unnamedplus'
+vim.opt.clipboard = "unnamedplus"
 
 -- Enable break indent
 vim.opt.linebreak = true
 vim.opt.breakindent = true
-vim.opt.breakindentopt = 'shift:2'
+vim.opt.breakindentopt = "shift:2"
 
 -- Save undo history
 vim.opt.undofile = true
@@ -33,7 +33,7 @@ vim.opt.ignorecase = true
 vim.opt.smartcase = true
 
 -- Keep signcolumn on by default
-vim.opt.signcolumn = 'yes'
+vim.opt.signcolumn = "yes"
 
 -- Decrease update time
 vim.opt.updatetime = 250
@@ -47,10 +47,10 @@ vim.opt.splitbelow = true
 --  See :help 'list'
 --  and :help 'listchars'
 vim.opt.list = true
-vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
+vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
 
 -- Preview substitutions live, as you type!
-vim.opt.inccommand = 'split'
+vim.opt.inccommand = "split"
 
 -- Show which line your cursor is on
 vim.opt.cursorline = true
@@ -63,35 +63,37 @@ vim.opt.scrolloff = 10
 --   ctermbg = 200,
 --   fg = '#ffffff',
 -- })
-vim.opt.colorcolumn = '80'
+vim.opt.colorcolumn = "80"
 
-vim.opt.background = 'dark'
+vim.opt.background = "dark"
+
+vim.opt.spell = true
 
 local disabled_built_ins = {
   -- 'netrw',
   -- 'netrwPlugin',
   -- 'netrwSettings',
   -- 'netrwFileHandlers',
-  'gzip',
-  'zip',
-  'zipPlugin',
-  'tar',
-  'tarPlugin',
-  'getscript',
-  'getscriptPlugin',
-  'vimball',
-  'vimballPlugin',
-  '2html_plugin',
-  'logipat',
-  'rrhelper',
-  'spellfile_plugin',
-  'matchit',
+  "gzip",
+  "zip",
+  "zipPlugin",
+  "tar",
+  "tarPlugin",
+  "getscript",
+  "getscriptPlugin",
+  "vimball",
+  "vimballPlugin",
+  "2html_plugin",
+  "logipat",
+  "rrhelper",
+  "spellfile_plugin",
+  "matchit",
   -- Reduce startup time for python files
   -- /usr/share/nvim/runtime/autoload/provider/python3.vim
-  'python3_provider',
+  "python3_provider",
 }
 
 for _, plugin in pairs(disabled_built_ins) do
-  vim.g['loaded_' .. plugin] = 1
+  vim.g["loaded_" .. plugin] = 1
 end
 -- vim: ts=2 sts=2 sw=2 et

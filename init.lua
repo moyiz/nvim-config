@@ -1,5 +1,5 @@
 --[[
-  Inspired and diverged: https://github.com/dam9000/kickstart-modular.nvim
+  Inspired by and diverged from: https://github.com/dam9000/kickstart-modular.nvim
 
   NOTE: Relevant docs:
     - https://learnxinyminutes.com/docs/lua/
@@ -14,19 +14,19 @@
 
 -- Set <space> as the leader key before loading plugins
 -- See `:help mapleader`
-vim.g.mapleader = ' '
-vim.g.maplocalleader = ' '
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
 
 -- Set clipboard manually to skip loading `clipboard.vim`
 vim.g.clipboard = {
-  name = 'xsel',
+  name = "xsel",
   copy = {
-    ['+'] = 'xsel -ibp',
-    ['*'] = 'xsel -ibp',
+    ["+"] = "xsel -ibp",
+    ["*"] = "xsel -ibp",
   },
   paste = {
-    ['+'] = 'xsel -obp',
-    ['*'] = 'xsel -obp',
+    ["+"] = "xsel -obp",
+    ["*"] = "xsel -obp",
   },
   cache_enabled = 0,
 }
@@ -37,33 +37,55 @@ pcall(function()
 end)
 
 -- [[ Setting options ]]
-require 'options'
+require "options"
 
 -- [[ Basic Keymaps ]]
-require 'keymaps'
+require "keymaps"
 
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
-local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
+local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
-  local lazyrepo = 'https://github.com/folke/lazy.nvim.git'
-  vim.fn.system { 'git', 'clone', '--filter=blob:none', '--branch=stable', lazyrepo, lazypath }
+  local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+  vim.fn.system {
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "--branch=stable",
+    lazyrepo,
+    lazypath,
+  }
 end ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
 
 -- [[ Configure and install plugins ]]
-require('lazy').setup {
-  'dstein64/vim-startuptime',
-  'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
+require("lazy").setup {
+  "dstein64/vim-startuptime",
+  "tpope/vim-sleuth", -- Detect tabstop and shiftwidth automatically
 
-  -- Use `opts = {}` to force a plugin to be loaded.
+  { "numToStr/Comment.nvim", opts = {} },
+
+  {
+    -- dir = "~/workspace/command-and-cursor.nvim",
+    "moyiz/command-and-cursor.nvim",
+    event = "VeryLazy",
+    opts = {
+      -- debug_position = true,
+    },
+  },
+
+  -- {
+  --   'mboughaba/i3config.vim',
+  --   ft = 'i3config',
+  -- },
   --
-  --  This is equivalent to:
-  --    require('Comment').setup({})
-  { 'numToStr/Comment.nvim', opts = {} },
 
-  -- Load plugins from plugin dir
-  { import = 'plugins' },
+  {
+    dir = "~/workspace/nile.nvim",
+    opts = {},
+  },
+
+  { import = "plugins" },
 }
 
 -- See `:help modeline`
