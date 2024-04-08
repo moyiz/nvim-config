@@ -8,24 +8,24 @@
 
 return {
   -- NOTE: Yes, you can install new plugins here!
-  'mfussenegger/nvim-dap',
+  "mfussenegger/nvim-dap",
   -- NOTE: And you can specify dependencies as well
   dependencies = {
     -- Creates a beautiful debugger UI
-    'rcarriga/nvim-dap-ui',
+    { "rcarriga/nvim-dap-ui", dependencies = { "nvim-neotest/nvim-nio" } },
 
     -- Installs the debug adapters for you
-    'williamboman/mason.nvim',
-    'jay-babu/mason-nvim-dap.nvim',
+    "williamboman/mason.nvim",
+    "jay-babu/mason-nvim-dap.nvim",
 
     -- Add your own debuggers here
-    'leoluz/nvim-dap-go',
+    "leoluz/nvim-dap-go",
   },
   config = function()
-    local dap = require 'dap'
-    local dapui = require 'dapui'
+    local dap = require "dap"
+    local dapui = require "dapui"
 
-    require('mason-nvim-dap').setup {
+    require("mason-nvim-dap").setup {
       -- Makes a best effort to setup the various debuggers with
       -- reasonable debug configurations
       automatic_setup = true,
@@ -38,7 +38,7 @@ return {
       -- online, please don't ask me how to install them :)
       ensure_installed = {
         -- Update this to ensure that you have the debuggers for the langs you want
-        'delve',
+        "delve",
       },
     }
 
@@ -58,18 +58,18 @@ return {
       -- Set icons to characters that are more likely to work in every terminal.
       --    Feel free to remove or use ones that you like more! :)
       --    Don't feel like these are good choices.
-      icons = { expanded = '▾', collapsed = '▸', current_frame = '*' },
+      icons = { expanded = "▾", collapsed = "▸", current_frame = "*" },
       controls = {
         icons = {
-          pause = '⏸',
-          play = '▶',
-          step_into = '⏎',
-          step_over = '⏭',
-          step_out = '⏮',
-          step_back = 'b',
-          run_last = '▶▶',
-          terminate = '⏹',
-          disconnect = '⏏',
+          pause = "⏸",
+          play = "▶",
+          step_into = "⏎",
+          step_over = "⏭",
+          step_out = "⏮",
+          step_back = "b",
+          run_last = "▶▶",
+          terminate = "⏹",
+          disconnect = "⏏",
         },
       },
     }
@@ -77,178 +77,182 @@ return {
     -- Toggle to see last session result. Without this, you can't see session output in case of unhandled exception.
     -- vim.keymap.set('n', '<leader>dd', dapui.toggle, { desc = 'Debug: See last session result.' })
 
-    dap.listeners.after.event_initialized['dapui_config'] = dapui.open
-    dap.listeners.before.event_terminated['dapui_config'] = dapui.close
-    dap.listeners.before.event_exited['dapui_config'] = dapui.close
+    dap.listeners.after.event_initialized["dapui_config"] = dapui.open
+    dap.listeners.before.event_terminated["dapui_config"] = dapui.close
+    dap.listeners.before.event_exited["dapui_config"] = dapui.close
 
     -- Install golang specific config
-    require('dap-go').setup()
+    require("dap-go").setup()
   end,
   keys = {
     {
-      '<leader>dR',
+      "<leader>dR",
       function()
-        require('dap').run_to_cursor()
+        require("dap").run_to_cursor()
       end,
-      desc = 'Run to Cursor',
+      desc = "Run to Cursor",
     },
     {
-      '<leader>dE',
+      "<leader>dE",
       function()
-        require('dapui').eval(vim.fn.input '[Expression] > ')
+        require("dapui").eval(vim.fn.input "[Expression] > ")
       end,
-      desc = 'Evaluate Input',
+      desc = "Evaluate Input",
     },
     {
-      '<leader>de',
+      "<leader>de",
       function()
-        require('dapui').eval()
+        require("dapui").eval()
       end,
-      mode = { 'n', 'v' },
-      desc = 'Evaluate',
+      mode = { "n", "v" },
+      desc = "Evaluate",
     },
     {
-      '<leader>dC',
+      "<leader>dC",
       function()
-        require('dap').set_breakpoint(vim.fn.input '[Condition] > ')
+        require("dap").set_breakpoint(vim.fn.input "[Condition] > ")
       end,
-      desc = 'Conditional Breakpoint',
+      desc = "Conditional Breakpoint",
     },
     {
-      '<leader>dL',
+      "<leader>dL",
       function()
-        require('dap').set_breakpoint(nil, nil, vim.fn.input 'Log point message: ')
+        require("dap").set_breakpoint(
+          nil,
+          nil,
+          vim.fn.input "Log point message: "
+        )
       end,
       silent = true,
-      desc = 'Set Breakpoint',
+      desc = "Set Breakpoint",
     },
     {
-      '<leader>dU',
+      "<leader>dU",
       function()
-        require('dapui').toggle()
+        require("dapui").toggle()
       end,
-      desc = 'Toggle UI',
+      desc = "Toggle UI",
     },
     {
-      '<leader>dp',
+      "<leader>dp",
       function()
-        require('dap').pause.toggle()
+        require("dap").pause.toggle()
       end,
-      desc = 'Pause',
+      desc = "Pause",
     },
     {
-      '<leader>dr',
+      "<leader>dr",
       function()
-        require('dap').repl.toggle()
+        require("dap").repl.toggle()
       end,
-      desc = 'Toggle REPL',
+      desc = "Toggle REPL",
     },
     {
-      '<leader>dt',
+      "<leader>dt",
       function()
-        require('dap').toggle_breakpoint()
+        require("dap").toggle_breakpoint()
       end,
-      desc = 'Toggle Breakpoint',
+      desc = "Toggle Breakpoint",
     },
     {
-      '<leader>dB',
+      "<leader>dB",
       function()
-        require('dap').step_back()
+        require("dap").step_back()
       end,
-      desc = 'Step Back',
+      desc = "Step Back",
     },
     {
-      '<leader>dc',
+      "<leader>dc",
       function()
-        require('dap').continue()
+        require("dap").continue()
       end,
-      desc = 'Continue',
+      desc = "Continue",
     },
     {
-      '<leader>ds',
+      "<leader>ds",
       function()
-        require('dap').continue()
+        require("dap").continue()
       end,
-      desc = 'Start',
+      desc = "Start",
     },
     {
-      '<leader>dd',
+      "<leader>dd",
       function()
-        require('dap').disconnect()
+        require("dap").disconnect()
       end,
-      desc = 'Disconnect',
+      desc = "Disconnect",
     },
     {
-      '<leader>dg',
+      "<leader>dg",
       function()
-        require('dap').session()
+        require("dap").session()
       end,
-      desc = 'Get Session',
+      desc = "Get Session",
     },
     {
-      '<leader>dh',
+      "<leader>dh",
       function()
-        require('dap.ui.widgets').hover()
+        require("dap.ui.widgets").hover()
       end,
-      desc = 'Hover Variables',
+      desc = "Hover Variables",
     },
     {
-      '<leader>dS',
+      "<leader>dS",
       function()
-        require('dap.ui.widgets').scopes()
+        require("dap.ui.widgets").scopes()
       end,
-      desc = 'Scopes',
+      desc = "Scopes",
     },
     {
-      '<leader>di',
+      "<leader>di",
       function()
-        require('dap').step_into()
+        require("dap").step_into()
       end,
-      desc = 'Step Into',
+      desc = "Step Into",
     },
     {
-      '<leader>do',
+      "<leader>do",
       function()
-        require('dap').step_over()
+        require("dap").step_over()
       end,
-      desc = 'Step Over',
+      desc = "Step Over",
     },
     {
-      '<leader>du',
+      "<leader>du",
       function()
-        require('dap').step_out()
+        require("dap").step_out()
       end,
-      desc = 'Step Out',
+      desc = "Step Out",
     },
     {
-      '<leader>dq',
+      "<leader>dq",
       function()
-        require('dap').close()
+        require("dap").close()
       end,
-      desc = 'Quit',
+      desc = "Quit",
     },
     {
-      '<leader>dx',
+      "<leader>dx",
       function()
-        require('dap').terminate()
+        require("dap").terminate()
       end,
-      desc = 'Terminate',
+      desc = "Terminate",
     },
     {
-      '<leader>dO',
+      "<leader>dO",
       function()
-        require('dap').repl.open()
-      end,
-      silent = true,
-      desc = 'Repl Open',
-    },
-    {
-      '<leader>dl',
-      function()
-        require('dap').run_last()
+        require("dap").repl.open()
       end,
       silent = true,
-      desc = 'Run Last',
+      desc = "Repl Open",
+    },
+    {
+      "<leader>dl",
+      function()
+        require("dap").run_last()
+      end,
+      silent = true,
+      desc = "Run Last",
     },
   },
 }
