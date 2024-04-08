@@ -1,33 +1,44 @@
 return {
-  'nvim-tree/nvim-tree.lua',
-  version = '*',
+  "nvim-tree/nvim-tree.lua",
+  version = "*",
   lazy = true,
-  cmd = { 'NvimTreeOpen', 'NvimTreeToggle', 'NvimTreeRefresh', 'NvimTreeFindFile' },
-  dependencies = {
-    'nvim-tree/nvim-web-devicons',
+  cmd = {
+    "NvimTreeOpen",
+    "NvimTreeToggle",
+    "NvimTreeRefresh",
+    "NvimTreeFindFile",
   },
-  -- cmd = 'NvimTreeToggle',
+  dependencies = {
+    "nvim-tree/nvim-web-devicons",
+  },
   keys = {
     {
-      '<leader>n',
+      "<leader>e",
       function()
-        require('nvim-tree.api').tree.toggle { focus = true, find_file = true }
+        require("nvim-tree.api").tree.toggle { focus = true, find_file = true }
       end,
-      mode = 'n',
+      mode = "n",
       silent = true,
-      desc = 'Toggle Tree',
+      desc = "Toggle Tree",
     },
   },
   init = function()
     local autocmd = vim.api.nvim_create_autocmd
 
-    autocmd('BufEnter', {
-      group = vim.api.nvim_create_augroup('NvimTreeClose', { clear = true }),
-      pattern = 'NvimTree_*',
+    autocmd("BufEnter", {
+      group = vim.api.nvim_create_augroup("NvimTreeClose", { clear = true }),
+      pattern = "NvimTree_*",
       callback = function()
-        local layout = vim.api.nvim_call_function('winlayout', {})
-        if layout[1] == 'leaf' and vim.api.nvim_buf_get_option(vim.api.nvim_win_get_buf(layout[2]), 'filetype') == 'NvimTree' and layout[3] == nil then
-          vim.cmd 'confirm quit'
+        local layout = vim.api.nvim_call_function("winlayout", {})
+        if
+          layout[1] == "leaf"
+          and vim.api.nvim_buf_get_option(
+            vim.api.nvim_win_get_buf(layout[2]),
+            "filetype"
+          ) == "NvimTree"
+          and layout[3] == nil
+        then
+          vim.cmd "confirm quit"
         end
       end,
     })
@@ -38,11 +49,11 @@ return {
     if vim.fn.argc(cmdline_args) == 0 then
       return
     else
-      autocmd({ 'VimEnter' }, {
+      autocmd({ "VimEnter" }, {
         -- open nvim-tree for noname buffers and directory
         callback = function(args)
           -- buffer is a [No Name]
-          local no_name = args.file == '' and vim.bo[args.buf].buftype == ''
+          local no_name = args.file == "" and vim.bo[args.buf].buftype == ""
           -- buffer is a directory
           local directory = vim.fn.isdirectory(args.file) == 1
 
@@ -50,7 +61,7 @@ return {
             return
           end
 
-          local api = require 'nvim-tree.api'
+          local api = require "nvim-tree.api"
 
           if directory then
             -- change to the directory
@@ -66,85 +77,101 @@ return {
     end
   end,
   config = function(_, opts)
-    require('nvim-tree').setup(opts)
+    require("nvim-tree").setup(opts)
   end,
   opts = function(_, _)
     local function on_attach(bufnr)
-      local api = require 'nvim-tree.api'
+      local api = require "nvim-tree.api"
 
       local function opts(desc)
-        return { desc = 'nvim-tree: ' .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
+        return {
+          desc = "nvim-tree: " .. desc,
+          buffer = bufnr,
+          noremap = true,
+          silent = true,
+          nowait = true,
+        }
       end
       local map = vim.keymap.set
 
       -- Default mappings. Feel free to modify or remove as you wish.
       --
       -- BEGIN_DEFAULT_ON_ATTACH
-      map('n', 'g?', api.tree.toggle_help, opts 'Help')
+      map("n", "g?", api.tree.toggle_help, opts "Help")
 
-      map('n', '<C-]>', api.tree.change_root_to_node, opts 'CD')
-      map('n', 'C', api.tree.change_root_to_node, opts 'CD')
+      map("n", "<C-]>", api.tree.change_root_to_node, opts "CD")
+      map("n", "C", api.tree.change_root_to_node, opts "CD")
 
-      map('n', 'E', api.tree.expand_all, opts 'Expand All')
-      map('n', 'q', api.tree.close, opts 'Close')
-      map('n', 'R', api.tree.reload, opts 'Refresh')
-      map('n', 'S', api.tree.search_node, opts 'Search')
-      map('n', 'U', api.tree.toggle_custom_filter, opts 'Toggle Hidden')
-      map('n', 'H', api.tree.toggle_hidden_filter, opts 'Toggle Dotfiles')
-      map('n', 'W', api.tree.collapse_all, opts 'Collapse')
+      map("n", "E", api.tree.expand_all, opts "Expand All")
+      map("n", "q", api.tree.close, opts "Close")
+      map("n", "R", api.tree.reload, opts "Refresh")
+      map("n", "S", api.tree.search_node, opts "Search")
+      map("n", "U", api.tree.toggle_custom_filter, opts "Toggle Hidden")
+      map("n", "H", api.tree.toggle_hidden_filter, opts "Toggle Dotfiles")
+      map("n", "W", api.tree.collapse_all, opts "Collapse")
 
-      map('n', '<C-e>', api.node.open.replace_tree_buffer, opts 'Open: In Place')
-      map('n', '<CR>', api.node.open.edit, opts 'Open')
-      map('n', 'o', api.node.open.edit, opts 'Open')
-      map('n', 'O', api.node.open.no_window_picker, opts 'Open: No Window Picker')
+      map(
+        "n",
+        "<C-e>",
+        api.node.open.replace_tree_buffer,
+        opts "Open: In Place"
+      )
+      map("n", "<CR>", api.node.open.edit, opts "Open")
+      map("n", "o", api.node.open.edit, opts "Open")
+      map(
+        "n",
+        "O",
+        api.node.open.no_window_picker,
+        opts "Open: No Window Picker"
+      )
 
-      map('n', '<C-k>', api.node.show_info_popup, opts 'File Info')
+      map("n", "<C-k>", api.node.show_info_popup, opts "File Info")
 
-      map('n', '<C-r>', api.fs.rename_sub, opts 'Rename: Omit Filename')
-      map('n', 'e', api.fs.rename_basename, opts 'Rename: Basename')
-      map('n', 'r', api.fs.rename, opts 'Rename File')
-      map('n', 'a', api.fs.create, opts 'Create File')
-      map('n', 'c', api.fs.copy.node, opts 'Copy File')
-      map('n', 'y', api.fs.copy.filename, opts 'Copy Name')
-      map('n', 'Y', api.fs.copy.relative_path, opts 'Copy Relative Path')
-      map('n', 'gy', api.fs.copy.absolute_path, opts 'Copy Absolute Path')
-      map('n', 'd', api.fs.remove, opts 'Delete')
-      map('n', 'D', api.fs.trash, opts 'Trash')
-      map('n', 'p', api.fs.paste, opts 'Paste')
-      map('n', 'x', api.fs.cut, opts 'Cut')
+      map("n", "<C-r>", api.fs.rename_sub, opts "Rename: Omit Filename")
+      map("n", "e", api.fs.rename_basename, opts "Rename: Basename")
+      map("n", "r", api.fs.rename, opts "Rename File")
+      map("n", "a", api.fs.create, opts "Create File")
+      map("n", "c", api.fs.copy.node, opts "Copy File")
+      map("n", "y", api.fs.copy.filename, opts "Copy Name")
+      map("n", "Y", api.fs.copy.relative_path, opts "Copy Relative Path")
+      map("n", "gy", api.fs.copy.absolute_path, opts "Copy Absolute Path")
+      map("n", "d", api.fs.remove, opts "Delete")
+      map("n", "D", api.fs.trash, opts "Trash")
+      map("n", "p", api.fs.paste, opts "Paste")
+      map("n", "x", api.fs.cut, opts "Cut")
 
-      map('n', '<C-v>', api.node.open.vertical, opts 'Open: Vertical Split')
-      map('n', '<C-x>', api.node.open.horizontal, opts 'Open: Horizontal Split')
-      map('n', '<C-t>', api.node.open.tab, opts 'Open: New Tab')
+      map("n", "<C-v>", api.node.open.vertical, opts "Open: Vertical Split")
+      map("n", "<C-h>", api.node.open.horizontal, opts "Open: Horizontal Split")
+      map("n", "<C-t>", api.node.open.tab, opts "Open: New Tab")
 
-      map('n', '<BS>', api.node.navigate.parent_close, opts 'Close Directory')
+      map("n", "<BS>", api.node.navigate.parent_close, opts "Close Directory")
 
-      map('n', '<Tab>', api.node.open.preview, opts 'Open Preview')
+      map("n", "<Tab>", api.node.open.preview, opts "Open Preview")
 
-      map('n', '>', api.node.navigate.sibling.next, opts 'Next Sibling')
-      map('n', '<', api.node.navigate.sibling.prev, opts 'Previous Sibling')
-      map('n', 'J', api.node.navigate.sibling.last, opts 'Last Sibling')
-      map('n', 'K', api.node.navigate.sibling.first, opts 'First Sibling')
-      map('n', 'P', api.node.navigate.parent, opts 'Parent Directory')
-      map('n', '-', api.tree.change_root_to_parent, opts 'Up')
+      map("n", ">", api.node.navigate.sibling.next, opts "Next Sibling")
+      map("n", "<", api.node.navigate.sibling.prev, opts "Previous Sibling")
+      map("n", "J", api.node.navigate.sibling.last, opts "Last Sibling")
+      map("n", "K", api.node.navigate.sibling.first, opts "First Sibling")
+      map("n", "P", api.node.navigate.parent, opts "Parent Directory")
+      map("n", "-", api.tree.change_root_to_parent, opts "Up")
 
-      map('n', '.', api.node.run.cmd, opts 'Run File Command')
-      map('n', 's', api.node.run.system, opts 'Run System')
+      map("n", ".", api.node.run.cmd, opts "Run File Command")
+      map("n", "s", api.node.run.system, opts "Run System")
 
-      map('n', 'bmv', api.marks.bulk.move, opts 'Move Bookmarked')
-      map('n', 'm', api.marks.toggle, opts 'Toggle Bookmark')
+      map("n", "bmv", api.marks.bulk.move, opts "Move Bookmarked")
+      map("n", "m", api.marks.toggle, opts "Toggle Bookmark")
 
-      map('n', '[c', api.node.navigate.git.prev, opts 'Prev Git')
-      map('n', ']c', api.node.navigate.git.next, opts 'Next Git')
-      map('n', 'B', api.tree.toggle_no_buffer_filter, opts 'Toggle No Buffer')
-      map('n', 'C', api.tree.toggle_git_clean_filter, opts 'Toggle Git Clean')
-      map('n', 'I', api.tree.toggle_gitignore_filter, opts 'Toggle Git Ignore')
+      map("n", "[c", api.node.navigate.git.prev, opts "Prev Git")
+      map("n", "]c", api.node.navigate.git.next, opts "Next Git")
+      map("n", "B", api.tree.toggle_no_buffer_filter, opts "Toggle No Buffer")
+      map("n", "C", api.tree.toggle_git_clean_filter, opts "Toggle Git Clean")
+      map("n", "I", api.tree.toggle_gitignore_filter, opts "Toggle Git Ignore")
 
-      map('n', ']e', api.node.navigate.diagnostics.next, opts 'Next Diagnostic')
-      map('n', '[e', api.node.navigate.diagnostics.prev, opts 'Prev Diagnostic')
+      map("n", "]e", api.node.navigate.diagnostics.next, opts "Next Diagnostic")
+      map("n", "[e", api.node.navigate.diagnostics.prev, opts "Prev Diagnostic")
 
-      map('n', 'F', api.live_filter.clear, opts 'Clean Filter')
-      map('n', 'f', api.live_filter.start, opts 'Filter')
+      map("n", "F", api.live_filter.clear, opts "Clean Filter")
+      map("n", "f", api.live_filter.start, opts "Filter")
       -- END_DEFAULT_ON_ATTACH
 
       --Example of mappings with a custom action_cb
@@ -191,7 +218,7 @@ return {
       -- "suffix", "filetype" or a function. "extension" uses all suffixes e.g. foo.tar.gz -> .tar.gz
       -- "suffix" uses the last e.g. .gz
       sort = {
-        sorter = 'name',
+        sorter = "name",
         -- Sort folders before files. Has no effect when |nvim-tree.sort.sorter| is a function
         folders_first = true,
         -- Sort files before folders. Has no effect when |nvim-tree.sort.sorter| is a
@@ -209,7 +236,7 @@ return {
         -- Increase if you experience performance issues around screen refresh.
         debounce_delay = 30,
         -- side of the tree, can be 'left' | 'right'
-        side = 'left',
+        side = "left",
         -- preserve window proportions when opening a file.
         -- If `false`, the height and width of windows other than nvim-tree will be equalized.
         preserve_window_proportions = true,
@@ -219,16 +246,16 @@ return {
         -- If the option `view.number` is also `true`, the number on the cursor line will be the line number instead of `0`.
         relativenumber = false,
         --show diagnostic sign column. Value can be `"yes"`, `"auto"`, `"no"`
-        signcolumn = 'yes',
+        signcolumn = "yes",
         -- Width of the window: can be a `%` string, a number representing columns, a
         -- function or a table.
         -- A table indicates that the view should be dynamically sized based on the
         -- longest line (previously `view.adaptive_size`).
         width = {
           -- Minimum dynamic width.
-          min = '25%',
+          min = "25%",
           -- Maximum dynamic width, -1 for unbounded.
-          max = '45%',
+          max = "45%",
           -- Extra padding to the right.
           padding = 1,
         },
@@ -240,8 +267,8 @@ return {
           quit_on_focus_loss = true,
           -- Floating window config. See |nvim_open_win| for more details.
           open_win_config = {
-            relative = 'editor',
-            border = 'rounded',
+            relative = "editor",
+            border = "rounded",
             width = 30,
             height = 30,
             row = 1,
@@ -260,7 +287,13 @@ return {
         -- Number of spaces for an each tree nesting level. Minimum 1.
         indent_width = 2,
         -- A list of filenames that gets highlighted with `NvimTreeSpecialFile`.
-        special_files = { 'Cargo.toml', 'Makefile', 'README.md', 'build.zig', 'build.zig.zon' },
+        special_files = {
+          "Cargo.toml",
+          "Makefile",
+          "README.md",
+          "build.zig",
+          "build.zig.zon",
+        },
         -- Whether to show the destination of the symlink.
         symlink_destination = true,
         -- Enable file highlight for git attributes using `NvimTreeGit*` highlight groups.
@@ -273,19 +306,19 @@ return {
         -- NvimTreeOpenedFile highlight group.
         -- See |nvim-tree-api.navigate.opened.next()| and |nvim-tree-api.navigate.opened.prev()|
         -- Value can be "none", "icon", "name" or "all".
-        highlight_opened_files = 'icon',
+        highlight_opened_files = "icon",
         -- Highlight icons and/or names for modified files using the
         -- `NvimTreeModifiedFile` highlight group.
         -- Requires |nvim-tree.modified.enable|
         -- Value can be `"none"`, `"icon"`, `"name"` or `"all"`
-        highlight_modified = 'icon',
+        highlight_modified = "icon",
         -- Highlight bookmarked using the NvimTreeBookmarkHL group.
         -- Value can be "none", "icon", "name" or "all"
-        highlight_bookmarks = 'name',
+        highlight_bookmarks = "name",
         -- Enable highlight for clipboard items using the NvimTreeCutHL and
         -- NvimTreeCopiedHL groups.
         -- Value can be "none", "icon", "name" or "all".
-        highlight_clipboard = 'name',
+        highlight_clipboard = "name",
         -- Configuration options for tree indent markers.
         indent_markers = {
           -- Display indent markers when folders are open
@@ -295,11 +328,11 @@ return {
           inline_arrows = true,
           -- Icons shown before the file/directory. Length 1.
           icons = {
-            corner = '└',
-            edge = '│',
-            item = '│',
-            bottom = '─',
-            none = ' ',
+            corner = "└",
+            edge = "│",
+            item = "│",
+            bottom = "─",
+            none = " ",
           },
         },
       },
