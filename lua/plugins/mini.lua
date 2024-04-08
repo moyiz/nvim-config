@@ -36,11 +36,11 @@ return {
     }
 
     -- Inserts closing character for pairs
-    require("mini.pairs").setup {
-      modes = {
-        command = true,
-      },
-    }
+    -- require("mini.pairs").setup {
+    --   modes = {
+    --     command = true,
+    --   },
+    -- }
 
     --  overview of current buffer text.
     require("mini.map").setup()
