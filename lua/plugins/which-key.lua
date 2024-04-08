@@ -15,22 +15,21 @@
 
 return {
   { -- Useful plugin to show you pending keybinds.
-    'folke/which-key.nvim',
-    event = 'VeryLazy', -- Sets the loading event to 'VeryLazy'
+    "folke/which-key.nvim",
+    event = "VeryLazy",
     config = function() -- This is the function that runs, AFTER loading
       vim.o.timeout = true
       vim.o.timeoutlen = 30
-      require('which-key').setup {}
+      require("which-key").setup {}
 
       -- Document existing key chains
-      require('which-key').register {
-        ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
-        ['<leader>cs'] = { name = '[S]ymbols', _ = 'which_key_ignore' },
-        ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
-        ['<leader>b'] = { name = '[B]uffers', _ = 'which_key_ignore' },
-        ['<leader>d'] = { name = '[D]ebug', _ = 'which_key_ignore' },
-        ['<leader>m'] = { name = '[M]ap', _ = 'which_key_ignore' },
-        ['<leader>t'] = { name = '[T]elescope', _ = 'which_key_ignore' },
+      require("which-key").register {
+        ["<leader>c"] = { name = "[C]ode", _ = "which_key_ignore" },
+        ["<leader>cs"] = { name = "[S]ymbols", _ = "which_key_ignore" },
+        ["<leader>s"] = { name = "[S]earch", _ = "which_key_ignore" },
+        ["<leader>d"] = { name = "[D]ebug", _ = "which_key_ignore" },
+        ["<leader>m"] = { name = "[M]ap", _ = "which_key_ignore" },
+        ["<leader>t"] = { name = "[T]elescope", _ = "which_key_ignore" },
       }
     end,
   },
