@@ -20,13 +20,13 @@ vim.keymap.set(
 )
 vim.keymap.set(
   "n",
-  "<leader>e",
+  "<leader>ce",
   vim.diagnostic.open_float,
   { desc = "Show diagnostic [E]rror messages" }
 )
 vim.keymap.set(
   "n",
-  "<leader>q",
+  "<leader>cq",
   vim.diagnostic.setloclist,
   { desc = "Open diagnostic [Q]uickfix list" }
 )
@@ -91,8 +91,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 })
 
 -- Restore last cursor position in opened buffers
--- local lastplace = vim.api.nvim_create_augroup('LastPlace', {})
--- vim.api.nvim_clear_autocmds { group = lastplace }
 vim.api.nvim_create_autocmd("BufReadPost", {
   group = vim.api.nvim_create_augroup("LastPlace", {}),
   pattern = { "*" },
