@@ -1,26 +1,29 @@
 return {
   { -- Highlight, edit, and navigate code
-    'nvim-treesitter/nvim-treesitter',
+    "nvim-treesitter/nvim-treesitter",
     -- lazy = true,
-    build = ':TSUpdate',
+    build = ":TSUpdate",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter-context",
+    },
     config = function()
       -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
 
-      require('nvim-treesitter.configs').setup {
+      require("nvim-treesitter.configs").setup {
         ensure_installed = {
-          'bash',
-          'c',
-          'go',
-          'html',
-          'json',
-          'lua',
-          'markdown',
-          'python',
-          'query',
-          'regex',
-          'vim',
-          'vimdoc',
-          'yaml',
+          "bash",
+          "c",
+          "go",
+          "html",
+          "json",
+          "lua",
+          "markdown",
+          "python",
+          "query",
+          "regex",
+          "vim",
+          "vimdoc",
+          "yaml",
         },
         -- Autoinstall languages that are not installed
         auto_install = true,
@@ -34,6 +37,10 @@ return {
       --    - Incremental selection: Included, see :help nvim-treesitter-incremental-selection-mod
       --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
       --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
+
+      require("treesitter-context").setup {
+        multiline_threshold = 3,
+      }
     end,
   },
 }
