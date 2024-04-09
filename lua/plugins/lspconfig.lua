@@ -23,20 +23,6 @@ return {
       { "j-hui/fidget.nvim", opts = {} },
 
       { "towolf/vim-helm", ft = "helm" },
-
-      {
-        "ray-x/lsp_signature.nvim",
-        event = "VeryLazy",
-        opts = {
-          bind = true,
-          doc_lines = 25,
-          handler_opts = {
-            border = "rounded",
-          },
-          transparency = 90,
-          floating_window_above_cur_line = false,
-        },
-      },
     },
     config = function()
       -- Brief Aside: **What is LSP?**
