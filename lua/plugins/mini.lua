@@ -124,47 +124,74 @@ return {
 
     -- Starter
     local starter = require "mini.starter"
+
+    -- Populate with workspaces from `workspaces.nvim` plugin
+    local workspace_items = function()
+      local workspaces = require "workspaces"
+      local items = {}
+      for _, w in pairs(workspaces.get()) do
+        table.insert(items, {
+          name = w.name .. " " .. w.path,
+          action = "WorkspacesOpen " .. w.name,
+          section = "Workspaces",
+        })
+      end
+      return items
+    end
+
+    -- A workaround to make header truly centralized
+    local centralize = function(content, buf_id)
+      -- Get max line width, same as in `aligning`
+      local max_line_width = math.max(unpack(vim.tbl_map(function(l)
+        return vim.fn.strdisplaywidth(l)
+      end, starter.content_to_lines(content))))
+
+      -- Align
+      content = starter.gen_hook.aligning("center", "center")(content, buf_id)
+
+      -- Iterate over header items and pad with relative missing spaces
+      local coords = starter.content_coords(content, "header")
+      for _, c in ipairs(coords) do
+        local unit = content[c.line][c.unit]
+        local pad = (max_line_width - vim.fn.strdisplaywidth(unit.string)) / 2
+        if unit.string ~= "" then
+          unit.string = string.rep(" ", pad) .. unit.string
+        end
+      end
+      return content
+    end
+
     starter.setup {
       -- evaluate_single = true,
-      header = " ███████████████████████████ \n"
-        .. " ███████▀▀▀░░░░░░░▀▀▀███████ \n"
-        .. " ████▀░░░░░░░░░░░░░░░░░▀████ \n"
-        .. " ███│░░░░░░░░░░░░░░░░░░░│███ \n"
-        .. " ██▌│░░░░░░░░░░░░░░░░░░░│▐██ \n"
-        .. " ██░└┐░░░░░░░░░░░░░░░░░┌┘░██ \n"
-        .. " ██░░└┐░░░░░░░░░░░░░░░┌┘░░██ \n"
-        .. " ██░░┌┘▄▄▄▄▄░░░░░▄▄▄▄▄└┐░░██ \n"
-        .. " ██▌░│██████▌░░░▐██████│░▐██ \n"
-        .. " ███░│▐███▀▀░░▄░░▀▀███▌│░███ \n"
-        .. " ██▀─┘░░░░░░░▐█▌░░░░░░░└─▀██ \n"
-        .. " ██▄░░░▄▄▄▓░░▀█▀░░▓▄▄▄░░░▄██ \n"
-        .. " ████▄─┘██▌░░░░░░░▐██└─▄████ \n"
-        .. " █████░░▐█─┬┬┬┬┬┬┬─█▌░░█████ \n"
-        .. " ████▌░░░▀┬┼┼┼┼┼┼┼┬▀░░░▐████ \n"
-        .. " █████▄░░░└┴┴┴┴┴┴┴┘░░░▄█████ \n"
-        .. " ███████▄░░░░░░░░░░░▄███████ \n"
-        .. " ██████████▄▄▄▄▄▄▄██████████ \n",
+      header = "███████████████████████████\n"
+        .. "███████▀▀▀░░░░░░░▀▀▀███████\n"
+        .. "████▀░░░░░░░░░░░░░░░░░▀████\n"
+        .. "███│░░░░░░░░░░░░░░░░░░░│███\n"
+        .. "██▌│░░░░░░░░░░░░░░░░░░░│▐██\n"
+        .. "██░└┐░░░░░░░░░░░░░░░░░┌┘░██\n"
+        .. "██░░└┐░░░░░░░░░░░░░░░┌┘░░██\n"
+        .. "██░░┌┘▄▄▄▄▄░░░░░▄▄▄▄▄└┐░░██\n"
+        .. "██▌░│██████▌░░░▐██████│░▐██\n"
+        .. "███░│▐███▀▀░░▄░░▀▀███▌│░███\n"
+        .. "██▀─┘░░░░░░░▐█▌░░░░░░░└─▀██\n"
+        .. "██▄░░░▄▄▄▓░░▀█▀░░▓▄▄▄░░░▄██\n"
+        .. "████▄─┘██▌░░░░░░░▐██└─▄████\n"
+        .. "█████░░▐█─┬┬┬┬┬┬┬─█▌░░█████\n"
+        .. "████▌░░░▀┬┼┼┼┼┼┼┼┬▀░░░▐████\n"
+        .. "█████▄░░░└┴┴┴┴┴┴┴┘░░░▄█████\n"
+        .. "███████▄░░░░░░░░░░░▄███████\n"
+        .. "██████████▄▄▄▄▄▄▄██████████\n",
 
       items = {
-        function()
-          local workspaces = require "workspaces"
-          local items = {}
-          for _, w in pairs(workspaces.get()) do
-            table.insert(items, {
-              name = w.name .. " " .. w.path,
-              action = "WorkspacesOpen " .. w.name,
-              section = "Workspaces",
-            })
-          end
-          return items
-        end,
+        workspace_items,
         starter.sections.recent_files(10, false),
-        starter.sections.recent_files(10, true),
+        { section = "Tools", name = "Lazy", action = "Lazy" },
+        { section = "Tools", name = "Telescope", action = "Telescope" },
         starter.sections.builtin_actions(),
       },
       content_hooks = {
+        centralize,
         starter.gen_hook.adding_bullet(),
-        starter.gen_hook.aligning("center", "center"),
       },
     }
   end,
