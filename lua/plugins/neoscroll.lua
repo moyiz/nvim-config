@@ -1,4 +1,4 @@
 return {
-  'karb94/neoscroll.nvim',
+  "karb94/neoscroll.nvim",
   opts = {},
 }
