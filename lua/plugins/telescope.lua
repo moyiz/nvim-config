@@ -26,7 +26,6 @@ return {
         end,
       },
       { "nvim-telescope/telescope-ui-select.nvim" },
-      { "nvim-telescope/telescope-project.nvim" },
       { "nvim-tree/nvim-web-devicons" },
     },
     config = function()
@@ -65,29 +64,15 @@ return {
           ["ui-select"] = {
             require("telescope.themes").get_dropdown(),
           },
-          project = {
-            hidden_files = true,
-            sync_with_nvim_tree = true,
-            on_project_selected = function(prompt_bufnr)
-              require("telescope._extensions.project.actions").change_working_directory(
-                prompt_bufnr,
-                false
-              )
-            end,
-          },
         },
       }
 
       -- Enable telescope extensions, if they are installed
       pcall(require("telescope").load_extension, "fzf")
       pcall(require("telescope").load_extension, "ui-select")
-      pcall(require("telescope").load_extension, "project")
 
       -- See `:help telescope.builtin`
       local builtin = require "telescope.builtin"
-      vim.keymap.set("n", "<leader>tp", function()
-        require("telescope").extensions.project.project { display_type = "full" }
-      end, { desc = "[P]rojects" })
       vim.keymap.set(
         "n",
         "<leader>tr",
