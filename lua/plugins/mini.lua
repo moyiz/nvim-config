@@ -146,6 +146,18 @@ return {
         .. " ██████████▄▄▄▄▄▄▄██████████ \n",
 
       items = {
+        function()
+          local workspaces = require "workspaces"
+          local items = {}
+          for _, w in pairs(workspaces.get()) do
+            table.insert(items, {
+              name = w.name .. " " .. w.path,
+              action = "WorkspacesOpen " .. w.name,
+              section = "Workspaces",
+            })
+          end
+          return items
+        end,
         starter.sections.recent_files(10, false),
         starter.sections.recent_files(10, true),
         starter.sections.builtin_actions(),
