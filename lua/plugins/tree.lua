@@ -45,8 +45,7 @@ return {
 
     -- when no file/directory is opened at startup
     -- skip nvim-tree so that dashboard can load
-    local cmdline_args = -1
-    if vim.fn.argc(cmdline_args) == 0 then
+    if vim.fn.argc(-1) == 0 then
       return
     else
       autocmd({ "VimEnter" }, {
@@ -252,7 +251,17 @@ return {
           window_picker = {
             -- If not enabled, files will open in window from which you last opened the tree.
             enable = true,
-            picker = require("window-picker").pick_window,
+            picker = function()
+              local win_id = require("window-picker").pick_window()
+              if win_id == nil then
+                vim.cmd "vnew"
+                win_id = vim.api.nvim_get_current_win()
+                vim.cmd "wincmd p"
+                vim.notify("Created a new window " .. win_id)
+                vim.notify ""
+              end
+              return win_id
+            end,
           },
         },
       },
