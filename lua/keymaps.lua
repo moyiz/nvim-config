@@ -72,6 +72,7 @@ vim.keymap.set(
   "<C-w>l",
   { desc = "Move focus to right Window", remap = true }
 )
+vim.keymap.set("t", "<esc>", "<C-\\><C-n>", { desc = "Normal mode" })
 
 -- [[ Basic Autocommands ]]
 --  See :help lua-guide-autocommands
