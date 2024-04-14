@@ -139,7 +139,11 @@ return {
       return items
     end
 
-    -- A workaround to make header truly centralized
+    -- A workaround to centralize everything.
+    -- `aligning` will center all content according to the longest line. It
+    -- causes the header to not be truly centralized.
+    -- It also goes over workspaces and recent files, and "justifies" them
+    -- (splitting by space).
     local centralize = function(content, buf_id)
       -- Get max line width, same as in `aligning`
       local max_line_width = math.max(unpack(vim.tbl_map(function(l)
@@ -156,6 +160,20 @@ return {
         local pad = (max_line_width - vim.fn.strdisplaywidth(unit.string)) / 2
         if unit.string ~= "" then
           unit.string = string.rep(" ", pad) .. unit.string
+        end
+      end
+
+      -- Justify recent files and workspaces
+      coords = starter.content_coords(content, "item")
+      for _, c in ipairs(coords) do
+        local unit = content[c.line][c.unit]
+        if
+          vim.tbl_contains({ "Recent files", "Workspaces" }, unit.item.section)
+        then
+          local one, two = unpack(vim.split(unit.string, " "))
+          unit.string = one
+            .. string.rep(" ", max_line_width - vim.fn.strlen(unit.string) + 1)
+            .. two
         end
       end
       return content
@@ -194,6 +212,13 @@ return {
         starter.gen_hook.adding_bullet(),
       },
     }
+
+    -- Enable if it can be disabled for git-dev.nvim
+    -- vim.api.nvim_create_autocmd("TabNewEntered", {
+    --   callback = function()
+    --     starter.open()
+    --   end,
+    -- })
   end,
 }
 -- vim: ts=2 sts=2 sw=2 et
