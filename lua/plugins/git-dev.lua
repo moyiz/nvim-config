@@ -14,6 +14,18 @@ return {
       mode = "n",
       desc = "[O]pen a remote git repository",
     },
+    -- {
+    --   "<leader>o",
+    --   function()
+    --     local repo = vim.fn.getreg "*"
+    --     if repo ~= "" then
+    --       -- require("git-dev").open(repo)
+    --       vim.notify("Repo: " .. repo)
+    --     end
+    --   end,
+    --   mode = "v",
+    --   desc = "[O]pen a remote git repository",
+    -- },
   },
   opts = {
     cd_type = "tab",
