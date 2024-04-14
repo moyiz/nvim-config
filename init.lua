@@ -74,12 +74,6 @@ require("lazy").setup {
     },
   },
 
-  -- {
-  --   'mboughaba/i3config.vim',
-  --   ft = 'i3config',
-  -- },
-  --
-
   {
     dir = "~/workspace/nile.nvim",
     opts = {},
