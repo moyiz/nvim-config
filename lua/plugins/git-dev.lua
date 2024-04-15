@@ -4,7 +4,7 @@ return {
   event = "VeryLazy",
   keys = {
     {
-      "<leader>o",
+      "<leader>go",
       function()
         local repo = vim.fn.input "Repository name / URI: "
         if repo ~= "" then
