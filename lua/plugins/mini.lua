@@ -149,6 +149,8 @@ return {
     -- This function will use `aligning` and pad the header accordingly.
     -- It also goes over `justified_sections`, goes over all their items names
     -- and justifies them by padding existing space in them.
+    -- Since `item_bullet` are separated from the items themselves, their
+    -- width is measured separately and deducted from the padding.
     local centralize = function(justified_sections, centralize_header)
       return function(content, buf_id)
         -- Get max line width, same as in `aligning`
@@ -174,7 +176,17 @@ return {
 
         -- Justify recent files and workspaces
         if justified_sections ~= nil and #justified_sections > 0 then
-          local coords = starter.content_coords(content, "item")
+          -- Check if `adding_bullet` has mutated the `content`
+          local coords = starter.content_coords(content, "item_bullet")
+          local bullet_len = 0
+          if coords ~= nil then
+            -- Bullet items are defined, compensate for bullet prefix width
+            bullet_len = vim.fn.strdisplaywidth(
+              content[coords[1].line][coords[1].unit].string
+            )
+          end
+
+          coords = starter.content_coords(content, "item")
           for _, c in ipairs(coords) do
             local unit = content[c.line][c.unit]
             if vim.tbl_contains(justified_sections, unit.item.section) then
@@ -182,7 +194,10 @@ return {
               unit.string = one
                 .. string.rep(
                   " ",
-                  max_line_width - vim.fn.strdisplaywidth(unit.string) + 1
+                  max_line_width
+                    - vim.fn.strdisplaywidth(unit.string)
+                    - bullet_len
+                    + 1
                 )
                 .. two
             end
@@ -226,7 +241,7 @@ return {
         starter.sections.builtin_actions(),
       },
       content_hooks = {
-        -- starter.gen_hook.adding_bullet(),
+        starter.gen_hook.adding_bullet(),
         centralize({ "Recent files", "Workspaces" }, true),
       },
     }
