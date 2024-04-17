@@ -65,6 +65,11 @@ return {
             require("telescope.themes").get_dropdown(),
           },
         },
+        defaults = {
+          file_ignore_patterns = {
+            ".git/",
+          },
+        },
       }
 
       -- Enable telescope extensions, if they are installed
@@ -91,12 +96,9 @@ return {
         builtin.keymaps,
         { desc = "[S]earch [K]eymaps" }
       )
-      vim.keymap.set(
-        "n",
-        "<leader>sf",
-        builtin.find_files,
-        { desc = "[S]earch [F]iles" }
-      )
+      vim.keymap.set("n", "<leader>sf", function()
+        return builtin.find_files { hidden = true }
+      end, { desc = "[S]earch [F]iles" })
       vim.keymap.set(
         "n",
         "<leader>ss",
