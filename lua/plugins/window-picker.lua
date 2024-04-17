@@ -20,7 +20,7 @@ return {
     hint = "floating-big-letter",
     selection_chars = "tnresaluc,io",
     filter_rules = {
-      include_current_win = false,
+      include_current_win = true,
     },
   },
 }
