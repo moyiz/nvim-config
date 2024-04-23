@@ -1,6 +1,7 @@
 return {
   { -- Autoformat
     "stevearc/conform.nvim",
+    -- enabled = false,
     opts = {
       notify_on_error = false,
       format_on_save = {
@@ -10,6 +11,7 @@ return {
       formatters_by_ft = {
         lua = { "stylua" },
         go = { "goimports", "gofumpt" },
+        -- yaml = { { "prettierd", "prettier" } },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
         --

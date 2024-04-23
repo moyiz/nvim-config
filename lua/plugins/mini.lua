@@ -22,8 +22,6 @@ return {
     }
     require("mini.statusline").setup()
 
-    -- ... and there is more!
-    --  Check out: https://github.com/echasnovski/mini.nvim
     require("mini.indentscope").setup {
       -- symbol = '|',
       symbol = "▏",

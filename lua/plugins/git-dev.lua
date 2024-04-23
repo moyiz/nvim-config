@@ -29,7 +29,7 @@ return {
   },
   opts = {
     cd_type = "tab",
-    opener = function(dir)
+    opener = function(dir, _)
       vim.cmd "tabnew"
       vim.cmd("NvimTreeOpen " .. vim.fn.fnameescape(dir))
     end,
