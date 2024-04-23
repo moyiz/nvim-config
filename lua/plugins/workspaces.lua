@@ -3,7 +3,7 @@ return {
   opts = {
     cd_type = "global",
     hooks = {
-      open = { "Telescope find_files" },
+      open = { "Telescope find_files hidden=true" },
     },
   },
 }
