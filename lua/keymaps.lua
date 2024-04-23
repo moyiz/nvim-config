@@ -74,6 +74,14 @@ vim.keymap.set(
 )
 vim.keymap.set("t", "<esc>", "<C-\\><C-n>", { desc = "Normal mode" })
 
+-- Replace in-word with math expression on it
+vim.keymap.set(
+  "n",
+  "<leader>=",
+  'ciw<C-r>=<C-r>"',
+  { desc = "Replace current word with math expression" }
+)
+
 -- [[ Basic Autocommands ]]
 --  See :help lua-guide-autocommands
 
