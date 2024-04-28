@@ -21,6 +21,10 @@ return {
     selection_chars = "tnresaluc,io",
     filter_rules = {
       include_current_win = true,
+      bo = {
+        filetype = { "NvimTree", "neo-tree", "neo-tree-popup", "notify" },
+        buftype = { "terminal", "quickfix" },
+      },
     },
   },
 }
