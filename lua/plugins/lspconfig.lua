@@ -184,6 +184,8 @@ return {
 
         checkmake = {},
 
+        asm_lsp = {},
+        asmfmt = {},
         clangd = {},
         gopls = {},
         pyright = {},
