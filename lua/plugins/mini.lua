@@ -86,6 +86,15 @@ return {
       delay = 30,
     }
 
+    -- Bracket jumps
+    require("mini.bracketed").setup {}
+
+    -- Split and join arguments
+    require("mini.splitjoin").setup {}
+
+    -- Extend f, F, t, T
+    require("mini.jump").setup {}
+
     -- Easymotion movements
     require("mini.jump2d").setup {
       labels = "tnresaio",
@@ -99,26 +108,21 @@ return {
 
     -- Set starter footer and refresh after `startuptime` is available
     vim.api.nvim_create_autocmd("User", {
-      pattern = "MiniStarterOpened",
+      pattern = "LazyVimStarted",
       callback = function()
-        vim.api.nvim_create_autocmd("User", {
-          pattern = "LazyVimStarted",
-          callback = function()
-            local starter = require "mini.starter"
-            local stats = require("lazy").stats()
-            local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
-            starter.config.footer = function()
-              return "⚡ Loaded plugins: "
-                .. stats.loaded
-                .. "/"
-                .. stats.count
-                .. "\n⚡ Startup time: "
-                .. ms
-                .. " ms"
-            end
-            starter.refresh()
-          end,
-        })
+        local starter = require "mini.starter"
+        local stats = require("lazy").stats()
+        local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
+        starter.config.footer = function()
+          return "⚡ Loaded plugins: "
+            .. stats.loaded
+            .. "/"
+            .. stats.count
+            .. "\n⚡ Startup time: "
+            .. ms
+            .. " ms"
+        end
+        starter.refresh()
       end,
     })
 
