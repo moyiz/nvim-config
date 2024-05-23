@@ -69,6 +69,11 @@ vim.opt.background = "dark"
 
 vim.opt.spell = true
 
+-- Command mode completion
+vim.opt.wildmenu = true
+vim.opt.wildmode = "longest:full,full"
+vim.opt.wildoptions = "pum"
+
 local disabled_built_ins = {
   -- 'netrw',
   -- 'netrwPlugin',
