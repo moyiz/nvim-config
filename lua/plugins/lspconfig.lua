@@ -21,7 +21,6 @@ return {
 
       -- UI for notifications and LSP progress messages
       { "j-hui/fidget.nvim", opts = {} },
-
       { "towolf/vim-helm", ft = "helm" },
     },
     config = function()
@@ -55,10 +54,7 @@ return {
       --    an lsp (for example, opening `main.rs` is associated with `rust_analyzer`) this
       --    function will be executed to configure the current buffer
       vim.api.nvim_create_autocmd("LspAttach", {
-        group = vim.api.nvim_create_augroup(
-          "kickstart-lsp-attach",
-          { clear = true }
-        ),
+        group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
         callback = function(event)
           -- In this case, we create a function that lets us more easily define mappings specific
           -- for LSP related items. It sets the mode, buffer and description for us each time.
@@ -132,6 +128,26 @@ return {
             "[W]orkspace"
           )
 
+          -- Toggle diagnostics
+          local diag_show = true
+          map(
+            "<leader>cc",
+            function()
+              -- if vim.diagnostic.is_disabled() then
+              --   vim.diagnostic.enable()
+              -- else
+              --   vim.diagnostic.disable()
+              -- end
+              if diag_show then
+                vim.diagnostic.hide()
+              else
+                vim.diagnostic.show()
+              end
+              diag_show = not diag_show
+            end,
+            "Toggle diagnostics"
+          )
+
           -- Opens a popup that displays documentation about the word under your cursor
           --  See `:help K` for why this keymap
           map("K", vim.lsp.buf.hover, "Hover Documentation")
@@ -188,7 +204,8 @@ return {
         asmfmt = {},
         clangd = {},
         gopls = {},
-        pyright = {},
+        basedpyright = {},
+        ruff_lsp = {},
         -- pylyzer = {},
 
         stylua = {},
@@ -257,7 +274,6 @@ return {
         hclfmt = {},
       }
 
-      -- Ensure the servers and tools above are installed
       require("mason").setup()
       require("mason-tool-installer").setup {
         ensure_installed = vim.tbl_keys(servers or {}),
@@ -271,9 +287,6 @@ return {
               cmd = server.cmd,
               settings = server.settings,
               filetypes = server.filetypes,
-              -- This handles overriding only values explicitly passed
-              -- by the server configuration above. Useful when disabling
-              -- certain features of an LSP (for example, turning off formatting for tsserver)
               capabilities = vim.tbl_deep_extend(
                 "force",
                 {},
