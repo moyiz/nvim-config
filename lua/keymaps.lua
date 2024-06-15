@@ -31,12 +31,6 @@ vim.keymap.set(
   { desc = "Open diagnostic [Q]uickfix list" }
 )
 
--- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
--- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
--- is not what someone will guess without a bit more experience.
---
--- NOTE: This won't work in all terminal emulators/tmux/etc. Try your own mapping
--- or just use <C-\><C-n> to exit terminal mode
 vim.keymap.set(
   "t",
   "<Esc><Esc>",
@@ -44,10 +38,10 @@ vim.keymap.set(
   { desc = "Exit terminal mode" }
 )
 
---  See `:help wincmd` for a list of all window commands
 vim.keymap.set("n", "<leader>n", ":bn<cr>", { desc = "[N]ext buffer" })
 vim.keymap.set("n", "<leader>p", ":bp<cr>", { desc = "[P]revious buffer" })
 
+--  See `:help wincmd` for a list of all window commands
 vim.keymap.set(
   "n",
   "<leader><left>",
@@ -80,6 +74,14 @@ vim.keymap.set(
   "<leader>=",
   'ciw<C-r>=<C-r>"',
   { desc = "Replace current word with math expression" }
+)
+
+-- Show diff of current buffer and the actual file
+vim.keymap.set(
+  "n",
+  "<leader>f",
+  "<cmd>w !diff - %<CR>",
+  { desc = "Diff buffer and [f]ile" }
 )
 
 -- [[ Basic Autocommands ]]
