@@ -9,6 +9,8 @@ return {
     --  - ci'  - [C]hange [I]nside [']quote
     require("mini.ai").setup { n_lines = 500 }
 
+    require("mini.animate").setup { cursor = { enable = false } }
+
     -- Add/delete/replace surroundings (brackets, quotes, etc.)
     --
     -- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
@@ -122,7 +124,8 @@ return {
             .. ms
             .. " ms"
         end
-        starter.refresh()
+        -- https://github.com/LazyVim/LazyVim/commit/dc66887b57ecdee8d33b5e07ca031288260e2971
+        vim.cmd [[do VimResized]]
       end,
     })
 
