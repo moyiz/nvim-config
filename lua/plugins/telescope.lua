@@ -141,7 +141,65 @@ return {
         builtin.buffers,
         { desc = "[ ] Find existing buffers" }
       )
+      vim.keymap.set(
+        "n",
+        "<leader>st",
+        builtin.treesitter,
+        { desc = "[S]earch [T]reesitter" }
+      )
+      vim.keymap.set(
+        "n",
+        "<leader>gc",
+        builtin.git_bcommits,
+        { desc = "[G]it [C]ommits (buffer)" }
+      )
+      vim.keymap.set(
+        "n",
+        "<leader>gC",
+        builtin.git_commits,
+        { desc = "[G]it [C]ommits (directory)" }
+      )
+      --[[
+      - `<cr>`: checks out the currently selected branch
+      - `<C-t>`: tracks currently selected branch
+      - `<C-r>`: rebases currently selected branch
+      - `<C-a>`: creates a new branch, with confirmation prompt before creation
+      - `<C-d>`: deletes the currently selected branch, with confirmation
+        prompt before deletion
+      - `<C-y>`: merges the currently selected branch, with confirmation prompt
+        before deletion
+      ]]
+      vim.keymap.set(
+        "n",
+        "<leader>gb",
+        builtin.git_branches,
+        { desc = "[G]it [B]ranches" }
+      )
 
+      vim.keymap.set(
+        "n",
+        "<leader>tk",
+        builtin.man_pages,
+        { desc = "Man pages" }
+      )
+
+      vim.keymap.set("n", "<leader>tm", builtin.marks, { desc = "[M]arks" })
+
+      vim.keymap.set(
+        "n",
+        "<leader>tp",
+        builtin.registers,
+        { desc = "[P]aste from register" }
+      )
+
+      vim.keymap.set(
+        "n",
+        "<leader>tf",
+        builtin.filetypes,
+        { desc = "Set [F]iletype" }
+      )
+
+      --
       -- Slightly advanced example of overriding default behavior and theme
       vim.keymap.set("n", "<leader>/", function()
         -- You can pass additional configuration to telescope to change theme, layout, etc.
