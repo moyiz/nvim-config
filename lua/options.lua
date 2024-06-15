@@ -1,15 +1,10 @@
 -- [[ Setting options ]]
 -- See `:help vim.opt`
--- NOTE: You can change these options as you wish!
---  For more options, you can see `:help option-list`
+-- See `:help option-list`
 
--- Make line numbers default
+vim.opt.shiftwidth = 4
 vim.opt.number = true
--- You can also add relative line numbers, for help with jumping.
---  Experiment for yourself to see if you like it!
 vim.opt.relativenumber = true
-
--- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = "a"
 
 -- Don't show the mode, since it's already in status line
@@ -54,16 +49,28 @@ vim.opt.inccommand = "split"
 
 -- Show which line your cursor is on
 vim.opt.cursorline = true
+-- Toggle cursor column with insert mode
+vim.api.nvim_create_autocmd({ "InsertEnter" }, {
+  callback = function()
+    vim.opt.cursorcolumn = true
+  end,
+})
+vim.api.nvim_create_autocmd({ "InsertLeave" }, {
+  callback = function()
+    vim.opt.cursorcolumn = false
+  end,
+})
 
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
 
 -- Vertical line
--- vim.api.nvim_set_hl(0, 'ColorColumn', {
+-- vim.api.nvim_set_hl(0, "ColorColumn", {
 --   ctermbg = 200,
---   fg = '#ffffff',
+--   fg = "#ffffff",
 -- })
-vim.opt.colorcolumn = "80"
+
+vim.opt.colorcolumn = "79"
 
 vim.opt.background = "dark"
 
