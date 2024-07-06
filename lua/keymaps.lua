@@ -84,11 +84,92 @@ vim.keymap.set(
   { desc = "Diff buffer and [f]ile" }
 )
 
+vim.keymap.set("v", "<C-o>", function()
+  -- get selected region
+  -- if single line, rotate by words
+  -- if multiple lines, rotate by lines
+  -- overwrite selected region
+  local mode = vim.fn.mode()
+
+  local row_s, col_s = unpack(vim.api.nvim_win_get_cursor(0))
+  row_s = row_s - 1
+
+  local row_e, col_e = vim.fn.line "v" - 1, vim.fn.col "v" - 1
+
+  if row_s == row_e then
+    -- Cannot rotate a single line
+    return
+  end
+
+  -- Cursor moved up, reverse `start` and `end`.
+  if row_s > row_e then
+    row_s, row_e = row_e, row_s
+    col_s, col_e = col_e, col_s
+  end
+
+  local lines = vim.api.nvim_buf_get_lines(0, row_s, row_e + 1, false)
+  if mode == "V" then -- rotate lines
+    col_s = 0
+    col_e = #vim.fn.getline(row_e + 1)
+    table.insert(lines, 1, table.remove(lines))
+  elseif mode == "\22" then -- rotate selected text in lines
+    if col_s > col_e then
+      col_s, col_e = col_e, col_s
+    else
+      col_e = col_e + 1
+    end
+    -- Get selections
+    local selected = {}
+    for _, line in pairs(lines) do
+      if col_e <= #line then
+        table.insert(selected, line:sub(col_s + 1, col_e))
+      elseif col_s > #line then
+        -- nothing
+      else
+        table.insert(
+          selected,
+          line:sub(col_s + 1) .. string.rep(" ", col_e - #line)
+        )
+      end
+    end
+    -- Rotate selections
+    table.insert(selected, 1, table.remove(selected))
+
+    -- Apply rotations to lines
+    local j = 1
+    for i, line in pairs(lines) do
+      if #line > col_s then
+        lines[i] = line:sub(1, col_s) .. selected[j] .. line:sub(col_e + 1)
+        j = j + 1
+      end
+    end
+  else
+    col_e = col_e + 1
+    local selected = { lines[1]:sub(col_s + 1) }
+    for i = 2, #lines - 1 do
+      table.insert(selected, lines[i])
+    end
+    table.insert(selected, lines[#lines]:sub(1, col_e))
+
+    -- Rotate selections
+    table.insert(selected, 1, table.remove(selected))
+
+    -- Apply rotations to lines
+    lines[1] = lines[1]:sub(1, col_s) .. selected[1]
+    for i = 2, #lines - 1 do
+      lines[i] = selected[i]
+    end
+    lines[#lines] = selected[#selected] .. lines[#lines]:sub(col_e + 1)
+    -- TODO: Correct visual selection width on last line.
+    --  Consider original cursor location.
+  end
+  vim.api.nvim_buf_set_lines(0, row_s, row_s + #lines, false, lines)
+end, { desc = "Rotate selected text" })
+
 -- [[ Basic Autocommands ]]
 --  See :help lua-guide-autocommands
 
 -- Highlight when yanking (copying) text
---  Try it with `yap` in normal mode
 --  See `:help vim.highlight.on_yank()`
 vim.api.nvim_create_autocmd("TextYankPost", {
   desc = "Highlight when yanking (copying) text",
@@ -112,6 +193,16 @@ vim.api.nvim_create_autocmd("BufReadPost", {
     if mark[1] > 0 and mark[1] <= lcount then
       pcall(vim.api.nvim_win_set_cursor, 0, mark)
     end
+  end,
+})
+
+-- Help in a vertical split
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "help", "man" },
+  callback = function()
+    vim.opt_local.bufhidden = "unload"
+    vim.cmd "wincmd L"
+    vim.cmd "vert resize 80"
   end,
 })
 
