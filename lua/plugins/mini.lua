@@ -9,7 +9,13 @@ return {
     --  - ci'  - [C]hange [I]nside [']quote
     require("mini.ai").setup { n_lines = 500 }
 
-    require("mini.animate").setup { cursor = { enable = false } }
+    local animate = require "mini.animate"
+    animate.setup {
+      cursor = { enable = false },
+      scroll = {
+        timing = animate.gen_timing.cubic { duration = 100, unit = "total" },
+      },
+    }
 
     -- Add/delete/replace surroundings (brackets, quotes, etc.)
     --
@@ -107,6 +113,8 @@ return {
         start_jumping = "<leader><cr>",
       },
     }
+
+    require("mini.trailspace").setup {}
 
     -- Set starter footer and refresh after `startuptime` is available
     vim.api.nvim_create_autocmd("User", {
