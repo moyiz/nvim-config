@@ -116,6 +116,8 @@ return {
 
     require("mini.trailspace").setup {}
 
+    require("mini.icons").setup {}
+
     -- Set starter footer and refresh after `startuptime` is available
     vim.api.nvim_create_autocmd("User", {
       pattern = "LazyVimStarted",
