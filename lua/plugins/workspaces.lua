@@ -1,9 +1,13 @@
 return {
   "natecraddock/workspaces.nvim",
   opts = {
-    cd_type = "global",
+    cd_type = "tab",
     hooks = {
-      open = { "Telescope find_files" },
+      open = {
+        function(_, path)
+          require("oil").open(path)
+        end,
+      },
     },
   },
   keys = {
