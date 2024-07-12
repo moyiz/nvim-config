@@ -13,15 +13,11 @@ return {
         },
         on_highlights = function(hl, c)
           hl.Comment = {
-            style = {
-              italic = true,
-            },
+            italic = true,
             fg = "#207ffc",
           }
           hl.DiagnosticUnnecessary = {
-            style = {
-              underline = true,
-            },
+            underline = true,
             fg = "#207ffc",
           }
         end,
