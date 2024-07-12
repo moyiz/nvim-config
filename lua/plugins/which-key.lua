@@ -23,14 +23,14 @@ return {
       require("which-key").setup {}
 
       -- Document existing key chains
-      require("which-key").register {
-        ["<leader>c"] = { name = "[C]ode", _ = "which_key_ignore" },
-        ["<leader>cs"] = { name = "[S]ymbols", _ = "which_key_ignore" },
-        ["<leader>s"] = { name = "[S]earch", _ = "which_key_ignore" },
-        ["<leader>d"] = { name = "[D]ebug", _ = "which_key_ignore" },
-        ["<leader>m"] = { name = "[M]ap", _ = "which_key_ignore" },
-        ["<leader>t"] = { name = "[T]elescope", _ = "which_key_ignore" },
-        ["<leader>g"] = { name = "[G]it", _ = "which_key_ignore" },
+      require("which-key").add {
+        { "<leader>c", desc = "[C]ode" },
+        { "<leader>cs", desc = "[S]ymbols" },
+        { "<leader>s", desc = "[S]earch" },
+        { "<leader>d", desc = "[D]ebug" },
+        { "<leader>m", desc = "[M]ap" },
+        { "<leader>t", desc = "[T]elescope" },
+        { "<leader>g", desc = "[G]it" },
       }
     end,
   },
