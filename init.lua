@@ -18,18 +18,32 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
 -- Set clipboard manually to skip loading `clipboard.vim`
-vim.g.clipboard = {
-  name = "xsel",
-  copy = {
-    ["+"] = "xsel -ibp",
-    ["*"] = "xsel -ibp",
-  },
-  paste = {
-    ["+"] = "xsel -obp",
-    ["*"] = "xsel -obp",
-  },
-  cache_enabled = 0,
-}
+if vim.uv.os_uname().sysname == "Darwin" then
+  vim.g.clipboard = {
+    name = "bpcopy",
+    copy = {
+      ["+"] = "pbcopy -i",
+      ["*"] = "pbcopy -i",
+    },
+    paste = {
+      ["+"] = "pbpaste -i",
+      ["*"] = "pbpaste -i",
+    },
+  }
+else
+  vim.g.clipboard = {
+    name = "xsel",
+    copy = {
+      ["+"] = "xsel -ibp",
+      ["*"] = "xsel -ibp",
+    },
+    paste = {
+      ["+"] = "xsel -obp",
+      ["*"] = "xsel -obp",
+    },
+    cache_enabled = 0,
+  }
+end
 
 -- Enables the experimental Lua module loader
 pcall(function()
@@ -72,11 +86,6 @@ require("lazy").setup {
     opts = {
       -- debug_position = true,
     },
-  },
-
-  {
-    dir = "~/workspace/nile.nvim",
-    opts = {},
   },
 
   { import = "plugins" },
