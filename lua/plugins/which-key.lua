@@ -16,11 +16,14 @@
 return {
   { -- Useful plugin to show you pending keybinds.
     "folke/which-key.nvim",
+    -- enabled = false,
     event = "VeryLazy",
     config = function() -- This is the function that runs, AFTER loading
-      vim.o.timeout = true
-      vim.o.timeoutlen = 30
-      require("which-key").setup {}
+      -- vim.o.timeout = true
+      -- vim.o.timeoutlen = 30
+      require("which-key").setup {
+        delay = 30,
+      }
 
       -- Document existing key chains
       require("which-key").add {
