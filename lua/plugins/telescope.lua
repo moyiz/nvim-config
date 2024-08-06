@@ -106,12 +106,9 @@ return {
         builtin.builtin,
         { desc = "[S]earch [S]elect Telescope" }
       )
-      vim.keymap.set(
-        "n",
-        "<leader>sw",
-        builtin.grep_string,
-        { desc = "[S]earch current [W]ord" }
-      )
+      vim.keymap.set("n", "<leader>sw", function()
+        return builtin.grep_string { word_match = "-w" }
+      end, { desc = "[S]earch current [W]ord" })
       vim.keymap.set(
         "n",
         "<leader>sg",
