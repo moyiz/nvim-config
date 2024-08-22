@@ -5,7 +5,7 @@ return {
     hooks = {
       open = {
         function(_, path)
-          require("oil").open(path)
+          vim.cmd("edit " .. path)
         end,
       },
     },

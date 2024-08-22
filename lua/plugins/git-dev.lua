@@ -28,7 +28,8 @@ return {
     cd_type = "tab",
     opener = function(dir, _, selected_path)
       vim.cmd "tabnew"
-      vim.cmd("Oil " .. vim.fn.fnameescape(dir))
+      -- vim.cmd("Oil " .. vim.fn.fnameescape(dir))
+      vim.cmd("edit " .. vim.fn.fnameescape(dir))
       if selected_path then
         vim.cmd("edit " .. selected_path)
       end

@@ -31,7 +31,6 @@ return {
     require("mini.statusline").setup()
 
     require("mini.indentscope").setup {
-      -- symbol = '|',
       symbol = "▏",
       draw = {
         delay = 30,
@@ -40,6 +39,81 @@ return {
         try_as_border = true,
       },
     }
+
+    -- Files
+    local files = require "mini.files"
+    files.setup {
+      windows = {
+        preview = true,
+        width_preview = 80,
+      },
+      mappings = {
+        close = "",
+        go_in = "",
+        go_in_plus = "",
+        go_out = "",
+        go_out_plus = "",
+        -- reset = "<BS>",
+        -- reveal_cwd = "@",
+        -- show_help = "g?",
+        -- synchronize = "=",
+        -- trim_left = "<",
+        -- trim_right = ">",
+      },
+    }
+
+    vim.keymap.set("n", "<Leader>e", function()
+      if not files.close() then
+        files.open(vim.api.nvim_buf_get_name(0), false)
+        files.reveal_cwd()
+      end
+    end, { desc = "File [E]xplorer" })
+
+    vim.api.nvim_create_autocmd("User", {
+      pattern = "MiniFilesBufferCreate",
+      callback = function(args)
+        local set = function(rhs, lhs)
+          local rhs_array
+          if vim.isarray(rhs) then
+            rhs_array = rhs
+          else
+            rhs_array = { rhs }
+          end
+          for _, r in ipairs(rhs_array) do
+            vim.keymap.set("n", r, lhs, { buffer = args.data.buf_id })
+          end
+        end
+
+        set({ "q", "<esc>" }, files.close)
+        set({ "l", "<right>" }, files.go_in)
+        set({ "L", "<S-right>", "<CR>" }, function()
+          for _ = 1, vim.v.count1 do
+            files.go_in { close_on_file = true }
+          end
+        end)
+        set({ "h", "<left>" }, files.go_out)
+        set({ "H", "<S-left>" }, function()
+          for _ = 1, vim.v.count1 do
+            files.go_out()
+          end
+          files.trim_right()
+        end)
+      end,
+    })
+
+    -- For telescope to not auto-close when mini.files closes
+    vim.api.nvim_create_autocmd("BufEnter", {
+      callback = function()
+        local ft = vim.bo.filetype
+        if ft == "minifiles" or ft == "minifiles-help" then
+          return
+        end
+        local cur_win_id = vim.api.nvim_get_current_win()
+        MiniFiles.close()
+        pcall(vim.api.nvim_set_current_win, cur_win_id)
+      end,
+      desc = "Close 'mini.files' on lost focus",
+    })
 
     -- Diff
     require("mini.diff").setup()
