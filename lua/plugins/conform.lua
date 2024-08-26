@@ -1,7 +1,31 @@
 return {
   { -- Autoformat
     "stevearc/conform.nvim",
+    lazy = true,
+    event = { "BufWritePre" },
+    cmd = { "ConformInfo" },
     -- enabled = false,
+    init = function()
+      vim.api.nvim_create_user_command("AutoFormatDisable", function(args)
+        if args.bang then
+          vim.g.disable_autoformat = true
+        else
+          vim.b.disable_autoformat = true
+        end
+      end, {
+        desc = "Disable autoformat-on-save",
+        bang = true,
+      })
+      vim.api.nvim_create_user_command("AutoFormatEnable", function(args)
+        if args.bang then
+          vim.g.disable_autoformat = false
+        else
+          vim.b.disable_autoformat = false
+        end
+      end, {
+        desc = "Re-enable autoformat-on-save",
+      })
+    end,
     opts = {
       notify_on_error = false,
       format_on_save = function(bufnr)
