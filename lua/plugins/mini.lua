@@ -92,7 +92,7 @@ return {
           end
         end)
         set({ "h", "<left>" }, files.go_out)
-        set({ "H", "<S-left>" }, function()
+        set({ "H", "<S-left>", "<S-CR>" }, function()
           for _ = 1, vim.v.count1 do
             files.go_out()
           end
