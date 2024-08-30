@@ -64,7 +64,11 @@ return {
 
     vim.keymap.set("n", "<Leader>e", function()
       if not files.close() then
-        files.open(vim.api.nvim_buf_get_name(0), false)
+        local path = vim.api.nvim_buf_get_name(0)
+        if vim.fn.exists(path) == 0 then
+          path = "."
+        end
+        files.open(path, false)
         files.reveal_cwd()
       end
     end, { desc = "File [E]xplorer" })
@@ -84,11 +88,48 @@ return {
           end
         end
 
+        -- window picker helper
+        local _pick_window = function()
+          local fs_entry = MiniFiles.get_fs_entry()
+          if fs_entry ~= nil and fs_entry.fs_type == "file" then
+            -- Toggle `MiniFiles` so `window-picker` will be visible.
+            MiniFiles.close()
+            local win_id = require("window-picker").pick_window()
+            MiniFiles.open(fs_entry.path)
+            return win_id
+          end
+        end
+
+        -- Select target window with `window-picker`
+        local go_in_window_picker = function(go_in_args)
+          local win_id = _pick_window()
+          if win_id then
+            MiniFiles.set_target_window(win_id)
+          end
+          MiniFiles.go_in(go_in_args)
+        end
+
+        -- Open file in a new split with `window-picker`
+        local split = function(direction, go_in_args)
+          local win_id = _pick_window()
+          if win_id then
+            local new_target_window
+            vim.api.nvim_win_call(win_id, function()
+              vim.cmd(direction .. " split")
+              new_target_window = vim.api.nvim_get_current_win()
+            end)
+            MiniFiles.set_target_window(new_target_window)
+            MiniFiles.go_in(go_in_args)
+          end
+        end
+
         set({ "q", "<esc>" }, files.close)
-        set({ "l", "<right>" }, files.go_in)
+        -- set({ "l", "<right>" }, files.go_in)
+        set({ "l", "<right>" }, go_in_window_picker)
         set({ "L", "<S-right>", "<CR>" }, function()
           for _ = 1, vim.v.count1 do
-            files.go_in { close_on_file = true }
+            -- files.go_in { close_on_file = true }
+            go_in_window_picker { close_on_file = true }
           end
         end)
         set({ "h", "<left>" }, files.go_out)
@@ -97,6 +138,12 @@ return {
             files.go_out()
           end
           files.trim_right()
+        end)
+        set({ "<C-v>" }, function()
+          split "belowright vertical"
+        end)
+        set({ "<C-h>" }, function()
+          split "belowright horizontal"
         end)
       end,
     })
