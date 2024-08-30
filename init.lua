@@ -59,7 +59,7 @@ require "keymaps"
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
+if not vim.uv.fs_stat(lazypath) then
   local lazyrepo = "https://github.com/folke/lazy.nvim.git"
   vim.fn.system {
     "git",
@@ -74,11 +74,8 @@ vim.opt.rtp:prepend(lazypath)
 
 -- [[ Configure and install plugins ]]
 require("lazy").setup {
-  "dstein64/vim-startuptime",
+  -- "dstein64/vim-startuptime",
   "tpope/vim-sleuth", -- Detect tabstop and shiftwidth automatically
-
-  { "numToStr/Comment.nvim", opts = {} },
-
   {
     -- dir = "~/workspace/command-and-cursor.nvim",
     "moyiz/command-and-cursor.nvim",
