@@ -38,6 +38,14 @@ return {
             luasnip.lsp_expand(args.body)
           end,
         },
+        matching = {
+          disallow_fuzzy_matching = false,
+          disallow_fullfuzzy_matching = false,
+          disallow_partial_fuzzy_matching = false,
+          disallow_partial_matching = false,
+          disallow_prefix_unmatching = false,
+          disallow_symbol_nonprefix_matching = false,
+        },
         window = {
           completion = {
             border = "rounded",
