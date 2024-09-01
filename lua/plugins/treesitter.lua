@@ -17,6 +17,7 @@ return {
           "c",
           "go",
           "html",
+          "java",
           "json",
           "lua",
           "markdown",

@@ -23,6 +23,15 @@ return {
       -- UI for notifications and LSP progress messages
       { "j-hui/fidget.nvim", opts = {} },
       { "towolf/vim-helm", ft = "helm" },
+      {
+        "nvim-java/nvim-java",
+        ft = "java",
+        opts = {
+          notifications = {
+            dap = false,
+          },
+        },
+      },
     },
     config = function()
       -- Brief Aside: **What is LSP?**
@@ -97,7 +106,7 @@ return {
           --  Useful when you're not sure what type a variable is and you want to see
           --  the definition of its *type*, not where it was *defined*.
           map(
-            "<leader>D",
+            "gy",
             require("telescope.builtin").lsp_type_definitions,
             "Type [D]efinition"
           )
@@ -204,6 +213,9 @@ return {
         basedpyright = {},
         ruff_lsp = {},
         -- pylyzer = {},
+
+        -- Java (eclipse)
+        jdtls = {},
 
         stylua = {},
         lua_ls = {
