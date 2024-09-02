@@ -65,7 +65,7 @@ return {
     vim.keymap.set("n", "<Leader>e", function()
       if not files.close() then
         local path = vim.api.nvim_buf_get_name(0)
-        if vim.fn.exists(path) == 0 then
+        if vim.fn.exists(path) ~= 0 then
           path = "."
         end
         files.open(path, false)
@@ -123,6 +123,23 @@ return {
           end
         end
 
+        -- CD to directory of current file
+        local cd_current = function()
+          local win_id = MiniFiles.get_target_window()
+          if not win_id then
+            return
+          end
+          local buf_name =
+            vim.api.nvim_buf_get_name(vim.api.nvim_win_get_buf(win_id))
+          if vim.fn.exists(buf_name) ~= 0 then
+            return
+          end
+          local cur_dir = vim.fs.dirname(buf_name)
+          vim.notify("cwd: " .. cur_dir)
+          vim.fn.chdir(cur_dir)
+          MiniFiles.reset()
+        end
+
         set({ "q", "<esc>" }, files.close)
         -- set({ "l", "<right>" }, files.go_in)
         set({ "l", "<right>" }, go_in_window_picker)
@@ -145,6 +162,7 @@ return {
         set({ "<C-h>" }, function()
           split "belowright horizontal"
         end)
+        set({ "z" }, cd_current)
       end,
     })
 
@@ -175,33 +193,15 @@ return {
     require("mini.map").setup()
     vim.keymap.set(
       "n",
-      "<Leader>mc",
-      require("mini.map").close,
-      { desc = "[C]lose" }
-    )
-    vim.keymap.set(
-      "n",
       "<Leader>mf",
       require("mini.map").toggle_focus,
       { desc = "Toggle [F]ocus" }
     )
     vim.keymap.set(
       "n",
-      "<Leader>mo",
-      require("mini.map").open,
-      { desc = "[O]pen" }
-    )
-    vim.keymap.set(
-      "n",
       "<Leader>mr",
       require("mini.map").refresh,
       { desc = "[R]efresh" }
-    )
-    vim.keymap.set(
-      "n",
-      "<Leader>ms",
-      require("mini.map").toggle_side,
-      { desc = "Toggle [S]ide" }
     )
     vim.keymap.set(
       "n",
@@ -225,10 +225,12 @@ return {
     require("mini.jump").setup {}
 
     -- Easymotion movements
-    require("mini.jump2d").setup {
+    jump2d = require "mini.jump2d"
+    jump2d.setup {
       labels = "tnresaio",
+      spotter = jump2d.builtin_opts.word_start.spotter,
       view = {
-        dim = true,
+        n_steps_ahead = 5,
       },
       mappings = {
         start_jumping = "<leader><cr>",
