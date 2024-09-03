@@ -126,6 +126,7 @@ return {
         -- CD to directory of current file
         local cd_current = function()
           local win_id = MiniFiles.get_target_window()
+          -- local win_id = MiniFiles.get_explorer_state().target_window
           if not win_id then
             return
           end
