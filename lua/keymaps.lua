@@ -31,15 +31,27 @@ vim.keymap.set(
   { desc = "Open diagnostic [Q]uickfix list" }
 )
 
-vim.keymap.set(
-  "t",
-  "<Esc><Esc>",
-  "<C-\\><C-n>",
-  { desc = "Exit terminal mode" }
-)
+-- vim.keymap.set({ "n", "x" }, "g", "<Nop>") -- since no timeoutlen
+vim.keymap.set({ "n", "x" }, "s", "<Nop>") -- since no timeoutlen
+-- Commented out due to no timeoutlen
+-- vim.keymap.set(
+--   "t",
+--   "<Esc><Esc>",
+--   "<C-\\><C-n>",
+--   { desc = "Exit terminal mode" }
+-- )
 
 vim.keymap.set("n", "<leader>n", ":bn<cr>", { desc = "[N]ext buffer" })
 vim.keymap.set("n", "<leader>p", ":bp<cr>", { desc = "[P]revious buffer" })
+vim.keymap.set("n", "g.", function()
+  local buf_name = vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf())
+  if vim.fn.exists(buf_name) ~= 0 then
+    return
+  end
+  local cur_dir = vim.fs.dirname(buf_name)
+  vim.notify("cwd: " .. cur_dir)
+  vim.fn.chdir(cur_dir)
+end, { desc = "Global CD to current buffer dirname" })
 
 --  See `:help wincmd` for a list of all window commands
 vim.keymap.set(
