@@ -123,22 +123,11 @@ return {
           end
         end
 
-        -- CD to directory of current file
-        local cd_current = function()
-          local win_id = MiniFiles.get_target_window()
-          -- local win_id = MiniFiles.get_explorer_state().target_window
-          if not win_id then
-            return
-          end
-          local buf_name =
-            vim.api.nvim_buf_get_name(vim.api.nvim_win_get_buf(win_id))
-          if vim.fn.exists(buf_name) ~= 0 then
-            return
-          end
-          local cur_dir = vim.fs.dirname(buf_name)
+        local cd_current_dir = function()
+          local cur_entry_path = MiniFiles.get_fs_entry().path
+          local cur_dir = vim.fs.dirname(cur_entry_path)
           vim.notify("cwd: " .. cur_dir)
           vim.fn.chdir(cur_dir)
-          MiniFiles.reset()
         end
 
         set({ "q", "<esc>" }, files.close)
@@ -163,7 +152,7 @@ return {
         set({ "<C-h>" }, function()
           split "belowright horizontal"
         end)
-        set({ "z" }, cd_current)
+        set({ "g." }, cd_current_dir)
       end,
     })
 
