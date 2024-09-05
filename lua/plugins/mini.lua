@@ -215,7 +215,7 @@ return {
     require("mini.jump").setup {}
 
     -- Easymotion movements
-    jump2d = require "mini.jump2d"
+    local jump2d = require "mini.jump2d"
     jump2d.setup {
       labels = "tnresaio",
       spotter = jump2d.builtin_opts.word_start.spotter,
@@ -226,6 +226,18 @@ return {
         start_jumping = "<leader><cr>",
       },
     }
+    -- vim.api.nvim_set_hl(0, "MiniJump2dSpot", { reverse = true })
+    vim.api.nvim_set_hl(0, "MiniJump2dSpot", {
+      nocombine = true,
+      fg = "White",
+      bg = "Black",
+    })
+
+    vim.api.nvim_set_hl(0, "MiniJump2dSpotAhead", {
+      nocombine = true,
+      fg = "White",
+      bg = "Black",
+    })
 
     require("mini.trailspace").setup {}
 
