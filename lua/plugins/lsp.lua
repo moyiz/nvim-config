@@ -214,6 +214,9 @@ return {
         ruff_lsp = {},
         -- pylyzer = {},
 
+        rust_analyzer = {},
+        zls = {},
+
         -- Java (eclipse)
         jdtls = {},
 
