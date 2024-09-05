@@ -218,4 +218,9 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+-- Disable features in terminal
+vim.api.nvim_create_autocmd("TermOpen", {
+  pattern = "term://*",
+  command = "setlocal nospell",
+})
 -- vim: ts=2 sts=2 sw=2 et
