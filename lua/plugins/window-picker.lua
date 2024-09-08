@@ -22,7 +22,13 @@ return {
     filter_rules = {
       include_current_win = true,
       bo = {
-        filetype = { "NvimTree", "neo-tree", "neo-tree-popup", "notify" },
+        filetype = {
+          "NvimTree",
+          "neo-tree",
+          "neo-tree-popup",
+          "notify",
+          "minifiles",
+        },
         buftype = { "terminal", "quickfix" },
       },
     },
