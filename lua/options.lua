@@ -52,6 +52,7 @@ vim.opt.inccommand = "split"
 
 -- Show which line your cursor is on
 vim.opt.cursorline = true
+
 -- Toggle cursor column with insert mode
 vim.api.nvim_create_autocmd({ "InsertEnter" }, {
   callback = function()
@@ -83,6 +84,15 @@ vim.opt.spell = true
 vim.opt.wildmenu = true
 vim.opt.wildmode = "longest:full,full"
 vim.opt.wildoptions = "pum"
+
+-- Format options
+-- Default: jcroql / cljrqo1
+vim.api.nvim_create_autocmd("BufEnter", {
+  callback = function()
+    vim.opt_local.formatoptions:remove { "o" } -- Do not insert comment for 'o' and 'O'
+    vim.opt_local.formatoptions:append { "n" } -- Indent new lines in numbered lists
+  end,
+})
 
 local disabled_built_ins = {
   -- 'netrw',
