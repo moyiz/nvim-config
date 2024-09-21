@@ -73,6 +73,8 @@ return {
           file_ignore_patterns = {
             ".git/",
             "%.class",
+            "^.zig-cache/",
+            "^zig-out/",
           },
         },
       }
