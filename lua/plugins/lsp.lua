@@ -222,6 +222,7 @@ return {
 
         -- Java (eclipse)
         jdtls = {},
+        jsonls = {},
 
         stylua = {},
         lua_ls = {
