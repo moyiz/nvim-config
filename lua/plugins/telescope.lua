@@ -27,6 +27,7 @@ return {
       },
       { "nvim-telescope/telescope-ui-select.nvim" },
       { "nvim-tree/nvim-web-devicons" },
+      { "nvim-telescope/telescope-live-grep-args.nvim" },
     },
     config = function()
       -- Telescope is a fuzzy finder that comes with a lot of different things that
@@ -83,6 +84,7 @@ return {
       pcall(require("telescope").load_extension, "fzf")
       pcall(require("telescope").load_extension, "ui-select")
       pcall(require("telescope").load_extension, "git_dev")
+      pcall(require("telescope").load_extension, "live_grep_args")
 
       -- See `:help telescope.builtin`
       local builtin = require "telescope.builtin"
@@ -119,7 +121,8 @@ return {
       vim.keymap.set(
         "n",
         "<leader>sg",
-        builtin.live_grep,
+        -- builtin.live_grep,
+        require("telescope").extensions.live_grep_args.live_grep_args,
         { desc = "[S]earch by [G]rep" }
       )
       vim.keymap.set(
