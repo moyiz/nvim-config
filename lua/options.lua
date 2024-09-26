@@ -74,7 +74,7 @@ vim.opt.scrolloff = 10
 --   fg = "#ffffff",
 -- })
 
-vim.opt.colorcolumn = "79"
+vim.opt.colorcolumn = "80"
 
 vim.opt.background = "dark"
 
@@ -99,11 +99,11 @@ local disabled_built_ins = {
   -- 'netrwPlugin',
   -- 'netrwSettings',
   -- 'netrwFileHandlers',
-  "gzip",
+  -- "gzip",
   "zip",
   "zipPlugin",
-  "tar",
-  "tarPlugin",
+  -- "tar",
+  -- "tarPlugin",
   "getscript",
   "getscriptPlugin",
   "vimball",
