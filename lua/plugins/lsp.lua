@@ -139,19 +139,19 @@ return {
           )
 
           -- Toggle diagnostics
-          local diag_show = true
+          -- local diag_show = true
           map("<leader>cc", function()
-            -- if vim.diagnostic.is_disabled() then
-            --   vim.diagnostic.enable()
-            -- else
-            --   vim.diagnostic.disable()
-            -- end
-            if diag_show then
-              vim.diagnostic.hide()
+            if vim.diagnostic.is_disabled() then
+              vim.diagnostic.enable()
             else
-              vim.diagnostic.show()
+              vim.diagnostic.disable()
             end
-            diag_show = not diag_show
+            -- if diag_show then
+            --   vim.diagnostic.hide()
+            -- else
+            --   vim.diagnostic.show()
+            -- end
+            -- diag_show = not diag_show
           end, "Toggle diagnostics")
 
           -- Opens a popup that displays documentation about the word under your cursor
