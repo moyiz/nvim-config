@@ -120,7 +120,12 @@ return {
           map("<leader>ca", vim.lsp.buf.code_action, "[A]ction")
 
           -- Format buffer
-          map("<leader>cf", vim.lsp.buf.format, "[F]ormat")
+          vim.keymap.set(
+            { "n", "v" },
+            "<leader>cf",
+            vim.lsp.buf.format,
+            { buffer = event.buf, desc = "LSP: [F]ormat" }
+          )
 
           -- Fuzzy find all the symbols in your current document.
           --  Symbols are things like variables, functions, types, etc.
