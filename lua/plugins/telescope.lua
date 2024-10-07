@@ -186,7 +186,7 @@ return {
 
       vim.keymap.set(
         "n",
-        "<leader>tk",
+        "<leader>sm",
         builtin.man_pages,
         { desc = "Man pages" }
       )
@@ -195,7 +195,7 @@ return {
 
       vim.keymap.set(
         "n",
-        "<leader>tp",
+        "<leader>sp",
         builtin.registers,
         { desc = "[P]aste from register" }
       )

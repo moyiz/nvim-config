@@ -65,9 +65,7 @@ return {
         mapping = cmp.mapping.preset.insert {
           ["<C-u>"] = cmp.mapping.scroll_docs(-10),
           ["<C-d>"] = cmp.mapping.scroll_docs(4),
-          -- Select the [n]ext item
           ["<C-n>"] = cmp.mapping.select_next_item(),
-          -- Select the [p]revious item
           ["<C-p>"] = cmp.mapping.select_prev_item(),
 
           -- Accept ([y]es) the completion.

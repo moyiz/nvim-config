@@ -43,6 +43,8 @@ vim.keymap.set({ "n", "x" }, "s", "<Nop>") -- since no timeoutlen
 
 vim.keymap.set("n", "<leader>n", ":bn<cr>", { desc = "[N]ext buffer" })
 vim.keymap.set("n", "<leader>p", ":bp<cr>", { desc = "[P]revious buffer" })
+vim.keymap.set("n", "<leader>tn", ":tabn<cr>", { desc = "[N]ext [t]ab" })
+vim.keymap.set("n", "<leader>tp", ":tabp<cr>", { desc = "[P]revious [t]ab" })
 vim.keymap.set("n", "g.", function()
   local buf_name = vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf())
   if vim.fn.exists(buf_name) ~= 0 then
@@ -214,7 +216,7 @@ vim.api.nvim_create_autocmd("FileType", {
   callback = function()
     vim.opt_local.bufhidden = "unload"
     vim.cmd "wincmd L"
-    vim.cmd "vert resize 80"
+    vim.cmd "vert resize 81" -- Include scrollbar width
   end,
 })
 
