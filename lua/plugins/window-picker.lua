@@ -28,6 +28,7 @@ return {
           "neo-tree-popup",
           "notify",
           "minifiles",
+          "incline",
         },
         buftype = { "terminal", "quickfix" },
       },
