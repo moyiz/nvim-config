@@ -43,8 +43,21 @@ vim.keymap.set({ "n", "x" }, "s", "<Nop>") -- since no timeoutlen
 
 vim.keymap.set("n", "<leader>n", ":bn<cr>", { desc = "[N]ext buffer" })
 vim.keymap.set("n", "<leader>p", ":bp<cr>", { desc = "[P]revious buffer" })
+
+-- Tabs
 vim.keymap.set("n", "<leader>tn", ":tabn<cr>", { desc = "[N]ext [t]ab" })
 vim.keymap.set("n", "<leader>tp", ":tabp<cr>", { desc = "[P]revious [t]ab" })
+vim.keymap.set("n", "<leader>tc", ":tabclose<cr>", { desc = "[C]lose [t]ab" })
+vim.keymap.set("n", "<leader>t1", "1gt", { desc = "Go to [t]ab 1" })
+vim.keymap.set("n", "<leader>t2", "2gt", { desc = "Go to [t]ab 2" })
+vim.keymap.set("n", "<leader>t3", "3gt", { desc = "Go to [t]ab 3" })
+vim.keymap.set("n", "<leader>t4", "4gt", { desc = "Go to [t]ab 4" })
+vim.keymap.set("n", "<leader>t5", "5gt", { desc = "which_key_ignore" })
+vim.keymap.set("n", "<leader>t6", "6gt", { desc = "which_key_ignore" })
+vim.keymap.set("n", "<leader>t7", "7gt", { desc = "which_key_ignore" })
+vim.keymap.set("n", "<leader>t8", "8gt", { desc = "which_key_ignore" })
+vim.keymap.set("n", "<leader>t9", "9gt", { desc = "which_key_ignore" })
+
 vim.keymap.set("n", "g.", function()
   local buf_name = vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf())
   if vim.fn.exists(buf_name) ~= 0 then
