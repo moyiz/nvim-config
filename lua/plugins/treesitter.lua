@@ -1,5 +1,5 @@
 return {
-  { -- Highlight, edit, and navigate code
+  {
     "nvim-treesitter/nvim-treesitter",
     -- lazy = true,
     event = "VeryLazy",
@@ -9,8 +9,6 @@ return {
       "nvim-treesitter/nvim-treesitter-textobjects",
     },
     config = function()
-      -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
-
       require("nvim-treesitter.configs").setup {
         ensure_installed = {
           "bash",
@@ -33,6 +31,17 @@ return {
         auto_install = true,
         highlight = { enable = true },
         indent = { enable = true },
+        textobjects = {
+          lsp_interop = {
+            enable = true,
+            border = "single",
+            floating_preview_opts = {},
+            peek_definition_code = {
+              ["<leader>k"] = "@function.outer",
+              ["<leader>K"] = "@class.outer",
+            },
+          },
+        },
       }
 
       -- There are additional nvim-treesitter modules that you can use to interact
