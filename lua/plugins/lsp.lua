@@ -161,7 +161,7 @@ return {
 
           -- Opens a popup that displays documentation about the word under your cursor
           --  See `:help K` for why this keymap
-          map("K", vim.lsp.buf.hover(), "Hover Documentation")
+          map("K", vim.lsp.buf.hover, "Hover Documentation")
 
           -- The following two autocommands are used to highlight references of the
           -- word under your cursor when your cursor rests there for a little while.
