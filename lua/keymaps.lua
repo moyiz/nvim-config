@@ -60,7 +60,7 @@ vim.keymap.set("n", "<leader>t9", "9gt", { desc = "which_key_ignore" })
 
 vim.keymap.set("n", "g.", function()
   local buf_name = vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf())
-  if vim.fn.exists(buf_name) ~= 0 then
+  if not vim.uv.fs_stat(buf_name) then
     return
   end
   local cur_dir = vim.fs.dirname(buf_name)
