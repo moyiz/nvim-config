@@ -12,6 +12,7 @@ return {
     local animate = require "mini.animate"
     animate.setup {
       cursor = { enable = false },
+      resize = { enable = false },
       scroll = {
         timing = animate.gen_timing.cubic { duration = 100, unit = "total" },
       },
@@ -65,8 +66,13 @@ return {
     vim.keymap.set("n", "<Leader>e", function()
       if not files.close() then
         local path = vim.api.nvim_buf_get_name(0)
-        if vim.fn.exists(path) ~= 0 then
-          path = "."
+        if not vim.uv.fs_stat(path) then
+          local dir = vim.fs.dirname(path)
+          if vim.uv.fs_stat(dir) then
+            path = dir
+          else
+            path = "."
+          end
         end
         files.open(path, false)
         files.reveal_cwd()
@@ -147,10 +153,10 @@ return {
           files.trim_right()
         end)
         set({ "<C-v>" }, function()
-          split "belowright vertical"
+          split("belowright vertical", { close_on_file = true })
         end)
         set({ "<C-h>" }, function()
-          split "belowright horizontal"
+          split("belowright horizontal", { close_on_file = true })
         end)
         set({ "g." }, cd_current_dir)
       end,
