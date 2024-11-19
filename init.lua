@@ -78,7 +78,7 @@ vim.opt.rtp:prepend(lazypath)
 -- [[ Configure and install plugins ]]
 require("lazy").setup {
   -- "dstein64/vim-startuptime",
-  "tpope/vim-sleuth", -- Detect tabstop and shiftwidth automatically
+
   {
     -- dir = "~/workspace/command-and-cursor.nvim",
     "moyiz/command-and-cursor.nvim",
