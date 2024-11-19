@@ -216,11 +216,11 @@ return {
         clangd = {},
         gopls = {},
         basedpyright = {},
-        ruff_lsp = {},
-        -- pylyzer = {},
+        ruff = {},
 
         rust_analyzer = {},
         zls = {},
+        nim_langserver = {},
 
         -- Java (eclipse)
         jdtls = {},
