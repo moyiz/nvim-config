@@ -3,7 +3,14 @@ return {
   -- dir = "~/workspace/git-dev.nvim",
   -- event = "VeryLazy",
   lazy = true,
-  cmd = { "GitDevOpen", "GitDevToggleUI", "GitDevRecents", "GitDevCleanAll" },
+  cmd = {
+    "GitDevClean",
+    "GitDevCleanAll",
+    "GitDevCloseBuffers",
+    "GitDevOpen",
+    "GitDevRecents",
+    "GitDevToggleUI",
+  },
   keys = {
     {
       "<leader>go",
@@ -23,12 +30,27 @@ return {
       mode = "n",
       desc = "[R]ecently opened git repositories",
     },
+    {
+      "<leader>gc",
+      function()
+        require("git-dev").close_buffers()
+      end,
+      mode = "n",
+      desc = "[C]lose buffers of current repository",
+    },
+    {
+      "<leader>gC",
+      function()
+        require("git-dev").clean()
+      end,
+      mode = "n",
+      desc = "[C]lean current repository",
+    },
   },
   opts = {
     cd_type = "tab",
     opener = function(dir, _, selected_path)
       vim.cmd "tabnew"
-      -- vim.cmd("Oil " .. vim.fn.fnameescape(dir))
       vim.cmd("edit " .. vim.fn.fnameescape(dir))
       if selected_path then
         vim.cmd("edit " .. selected_path)

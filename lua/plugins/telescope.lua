@@ -157,15 +157,15 @@ return {
       )
       vim.keymap.set(
         "n",
-        "<leader>gc",
+        "<leader>gm",
         builtin.git_bcommits,
-        { desc = "[G]it [C]ommits (buffer)" }
+        { desc = "[G]it Co[m]mits (buffer)" }
       )
       vim.keymap.set(
         "n",
-        "<leader>gC",
+        "<leader>gM",
         builtin.git_commits,
-        { desc = "[G]it [C]ommits (directory)" }
+        { desc = "[G]it Co[m]mits (directory)" }
       )
       --[[
       - `<cr>`: checks out the currently selected branch
