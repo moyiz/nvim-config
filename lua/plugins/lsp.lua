@@ -32,6 +32,29 @@ return {
           },
         },
       },
+
+      {
+        "rachartier/tiny-code-action.nvim",
+        dependencies = {
+          { "nvim-lua/plenary.nvim" },
+          { "nvim-telescope/telescope.nvim" },
+        },
+        event = "LspAttach",
+        opts = {
+          telescope_opts = {
+            layout_strategy = "vertical",
+            layout_config = {
+              width = 0.6,
+              height = 0.8,
+              preview_cutoff = 1,
+              preview_height = function(_, _, max_lines)
+                local h = math.floor(max_lines * 0.7)
+                return math.max(h, 10)
+              end,
+            },
+          },
+        },
+      },
     },
     config = function()
       -- Brief Aside: **What is LSP?**
@@ -117,7 +140,10 @@ return {
 
           -- Execute a code action, usually your cursor needs to be on top of an error
           -- or a suggestion from your LSP for this to activate.
-          map("<leader>ca", vim.lsp.buf.code_action, "[A]ction")
+          -- map("<leader>ca", vim.lsp.buf.code_action, "[A]ction")
+          map("<leader>ca", function()
+            require("tiny-code-action").code_action()
+          end, "[A]ction")
 
           -- Format buffer
           vim.keymap.set(
