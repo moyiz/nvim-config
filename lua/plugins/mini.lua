@@ -14,7 +14,8 @@ return {
       cursor = { enable = false },
       resize = { enable = false },
       scroll = {
-        timing = animate.gen_timing.cubic { duration = 100, unit = "total" },
+        enable = false,
+        -- timing = animate.gen_timing.cubic { duration = 100, unit = "total" },
       },
     }
 
