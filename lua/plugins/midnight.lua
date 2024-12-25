@@ -40,6 +40,9 @@ return {
         bg = p.magenta[2],
         bold = true,
       },
+      NonText = {
+        link = "DiffviewNonText",
+      },
     }
     vim.cmd.colorscheme "midnight"
   end,

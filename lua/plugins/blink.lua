@@ -4,6 +4,7 @@ return {
     dependencies = {
       "rafamadriz/friendly-snippets",
       "mikavilpas/blink-ripgrep.nvim",
+      "moyiz/blink-emoji.nvim",
     },
     version = "*",
     ---@module 'blink.cmp'
@@ -16,9 +17,14 @@ return {
       -- https://cmp.saghen.dev/configuration/keymap.html
       keymap = { preset = "default" },
       appearance = {
-        use_nvim_cmp_as_default = true,
+        use_nvim_cmp_as_default = false,
       },
       completion = {
+        accept = {
+          auto_brackets = {
+            enabled = false,
+          },
+        },
         ghost_text = { enabled = true },
         menu = {
           border = "single",
@@ -66,6 +72,7 @@ return {
           "snippets",
           "buffer",
           "ripgrep",
+          "emoji",
         },
         providers = {
           lazydev = {
@@ -80,6 +87,11 @@ return {
             ---@module "blink-ripgrep"
             ---@type blink-ripgrep.Options
             opts = {},
+          },
+          emoji = {
+            module = "blink-emoji",
+            name = "Emoji",
+            score_offset = 15,
           },
         },
       },
