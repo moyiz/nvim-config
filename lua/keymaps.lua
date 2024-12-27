@@ -3,6 +3,13 @@
 
 -- Set highlight on search, but clear on pressing <Esc> in normal mode
 vim.opt.hlsearch = true
+
+-- Cmdline
+vim.keymap.set("c", "<C-a>", "<Home>")
+vim.keymap.set("c", "<Esc>b", "<S-Left>")
+vim.keymap.set("c", "<Esc>f", "<S-Right>")
+
+-- Remove highlight
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
 -- Diagnostic keymaps
