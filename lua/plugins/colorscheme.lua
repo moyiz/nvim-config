@@ -1,6 +1,7 @@
 return {
   {
     "dasupradyumna/midnight.nvim",
+    -- enabled = false,
     lazy = false,
     priority = 1000,
     config = function()
@@ -48,6 +49,12 @@ return {
         NonText = {
           link = "DiffviewNonText",
         },
+        SpellBad = {
+          style = "undercurl",
+        },
+        Comment = {
+          fg = p.gray[4],
+        },
       }
       vim.cmd.colorscheme "midnight"
     end,
@@ -60,8 +67,8 @@ return {
   {
     "folke/tokyonight.nvim",
     enabled = false,
-    lazy = false, -- make sure we load this during startup if it is your main colorscheme
-    priority = 1000, -- make sure to load this before all the other start plugins
+    lazy = false,
+    priority = 1000,
     config = function()
       require("tokyonight").setup {
         transparent = true,
