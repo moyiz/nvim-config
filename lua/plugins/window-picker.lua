@@ -30,7 +30,7 @@ return {
           "minifiles",
           "incline",
         },
-        buftype = { "terminal", "quickfix" },
+        buftype = { "terminal", "quickfix", "ministarter" },
       },
     },
   },
