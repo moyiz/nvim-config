@@ -318,6 +318,7 @@ return {
         terraformls = {},
         tflint = {},
         hclfmt = {},
+        ["nil"] = {},
       }
 
       require("mason").setup()
