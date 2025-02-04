@@ -9,6 +9,8 @@ return {
     --  - ci'  - [C]hange [I]nside [']quote
     require("mini.ai").setup { n_lines = 500 }
 
+    require("mini.align").setup {}
+
     local animate = require "mini.animate"
     animate.setup {
       cursor = { enable = false },
