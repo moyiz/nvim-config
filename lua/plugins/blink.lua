@@ -92,6 +92,9 @@ return {
             module = "blink-emoji",
             name = "Emoji",
             score_offset = 15,
+            should_show_items = function()
+              return vim.tbl_contains { "gitcommit", "markdown", vim.o.filetype }
+            end,
           },
         },
       },
