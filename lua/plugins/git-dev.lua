@@ -1,6 +1,6 @@
 return {
   "moyiz/git-dev.nvim",
-  -- dir = "~/workspace/git-dev.nvim",
+  -- dir = "~/workspace/neovim/git-dev.nvim",
   -- event = "VeryLazy",
   lazy = true,
   cmd = {
@@ -10,6 +10,7 @@ return {
     "GitDevOpen",
     "GitDevRecents",
     "GitDevToggleUI",
+    "GitDevXDGHandle",
   },
   keys = {
     {
@@ -62,6 +63,12 @@ return {
         text = text:gsub("https://([^/]+)/(.*)$", "ssh://git@%1:2222/%2")
         return parser:parse_gitea_like_url(text, "ssh://git@git.home.arpa:2222")
       end,
+    },
+    xdg_handler = {
+      enabled = true,
+      script = {
+        content = '#!/usr/bin/env sh\nalacritty -e nvim -c GitDevXDGHandle\\ "$@"',
+      },
     },
   },
 }
