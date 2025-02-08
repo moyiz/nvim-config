@@ -32,7 +32,16 @@ return {
         suffix_next = "", -- Causes keymap conflicts
       },
     }
+
     require("mini.statusline").setup()
+
+    -- require("mini.tabline").setup {
+    --   tabpage_section = "right",
+    --   format = function(buf_id, label)
+    --     local suffix = vim.bo[buf_id].modified and "➕  " or ""
+    --     return MiniTabline.default_format(buf_id, label) .. suffix
+    --   end,
+    -- }
 
     require("mini.indentscope").setup {
       symbol = "▏",
@@ -219,6 +228,12 @@ return {
 
     -- Split and join arguments
     require("mini.splitjoin").setup {}
+    vim.keymap.set(
+      "n",
+      "<Leader>J",
+      require("mini.splitjoin").toggle,
+      { desc = "Split / Join" }
+    )
 
     -- Extend f, F, t, T
     require("mini.jump").setup {}
