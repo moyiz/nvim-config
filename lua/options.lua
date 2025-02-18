@@ -4,7 +4,7 @@
 
 vim.opt.shiftwidth = 4
 vim.opt.tabstop = 4
-vim.opt.softtabstop = 4
+vim.opt.softtabstop = -1
 
 vim.opt.number = true
 vim.opt.relativenumber = true
@@ -79,11 +79,20 @@ vim.opt.colorcolumn = "80"
 vim.opt.background = "dark"
 
 vim.opt.spell = true
+vim.opt.spelloptions = "camel"
 
 -- Command mode completion
 vim.opt.wildmenu = true
 vim.opt.wildmode = "longest:full,full"
 vim.opt.wildoptions = "pum"
+
+-- Folding
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+vim.opt.foldenable = false
+vim.opt.foldminlines = 5
+
+-- Auto-commands
 
 -- Format options
 -- Default: jcroql / cljrqo1
@@ -92,6 +101,47 @@ vim.api.nvim_create_autocmd("BufEnter", {
     vim.opt_local.formatoptions:remove { "o" } -- Do not insert comment for 'o' and 'O'
     vim.opt_local.formatoptions:append { "n" } -- Indent new lines in numbered lists
     vim.opt_local.formatoptions:append { "r" } -- Insert after <Enter>
+  end,
+})
+
+vim.api.nvim_create_autocmd({ "TermOpen" }, {
+  pattern = { "*" },
+  callback = function()
+    vim.wo.number = false
+    vim.wo.relativenumber = false
+    vim.api.nvim_command "startinsert"
+  end,
+})
+
+-- resize splits if window got resized
+vim.api.nvim_create_autocmd({ "VimResized" }, {
+  callback = function()
+    vim.cmd "wincmd ="
+    vim.cmd "tabdo wincmd ="
+  end,
+})
+
+-- close some filetypes with <q>
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = {
+    "PlenaryTestPopup",
+    "help",
+    "lspinfo",
+    "man",
+    "notify",
+    "qf",
+    "query", -- :InspectTree
+    "spectre_panel",
+    "startuptime",
+    "tsplayground",
+  },
+  callback = function(event)
+    vim.bo[event.buf].buflisted = false
+    vim.keymap.set("n", "q", "<cmd>close<cr>", {
+      buffer = event.buf,
+      silent = true,
+      desc = "close some filetype windows with <q>",
+    })
   end,
 })
 
