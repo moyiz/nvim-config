@@ -155,7 +155,7 @@ return {
           -- or a suggestion from your LSP for this to activate.
           -- map("<leader>ca", vim.lsp.buf.code_action, "[A]ction")
           map("<leader>ca", function()
-            require("tiny-code-action").code_action()
+            require("tiny-code-action").code_action {}
           end, "[A]ction")
 
           -- Format buffer
@@ -183,19 +183,8 @@ return {
           )
 
           -- Toggle diagnostics
-          -- local diag_show = true
           map("<leader>cc", function()
-            if vim.diagnostic.is_disabled() then
-              vim.diagnostic.enable()
-            else
-              vim.diagnostic.disable()
-            end
-            -- if diag_show then
-            --   vim.diagnostic.hide()
-            -- else
-            --   vim.diagnostic.show()
-            -- end
-            -- diag_show = not diag_show
+            vim.diagnostic.enable(not vim.diagnostic.is_enabled())
           end, "Toggle diagnostics")
 
           -- Opens a popup that displays documentation about the word under your cursor
