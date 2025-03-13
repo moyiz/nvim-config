@@ -81,6 +81,7 @@ require("lazy").setup {
 
   {
     -- dir = "~/workspace/command-and-cursor.nvim",
+    { "tridactyl/vim-tridactyl", ft = "tridactyl" },
     "moyiz/command-and-cursor.nvim",
     event = "VeryLazy",
     opts = {
