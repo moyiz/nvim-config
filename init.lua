@@ -1,19 +1,3 @@
---[[
-  Inspired by and diverged from: https://github.com/dam9000/kickstart-modular.nvim
-
-  NOTE: Relevant docs:
-    - https://learnxinyminutes.com/docs/lua/
-    - :help lua-guide
-    - https://neovim.io/doc/user/lua-guide.html
-    - :Tutor
-
-  NOTE: To search help: <leader>sh
-
-  NOTE: For sanity check: `:checkhealth``
---]]
-
--- Set <space> as the leader key before loading plugins
--- See `:help mapleader`
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
@@ -80,8 +64,6 @@ require("lazy").setup {
   -- "dstein64/vim-startuptime",
 
   {
-    -- dir = "~/workspace/command-and-cursor.nvim",
-    { "tridactyl/vim-tridactyl", ft = "tridactyl" },
     "moyiz/command-and-cursor.nvim",
     event = "VeryLazy",
     opts = {
@@ -89,6 +71,7 @@ require("lazy").setup {
     },
   },
 
+  { "tridactyl/vim-tridactyl", ft = "tridactyl" },
   { import = "plugins" },
 }
 
