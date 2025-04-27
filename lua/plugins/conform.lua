@@ -37,7 +37,8 @@ return {
       end,
       formatters_by_ft = {
         lua = { "stylua" },
-        go = { "goimports", "gofumpt" },
+        go = { "goimports", "gofmt" },
+        -- go = { "goimports", "gofumpt" },
         yaml = { "prettier" },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
