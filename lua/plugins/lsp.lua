@@ -204,7 +204,15 @@ return {
 
         asm_lsp = {},
         asmfmt = {},
-        clangd = {},
+        clangd = {
+          on_attach = function(_)
+            vim.keymap.set(
+              "n",
+              "<leader>ch",
+              "<cmd>ClangdSwitchSourceHeader<cr>"
+            )
+          end,
+        },
         gopls = {},
         basedpyright = {},
         ruff = {},
