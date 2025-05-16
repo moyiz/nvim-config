@@ -64,6 +64,9 @@ return {
         return parser:parse_gitea_like_url(text, "ssh://git@git.home.arpa:2222")
       end,
     },
+    -- ui = {
+    --   enabled = false,
+    -- },
     xdg_handler = {
       enabled = true,
       script = {

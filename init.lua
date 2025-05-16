@@ -72,6 +72,10 @@ require("lazy").setup {
   },
 
   { "tridactyl/vim-tridactyl", ft = "tridactyl" },
+  -- {
+  --   dir = "~/workspace/neovim/oseph.nvim",
+  -- },
+
   { import = "plugins" },
 }
 

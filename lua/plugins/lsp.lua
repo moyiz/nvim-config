@@ -292,7 +292,6 @@ return {
         hclfmt = {},
       }
 
-      require("mason").setup()
       require("mason-tool-installer").setup {
         ensure_installed = vim.tbl_keys(servers or {}),
       }
