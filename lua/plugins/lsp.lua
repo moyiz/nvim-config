@@ -70,7 +70,6 @@ return {
       },
     },
     config = function()
-      vim.diagnostic.config { virtual_lines = true }
       vim.api.nvim_create_autocmd("LspAttach", {
         group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
         callback = function(event)
@@ -154,16 +153,47 @@ return {
             "[W]orkspace"
           )
 
+          -- vim.diagnostic.config { virtual_lines = true }
           -- Toggle diagnostics
           map("<leader>cc", function()
             local state = not vim.diagnostic.is_enabled()
             vim.diagnostic.enable(state)
-            vim.diagnostic.config { virtual_lines = state }
+            -- vim.diagnostic.config { virtual_lines = state }
           end, "Toggle diagnostics")
+
+          -- Diagnostic keymaps
+          vim.keymap.set("n", "[d", function()
+            vim.diagnostic.jump { count = -1, float = true }
+          end, { desc = "Go to previous [D]iagnostic message" })
+          vim.keymap.set("n", "]d", function()
+            vim.diagnostic.jump { count = 1, float = true }
+          end, { desc = "Go to next [D]iagnostic message" })
+          vim.keymap.set(
+            "n",
+            "<leader>ce",
+            vim.diagnostic.open_float,
+            { desc = "Show diagnostic [E]rror messages" }
+          )
+          vim.keymap.set(
+            "n",
+            "<leader>cq",
+            vim.diagnostic.setloclist,
+            { desc = "Open diagnostic [Q]uickfix list" }
+          )
 
           -- Opens a popup that displays documentation about the word under your cursor
           --  See `:help K` for why this keymap
           map("K", vim.lsp.buf.hover, "Hover Documentation")
+
+          -- Show errors and warnings in a floating window
+          vim.api.nvim_create_autocmd("CursorHold", {
+            callback = function()
+              vim.diagnostic.open_float(
+                nil,
+                { focusable = false, source = "if_many" }
+              )
+            end,
+          })
 
           -- The following two autocommands are used to highlight references of the
           -- word under your cursor when your cursor rests there for a little while.
