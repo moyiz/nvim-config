@@ -11,6 +11,35 @@ return {
 
     require("mini.align").setup {}
 
+    local notify = require "mini.notify"
+    notify.setup {
+      content = {
+        format = function(notif)
+          -- local time = vim.fn.strftime("%H:%M:%S", math.floor(notif.ts_update))
+          return string.format("%s │ %s", notif.level, notif.msg)
+        end,
+      },
+      lsp_progress = {
+        enable = false,
+      },
+      window = {
+        winblend = 50,
+        config = function()
+          return {
+            anchor = "NW",
+            relative = "cursor",
+            col = 80,
+            title = "",
+            -- width = 40,
+            -- height = 8,
+          }
+        end,
+      },
+    }
+    vim.notify = notify.make_notify {
+      ERROR = { duration = 10000 },
+    }
+
     local animate = require "mini.animate"
     animate.setup {
       cursor = { enable = false },
