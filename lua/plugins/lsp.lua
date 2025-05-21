@@ -22,6 +22,8 @@ return {
 
       -- UI for notifications and LSP progress messages
       { "j-hui/fidget.nvim", opts = {} },
+
+      { "tridactyl/vim-tridactyl", ft = "tridactyl" },
       { "towolf/vim-helm", ft = "helm" },
       -- {
       --   "nvim-java/nvim-java",
@@ -327,6 +329,8 @@ return {
       }
 
       require("mason-lspconfig").setup {
+        ensure_installed = {},
+        automatic_enable = true,
         handlers = {
           function(server_name)
             local server = servers[server_name] or {}

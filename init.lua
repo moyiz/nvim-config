@@ -60,24 +60,15 @@ end ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
 
 -- [[ Configure and install plugins ]]
-require("lazy").setup {
-  -- "dstein64/vim-startuptime",
-
-  {
-    "moyiz/command-and-cursor.nvim",
-    event = "VeryLazy",
-    opts = {
-      -- debug_position = true,
-    },
+require("lazy").setup("plugins", {
+  change_detection = {
+    notify = false,
   },
-
-  { "tridactyl/vim-tridactyl", ft = "tridactyl" },
+  -- "dstein64/vim-startuptime",
   -- {
   --   dir = "~/workspace/neovim/oseph.nvim",
   -- },
-
-  { import = "plugins" },
-}
+})
 
 -- See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
