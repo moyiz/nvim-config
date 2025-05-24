@@ -5,6 +5,7 @@ return {
       "rafamadriz/friendly-snippets",
       "mikavilpas/blink-ripgrep.nvim",
       "moyiz/blink-emoji.nvim",
+      -- { dir = "~/workspace/neovim/blink-emoji.nvim" },
     },
     version = "*",
     ---@module 'blink.cmp'
@@ -91,13 +92,7 @@ return {
           emoji = {
             module = "blink-emoji",
             name = "Emoji",
-            score_offset = 15,
-            should_show_items = function()
-              return vim.tbl_contains(
-                { "gitcommit", "markdown" },
-                vim.o.filetype
-              )
-            end,
+            -- score_offset = 15,
           },
         },
       },
