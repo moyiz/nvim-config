@@ -155,7 +155,7 @@ return {
             "[W]orkspace"
           )
 
-          -- vim.diagnostic.config { virtual_lines = true }
+          vim.diagnostic.config { virtual_text = true, virtual_lines = false }
           -- Toggle diagnostics
           map("<leader>cc", function()
             local state = not vim.diagnostic.is_enabled()
@@ -188,15 +188,15 @@ return {
           map("K", vim.lsp.buf.hover, "Hover Documentation")
 
           -- Show errors and warnings in a floating window
-          vim.api.nvim_create_autocmd("CursorHold", {
-            callback = function()
-              vim.diagnostic.open_float(nil, {
-                focusable = false,
-                source = "if_many",
-                severity_sort = true,
-              })
-            end,
-          })
+          -- vim.api.nvim_create_autocmd("CursorHold", {
+          --   callback = function()
+          --     vim.diagnostic.open_float(nil, {
+          --       focusable = false,
+          --       source = "if_many",
+          --       severity_sort = true,
+          --     })
+          --   end,
+          -- })
 
           -- The following two autocommands are used to highlight references of the
           -- word under your cursor when your cursor rests there for a little while.
