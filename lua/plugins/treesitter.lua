@@ -18,6 +18,7 @@ return {
           "java",
           "json",
           "lua",
+          "make",
           "markdown",
           "markdown_inline",
           "python",
