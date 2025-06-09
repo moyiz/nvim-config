@@ -146,6 +146,12 @@ return {
       )
       vim.keymap.set(
         "n",
+        "<leader>so",
+        "<cmd>Telescope aerial<cr>",
+        { desc = "[S]earch [O]utline (aerial)" }
+      )
+      vim.keymap.set(
+        "n",
         "<leader><leader>",
         builtin.buffers,
         { desc = "[ ] Find existing buffers" }

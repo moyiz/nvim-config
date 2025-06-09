@@ -70,6 +70,19 @@ return {
           },
         },
       },
+
+      {
+        "stevearc/aerial.nvim",
+        opts = {
+          layout = {
+            default_direction = "prefer_left",
+          },
+          highlight_on_hover = true,
+          manage_folds = true,
+          link_folds_to_tree = true,
+          show_guides = true,
+        },
+      },
     },
     config = function()
       vim.api.nvim_create_autocmd("LspAttach", {
@@ -182,6 +195,8 @@ return {
             vim.diagnostic.setloclist,
             { desc = "Open diagnostic [Q]uickfix list" }
           )
+
+          map("<leader>co", "<cmd>AerialToggle!<cr>", "[C]ode [O]utline")
 
           -- Opens a popup that displays documentation about the word under your cursor
           --  See `:help K` for why this keymap
