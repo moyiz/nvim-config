@@ -19,13 +19,14 @@ return {
       keymap = {
         preset = "default",
         ["<C-e>"] = {},
+        ["<C-q>"] = { "hide" },
       },
       appearance = {
         use_nvim_cmp_as_default = false,
       },
       cmdline = {
         keymap = {
-          preset = "inherit",
+          preset = "default",
         },
       },
       completion = {
