@@ -28,6 +28,11 @@ return {
         keymap = {
           preset = "default",
         },
+        completion = {
+          menu = {
+            auto_show = true,
+          },
+        },
       },
       completion = {
         accept = {
@@ -37,6 +42,7 @@ return {
         },
         ghost_text = { enabled = true },
         menu = {
+          auto_show = true,
           border = "single",
           max_height = 25,
           draw = {
@@ -46,6 +52,9 @@ return {
               { "source_name" },
             },
             components = {
+              source_name = {
+                highlight = "Keyword",
+              },
               kind_icon = {
                 ellipsis = false,
                 text = function(ctx)
@@ -70,6 +79,13 @@ return {
           window = { border = "single" },
         },
       },
+      fuzzy = {
+        sort = {
+          "exact",
+          "score",
+          "sort_text",
+        },
+      },
       signature = {
         enabled = true,
         window = { border = "single" },
@@ -89,6 +105,14 @@ return {
             name = "LazyDev",
             module = "lazydev.integrations.blink",
             score_offset = 100,
+          },
+          path = {
+            opts = {
+              -- path completions to be relative to cwd (instead of buffer)
+              get_cwd = function(_)
+                return vim.fn.getcwd()
+              end,
+            },
           },
           ripgrep = {
             module = "blink-ripgrep",
