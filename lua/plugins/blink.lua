@@ -16,9 +16,17 @@ return {
       -- 'enter' for mappings similar to 'super-tab' but with 'enter' to accept
       -- See the full "keymap" documentation for information on defining your own keymap.
       -- https://cmp.saghen.dev/configuration/keymap.html
-      keymap = { preset = "default" },
+      keymap = {
+        preset = "default",
+        ["<C-e>"] = {},
+      },
       appearance = {
         use_nvim_cmp_as_default = false,
+      },
+      cmdline = {
+        keymap = {
+          preset = "inherit",
+        },
       },
       completion = {
         accept = {
