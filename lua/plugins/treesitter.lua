@@ -10,6 +10,7 @@ return {
     },
     config = function()
       require("nvim-treesitter.configs").setup {
+        modules = {},
         ensure_installed = {
           "bash",
           "c",
@@ -28,6 +29,8 @@ return {
           "vimdoc",
           "yaml",
         },
+        sync_install = false,
+        ignore_install = {},
         -- Autoinstall languages that are not installed
         auto_install = true,
         highlight = { enable = true },
@@ -45,11 +48,30 @@ return {
               ["<leader>K"] = "@class.outer",
             },
           },
+          move = {
+            enable = true,
+            set_jumps = true,
+            goto_next_start = {
+              ["]s"] = {
+                query = "@local.scope",
+                query_group = "locals",
+                desc = "Next scope",
+              },
+            },
+            goto_previous_start = {
+              ["[s"] = {
+                query = "@local.scope",
+                query_group = "locals",
+                desc = "Previous scope",
+              },
+            },
+          },
         },
       }
 
       require("treesitter-context").setup {
         multiline_threshold = 3,
+        separator = "—",
       }
     end,
   },
