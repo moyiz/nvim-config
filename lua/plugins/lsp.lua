@@ -261,13 +261,15 @@ return {
             )
           end,
         },
-        gopls = {},
+
         basedpyright = {},
+        ty = {},
         ruff = {},
 
         rust_analyzer = {},
         zls = {},
         nim_langserver = {},
+        gopls = {},
 
         -- Java (eclipse)
         jdtls = {},
