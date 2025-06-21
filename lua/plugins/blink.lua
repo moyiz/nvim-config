@@ -127,6 +127,9 @@ return {
             name = "Emoji",
             -- score_offset = 15,
           },
+          lsp = {
+            score_offset = 200,
+          },
         },
       },
     },
