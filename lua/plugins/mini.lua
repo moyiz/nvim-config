@@ -26,10 +26,114 @@ return {
       },
     }
 
+    require("mini.extra").setup {}
+    require("mini.pick").setup {
+      options = {
+        content_from_bottom = false,
+        use_cache = false,
+      },
+    }
+
+    -- TODO: window-picker for files picker
+    -- TODO: Man pages picker
+    vim.keymap.set("n", "<leader>sf", function()
+      MiniPick.builtin.files()
+    end, { desc = "[S]earch [F]iles" })
+    vim.keymap.set(
+      "n",
+      "<leader>sr",
+      MiniPick.builtin.resume,
+      { desc = "[S]earch [R]esume" }
+    )
+    vim.keymap.set("n", "<leader>sd", function()
+      MiniExtra.pickers.diagnostic {
+        -- scope = "current",
+      }
+    end, { desc = "[S]earch [D]iagnostics" })
+    vim.keymap.set("n", "<leader>s.", function()
+      MiniExtra.pickers.oldfiles {
+        -- current_dir = true,
+        -- preserve_order = true,
+      }
+    end, { desc = '[S]earch Recent Files ("." for repeat)' })
+    vim.keymap.set("n", "<leader><leader>", function()
+      MiniPick.builtin.buffers({
+        -- include_current = false,
+        -- include_unlisted = true,
+      }, {
+        mappings = {
+          wipeout = {
+            char = "<C-d>",
+            func = function()
+              vim.api.nvim_buf_delete(
+                MiniPick.get_picker_matches().current.bufnr,
+                {}
+              )
+            end,
+          },
+        },
+      })
+    end, { desc = "[ ] Find existing buffers" })
+    vim.keymap.set(
+      "n",
+      "<leader>sk",
+      MiniExtra.pickers.keymaps,
+      { desc = "[S]earch [K]eymaps" }
+    )
+    vim.keymap.set(
+      "n",
+      "<leader>sh",
+      MiniPick.builtin.help,
+      { desc = "[S]earch [H]elp" }
+    )
+    vim.keymap.set("n", "<leader>/", function()
+      MiniExtra.pickers.buf_lines {
+        scope = "current",
+        -- preserve_order = true,
+      }
+    end, { desc = "[/] Fuzzily search in current buffer" })
+    vim.keymap.set("n", "<leader>sg", function()
+      -- Use `<C-o>` custom mapping to add glob to the array.
+      MiniPick.builtin.grep_live()
+    end, { desc = "[S]earch by [G]rep" })
+    vim.keymap.set("n", "<leader>sw", function()
+      MiniPick.builtin.grep {
+        pattern = vim.fn.expand "<cword>",
+      }
+    end, { desc = "[S]earch current [W]ord" })
+    vim.keymap.set("n", "<leader>sn", function()
+      MiniPick.builtin.files(nil, {
+        source = {
+          cwd = vim.fn.stdpath "config",
+        },
+      })
+    end, { desc = "[S]earch [N]eovim files" })
+    vim.keymap.set("n", "<leader>st", function()
+      MiniExtra.pickers.lsp {
+        -- "declaration".
+        -- "definition".
+        -- "document_symbol".
+        -- "implementation".
+        -- "references".
+        -- "type_definition".
+        -- "workspace_symbol".
+        scope = "document_symbol",
+      }
+    end, { desc = "[S]earch [T]reesitter" })
+    vim.keymap.set("n", "<leader>gm", function()
+      MiniExtra.pickers.git_commits {
+        path = vim.fn.expand "%",
+      }
+    end, { desc = "[G]it Co[m]mits (buffer)" })
+    vim.keymap.set("n", "<leader>gM", function()
+      MiniExtra.pickers.git_commits {
+        path = ".",
+      }
+    end, { desc = "[G]it Co[m]mits (directory)" })
+
     require("mini.align").setup {}
 
-    local notify = require "mini.notify"
-    notify.setup {
+    require("mini.notify").setup {
       content = {
         format = function(notif)
           -- local time = vim.fn.strftime("%H:%M:%S", math.floor(notif.ts_update))
@@ -53,12 +157,11 @@ return {
         end,
       },
     }
-    vim.notify = notify.make_notify {
+    vim.notify = MiniNotify.make_notify {
       ERROR = { duration = 10000 },
     }
 
-    local animate = require "mini.animate"
-    animate.setup {
+    require("mini.animate").setup {
       cursor = { enable = false },
       resize = { enable = false },
       scroll = {
@@ -100,8 +203,7 @@ return {
     }
 
     -- Files
-    local files = require "mini.files"
-    files.setup {
+    require("mini.files").setup {
       windows = {
         preview = true,
         width_preview = 80,
@@ -122,7 +224,7 @@ return {
     }
 
     vim.keymap.set("n", "<Leader>e", function()
-      if not files.close() then
+      if not MiniFiles.close() then
         local path = vim.api.nvim_buf_get_name(0)
         if not vim.uv.fs_stat(path) then
           local dir = vim.fs.dirname(path)
@@ -132,8 +234,8 @@ return {
             path = "."
           end
         end
-        files.open(path, false)
-        files.reveal_cwd()
+        MiniFiles.open(path, false)
+        MiniFiles.reveal_cwd()
       end
     end, { desc = "File [E]xplorer" })
 
@@ -194,7 +296,7 @@ return {
           vim.fn.chdir(cur_dir)
         end
 
-        set({ "q", "<esc>" }, files.close)
+        set({ "q", "<esc>" }, MiniFiles.close)
         -- set({ "l", "<right>" }, files.go_in)
         set({ "l", "<right>" }, go_in_window_picker)
         set({ "L", "<S-right>", "<CR>" }, function()
@@ -203,12 +305,12 @@ return {
             go_in_window_picker { close_on_file = true }
           end
         end)
-        set({ "h", "<left>" }, files.go_out)
+        set({ "h", "<left>" }, MiniFiles.go_out)
         set({ "H", "<S-left>", "<S-CR>" }, function()
           for _ = 1, vim.v.count1 do
-            files.go_out()
+            MiniFiles.go_out()
           end
-          files.trim_right()
+          MiniFiles.trim_right()
         end)
         set({ "<C-v>" }, function()
           split("belowright vertical", { close_on_file = true })
