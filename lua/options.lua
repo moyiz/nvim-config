@@ -1,6 +1,4 @@
 -- [[ Setting options ]]
--- See `:help vim.opt`
--- See `:help option-list`
 
 vim.opt.shiftwidth = 4
 vim.opt.tabstop = 4
@@ -13,9 +11,6 @@ vim.opt.mouse = "a"
 -- Don't show the mode, since it's already in status line
 vim.opt.showmode = false
 
--- Sync clipboard between OS and Neovim.
---  Remove this option if you want your OS clipboard to remain independent.
---  See `:help 'clipboard'`
 vim.opt.clipboard = "unnamedplus"
 
 -- Enable break indent
@@ -30,14 +25,12 @@ vim.opt.undofile = true
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 
--- Keep signcolumn on by default
 vim.opt.signcolumn = "yes"
 
 -- Decrease update time
 vim.opt.updatetime = 250
 vim.opt.timeoutlen = 300
 
--- Configure how new splits should be opened
 vim.opt.splitright = true
 vim.opt.splitbelow = true
 
@@ -47,10 +40,9 @@ vim.opt.splitbelow = true
 vim.opt.list = true
 vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
 
--- Preview substitutions live, as you type!
+-- Preview substitutions
 vim.opt.inccommand = "split"
 
--- Show which line your cursor is on
 vim.opt.cursorline = true
 
 -- Toggle cursor column with insert mode
@@ -67,12 +59,6 @@ vim.api.nvim_create_autocmd({ "InsertLeave" }, {
 
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
-
--- Vertical line
--- vim.api.nvim_set_hl(0, "ColorColumn", {
---   ctermbg = 200,
---   fg = "#ffffff",
--- })
 
 vim.opt.colorcolumn = "80"
 
@@ -91,7 +77,15 @@ vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 vim.opt.foldenable = false
 vim.opt.foldminlines = 5
-
+vim.api.nvim_create_autocmd("LspAttach", {
+  callback = function(args)
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    if client and client:supports_method "textDocument/foldingRange" then
+      local win = vim.api.nvim_get_current_win()
+      vim.wo[win][0].foldexpr = "v:lua.vim.lsp.foldexpr()"
+    end
+  end,
+})
 -- Auto-commands
 
 -- Format options
