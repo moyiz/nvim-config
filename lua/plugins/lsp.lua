@@ -73,7 +73,15 @@ return {
 
       {
         "stevearc/aerial.nvim",
+        keys = {
+          {
+            "<leader>co",
+            "<cmd>AerialToggle!<cr>",
+            desc = "[C]ode [O]utline",
+          },
+        },
         opts = {
+
           layout = {
             default_direction = "prefer_left",
           },
@@ -195,8 +203,6 @@ return {
             vim.diagnostic.setloclist,
             { desc = "Open diagnostic [Q]uickfix list" }
           )
-
-          map("<leader>co", "<cmd>AerialToggle!<cr>", "[C]ode [O]utline")
 
           -- Opens a popup that displays documentation about the word under your cursor
           --  See `:help K` for why this keymap
