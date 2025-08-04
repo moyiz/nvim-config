@@ -28,16 +28,44 @@ return {
 
     require("mini.extra").setup {}
     require("mini.pick").setup {
+      mappings = {
+        choose_in_split = "<C-h>",
+        scroll_left = "<S-Left>",
+        scroll_down = "<S-Down>",
+        scroll_up = "<S-Up>",
+        scroll_right = "<S-Right>",
+      },
       options = {
         content_from_bottom = false,
         use_cache = false,
+      },
+      window = {
+        -- TODO: choose values dynamically based on screen size
+        -- config = function()
+        --   return {
+        --     anchor = "NW",
+        --     relative = "editor",
+        --     col = 0,
+        --     row = 0,
+        --     width = math.floor(vim.o.columns * 0.8),
+        --     height = math.floor(vim.o.lines * 0.8),
+        --   }
+        -- end,
+        config = {
+          -- relative = "cursor",
+          -- anchor = "NW",
+          -- row = 0,
+          -- col = 0,
+          width = 80,
+          height = 20,
+        },
       },
     }
 
     -- TODO: window-picker for files picker
     -- TODO: Man pages picker
     vim.keymap.set("n", "<leader>sf", function()
-      MiniPick.builtin.files()
+      MiniPick.builtin.files(nil, {})
     end, { desc = "[S]earch [F]iles" })
     vim.keymap.set(
       "n",
@@ -130,6 +158,62 @@ return {
         path = ".",
       }
     end, { desc = "[G]it Co[m]mits (directory)" })
+    vim.keymap.set("n", "<leader>gb", function()
+      MiniExtra.pickers.git_branches {}
+    end, { desc = "[G]it [B]ranches" })
+    vim.keymap.set("n", "<leader>sy", function()
+      MiniExtra.pickers.registers {}
+    end, { desc = "[S]earch Registers ([y]ank)" })
+
+    vim.keymap.set("n", "<leader>tm", function()
+      MiniExtra.pickers.marks {}
+    end, { desc = "[M]arks" })
+
+    vim.keymap.set("n", "<leader>sm", function()
+      local topic_section = function(item)
+        local _, _, topic, section = item:find "([%w-_%:]+)%s+%((%w+)%)"
+        return topic, section
+      end
+      MiniPick.builtin.cli({
+        command = { "man", "-k", ".*" },
+        postprocess = function(lines)
+          lines = vim.tbl_filter(function(line)
+            return line ~= ""
+          end, lines)
+          table.sort(lines, function(a, b)
+            return a < b
+          end)
+          return lines
+        end,
+      }, {
+        source = {
+          choose = function(item)
+            if item == nil then
+              return
+            end
+            local topic, section = topic_section(item)
+            vim.schedule(function()
+              vim.cmd("Man " .. section .. " " .. topic)
+            end)
+          end,
+          preview = function(buf_id, item)
+            vim.api.nvim_buf_call(buf_id, function()
+              vim.bo.buftype, vim.bo.buflisted, vim.bo.bufhidden =
+                "nofile", false, "wipe"
+              local has_ts = pcall(vim.treesitter.start, 0)
+              if not has_ts then
+                vim.bo.syntax = "man"
+              end
+              local topic, section = topic_section(item)
+              vim.cmd("read !PAGER=cat man " .. section .. " " .. topic)
+              vim.cmd "normal! gg"
+              vim.cmd "normal! dd" -- remove blank line
+              -- vim.cmd "normal! zt"
+            end)
+          end,
+        },
+      })
+    end, { desc = "[S]earch [M]an pages" })
 
     require("mini.align").setup {}
 
@@ -402,7 +486,7 @@ return {
     vim.api.nvim_set_hl(0, "MiniJump2dSpot", {
       nocombine = true,
       fg = "White",
-      bg = "Black",
+      bg = "#aa0000",
     })
 
     vim.api.nvim_set_hl(0, "MiniJump2dSpotAhead", {

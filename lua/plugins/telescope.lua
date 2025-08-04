@@ -148,28 +148,21 @@ return {
       - `<C-y>`: merges the currently selected branch, with confirmation prompt
         before deletion
       ]]
-      vim.keymap.set(
-        "n",
-        "<leader>gb",
-        builtin.git_branches,
-        { desc = "[G]it [B]ranches" }
-      )
+      -- vim.keymap.set(
+      --   "n",
+      --   "<leader>gb",
+      --   builtin.git_branches,
+      --   { desc = "[G]it [B]ranches" }
+      -- )
 
-      vim.keymap.set(
-        "n",
-        "<leader>sm",
-        builtin.man_pages,
-        { desc = "Man pages" }
-      )
+      -- vim.keymap.set("n", "<leader>tm", builtin.marks, { desc = "[M]arks" })
 
-      vim.keymap.set("n", "<leader>tm", builtin.marks, { desc = "[M]arks" })
-
-      vim.keymap.set(
-        "n",
-        "<leader>sp",
-        builtin.registers,
-        { desc = "[P]aste from register" }
-      )
+      -- vim.keymap.set(
+      --   "n",
+      --   "<leader>sp",
+      --   builtin.registers,
+      --   { desc = "[P]aste from register" }
+      -- )
 
       vim.keymap.set(
         "n",
