@@ -62,10 +62,43 @@ return {
       },
     }
 
-    -- TODO: window-picker for files picker
-    -- TODO: Man pages picker
+    -- window-picker for files picker
+    local _pick_window_picker = function(mode)
+      return function()
+        local match = MiniPick.get_picker_matches()
+        local win_id = require("window-picker").pick_window()
+        if win_id then
+          vim.api.nvim_win_call(win_id, function()
+            if mode == "h" then
+              vim.cmd "split"
+            elseif mode == "v" then
+              vim.cmd "vsplit"
+            end
+            if match then
+              vim.cmd("edit " .. match.current)
+            end
+          end)
+          return true
+        end
+        return false
+      end
+    end
+
     vim.keymap.set("n", "<leader>sf", function()
-      MiniPick.builtin.files(nil, {})
+      MiniPick.builtin.files(nil, {
+        mappings = {
+          choose_in_split = "",
+          choose_in_vsplit = "",
+          pick_in_split = {
+            char = "<C-h>",
+            func = _pick_window_picker "h",
+          },
+          pick_in_vsplit = {
+            char = "<C-v>",
+            func = _pick_window_picker "v",
+          },
+        },
+      })
     end, { desc = "[S]earch [F]iles" })
     vim.keymap.set(
       "n",
@@ -164,14 +197,18 @@ return {
     vim.keymap.set("n", "<leader>sy", function()
       MiniExtra.pickers.registers {}
     end, { desc = "[S]earch Registers ([y]ank)" })
+    vim.keymap.set("n", "<leader>si", function()
+      MiniExtra.pickers.hl_groups {}
+    end, { desc = "[S]earch H[i]ghlight groups" })
 
     vim.keymap.set("n", "<leader>tm", function()
       MiniExtra.pickers.marks {}
     end, { desc = "[M]arks" })
 
+    local ns_id = vim.api.nvim_create_namespace "stam"
     vim.keymap.set("n", "<leader>sm", function()
       local topic_section = function(item)
-        local _, _, topic, section = item:find "([%w-_%:]+)%s+%((%w+)%)"
+        local _, _, topic, section = item:find "([%w%-%_%:%.%@]+)%s+%((%w+)%)"
         return topic, section
       end
       MiniPick.builtin.cli({
@@ -187,6 +224,20 @@ return {
         end,
       }, {
         source = {
+          show = function(buf_id, items_to_show, query)
+            MiniPick.default_show(buf_id, items_to_show, query, nil)
+            for i, line in ipairs(items_to_show) do
+              -- local topic, section = topic_section(line)
+              vim.api.nvim_buf_set_extmark(buf_id, ns_id, i - 1, 0, {
+                end_col = 0,
+                end_row = i,
+                hl_mode = "blend",
+                -- TODO:
+                -- hl_group = "Tag",
+              })
+            end
+            -- return MiniPick.default_show(buf_id, items_to_show, query, nil)
+          end,
           choose = function(item)
             if item == nil then
               return
@@ -194,6 +245,7 @@ return {
             local topic, section = topic_section(item)
             vim.schedule(function()
               vim.cmd("Man " .. section .. " " .. topic)
+              vim.cmd "setlocal nospell"
             end)
           end,
           preview = function(buf_id, item)
@@ -205,9 +257,15 @@ return {
                 vim.bo.syntax = "man"
               end
               local topic, section = topic_section(item)
-              vim.cmd("read !PAGER=cat man " .. section .. " " .. topic)
+              vim.cmd(
+                "read !MANROFFOPT='-W font -W break' man --pager=cat "
+                  .. section
+                  .. " "
+                  .. topic
+              )
               vim.cmd "normal! gg"
               vim.cmd "normal! dd" -- remove blank line
+              vim.cmd "setlocal nospell"
               -- vim.cmd "normal! zt"
             end)
           end,
@@ -345,17 +403,17 @@ return {
             -- Toggle `MiniFiles` so `window-picker` will be visible.
             MiniFiles.close()
             local win_id = require("window-picker").pick_window()
-            MiniFiles.open(fs_entry.path)
+            if win_id then
+              MiniFiles.open(fs_entry.path)
+              MiniFiles.set_target_window(win_id)
+            end
             return win_id
           end
         end
 
         -- Select target window with `window-picker`
         local go_in_window_picker = function(go_in_args)
-          local win_id = _pick_window()
-          if win_id then
-            MiniFiles.set_target_window(win_id)
-          end
+          _pick_window()
           MiniFiles.go_in(go_in_args)
         end
 
