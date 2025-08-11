@@ -63,16 +63,14 @@ return {
     }
 
     -- window-picker for files picker
-    local _pick_window_picker = function(mode)
+    local _pick_window_picker = function(pre_cmd)
       return function()
         local match = MiniPick.get_picker_matches()
         local win_id = require("window-picker").pick_window()
         if win_id then
           vim.api.nvim_win_call(win_id, function()
-            if mode == "h" then
-              vim.cmd "split"
-            elseif mode == "v" then
-              vim.cmd "vsplit"
+            if pre_cmd then
+              vim.cmd(pre_cmd)
             end
             if match then
               vim.cmd("edit " .. match.current)
@@ -84,31 +82,57 @@ return {
       end
     end
 
-    -- vim.keymap.set("n", "<leader>gf", function()
-    --   MiniExtra.pickers.git_files(nil, files_picker_opts)
-    -- end, { desc = "[G]it [F]iles" })
-    vim.keymap.set("n", "<leader>sf", function()
-      MiniPick.builtin.files(nil, {
-        mappings = {
-          choose_in_split = "",
-          choose_in_vsplit = "",
-          pick_in_split = {
-            char = "<C-h>",
-            func = _pick_window_picker "h",
-          },
-          pick_in_vsplit = {
-            char = "<C-v>",
-            func = _pick_window_picker "v",
-          },
+    local files_opts = {
+      mappings = {
+        choose = "",
+        choose_in_split = "",
+        choose_in_vsplit = "",
+        pick = {
+          char = "<cr>",
+          func = _pick_window_picker(),
         },
-      })
+        pick_in_split = {
+          char = "<C-h>",
+          func = _pick_window_picker "split",
+        },
+        pick_in_vsplit = {
+          char = "<C-v>",
+          func = _pick_window_picker "vsplit",
+        },
+      },
+    }
+
+    vim.keymap.set("n", "<leader>gf", function()
+      -- when to pick cwd and when buffer's path?
+      local cwd = vim.fn.getcwd()
+      local repo_dir = vim.fn.systemlist({
+        "git",
+        "-C",
+        cwd,
+        "rev-parse",
+        "--show-toplevel",
+      })[1]
+      if vim.v.shell_error ~= 0 then
+        vim.notify(
+          "'" .. cwd .. "' is not a git repository",
+          vim.log.levels.ERROR
+        )
+        return
+      end
+      MiniExtra.pickers.git_files({ path = repo_dir }, files_opts)
+    end, { desc = "[G]it [F]iles" })
+
+    vim.keymap.set("n", "<leader>sf", function()
+      MiniPick.builtin.files(nil, files_opts)
     end, { desc = "[S]earch [F]iles" })
+
     vim.keymap.set(
       "n",
       "<leader>sr",
       MiniPick.builtin.resume,
       { desc = "[S]earch [R]esume" }
     )
+
     vim.keymap.set("n", "<leader>sd", function()
       MiniExtra.pickers.diagnostic {
         -- scope = "current",

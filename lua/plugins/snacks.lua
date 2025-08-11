@@ -1,6 +1,7 @@
 return {
   "folke/snacks.nvim",
   priority = 1000,
+  enabled = false,
   lazy = false,
   ---@module "snacks"
   ---@type snacks.Config
@@ -8,14 +9,14 @@ return {
     notifier = { enabled = true },
     picker = { enabled = true },
   },
-  keys = {
-    {
-      "<leader>gf",
-      function()
-        Snacks.picker.git_files()
-      end,
-      mode = "n",
-      desc = "[G]it [F]iles",
-    },
-  },
+  -- keys = {
+  --   {
+  --     "<leader>gf",
+  --     function()
+  --       Snacks.picker.git_files()
+  --     end,
+  --     mode = "n",
+  --     desc = "[G]it [F]iles",
+  --   },
+  -- },
 }
