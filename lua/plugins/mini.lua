@@ -84,6 +84,9 @@ return {
       end
     end
 
+    -- vim.keymap.set("n", "<leader>gf", function()
+    --   MiniExtra.pickers.git_files(nil, files_picker_opts)
+    -- end, { desc = "[G]it [F]iles" })
     vim.keymap.set("n", "<leader>sf", function()
       MiniPick.builtin.files(nil, {
         mappings = {
@@ -300,7 +303,7 @@ return {
       },
     }
     vim.notify = MiniNotify.make_notify {
-      ERROR = { duration = 10000 },
+      ERROR = { duration = 15000 },
     }
 
     require("mini.animate").setup {
