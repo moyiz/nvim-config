@@ -4,17 +4,17 @@ return {
     event = "VeryLazy",
     dependencies = {
       "nvim-lua/plenary.nvim",
-      {
-        "nvim-telescope/telescope-fzf-native.nvim",
-        build = "make",
-        cond = function()
-          return vim.fn.executable "make" == 1
-        end,
-      },
-      { "nvim-telescope/telescope-ui-select.nvim" },
+      -- {
+      --   "nvim-telescope/telescope-fzf-native.nvim",
+      --   build = "make",
+      --   cond = function()
+      --     return vim.fn.executable "make" == 1
+      --   end,
+      -- },
+      -- { "nvim-telescope/telescope-ui-select.nvim" },
       { "nvim-tree/nvim-web-devicons" },
-      { "nvim-telescope/telescope-live-grep-args.nvim" },
-      { "nvim-telescope/telescope-symbols.nvim" },
+      -- { "nvim-telescope/telescope-live-grep-args.nvim" },
+      -- { "nvim-telescope/telescope-symbols.nvim" },
     },
     config = function()
       -- Two important keymaps to use while in telescope are:
@@ -47,18 +47,18 @@ return {
       }
 
       -- Enable telescope extensions, if they are installed
-      pcall(require("telescope").load_extension, "fzf")
-      pcall(require("telescope").load_extension, "ui-select")
+      -- pcall(require("telescope").load_extension, "fzf")
+      -- pcall(require("telescope").load_extension, "ui-select")
       pcall(require("telescope").load_extension, "git_dev")
-      pcall(require("telescope").load_extension, "live_grep_args")
+      -- pcall(require("telescope").load_extension, "live_grep_args")
 
       local builtin = require "telescope.builtin"
-      vim.keymap.set(
-        "n",
-        "<leader>tr",
-        builtin.reloader,
-        { desc = "[R]eloader" }
-      )
+      -- vim.keymap.set(
+      --   "n",
+      --   "<leader>tr",
+      --   builtin.reloader,
+      --   { desc = "[R]eloader" }
+      -- )
       -- vim.keymap.set(
       --   "n",
       --   "<leader>sh",
@@ -163,13 +163,13 @@ return {
       --   builtin.registers,
       --   { desc = "[P]aste from register" }
       -- )
-
-      vim.keymap.set(
-        "n",
-        "<leader>tf",
-        builtin.filetypes,
-        { desc = "Set [F]iletype" }
-      )
+      --
+      -- vim.keymap.set(
+      --   "n",
+      --   "<leader>tf",
+      --   builtin.filetypes,
+      --   { desc = "Set [F]iletype" }
+      -- )
 
       -- vim.keymap.set("n", "<leader>/", function()
       --   builtin.current_buffer_fuzzy_find(
@@ -180,12 +180,12 @@ return {
       --   )
       -- end, { desc = "[/] Fuzzily search in current buffer" })
 
-      vim.keymap.set("n", "<leader>s/", function()
-        builtin.live_grep {
-          grep_open_files = true,
-          prompt_title = "Live Grep in Open Files",
-        }
-      end, { desc = "[S]earch [/] in Open Files" })
+      -- vim.keymap.set("n", "<leader>s/", function()
+      --   builtin.live_grep {
+      --     grep_open_files = true,
+      --     prompt_title = "Live Grep in Open Files",
+      --   }
+      -- end, { desc = "[S]earch [/] in Open Files" })
 
       -- Shortcut for searching your neovim configuration files
       -- vim.keymap.set("n", "<leader>sn", function()
