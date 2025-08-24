@@ -302,6 +302,8 @@ return {
 
     require("mini.align").setup {}
 
+    require("mini.fuzzy").setup {}
+
     require("mini.notify").setup {
       content = {
         format = function(notif)
@@ -559,7 +561,8 @@ return {
     local jump2d = require "mini.jump2d"
     jump2d.setup {
       labels = "tnresaio",
-      spotter = jump2d.builtin_opts.word_start.spotter,
+      -- spotter = jump2d.builtin_opts.word_start.spotter,
+      spotter = jump2d.gen_spotter.vimpattern "[A-Z]*[a-z0-9]\\+",
       view = {
         n_steps_ahead = 5,
       },
