@@ -5,7 +5,6 @@ return {
       "rafamadriz/friendly-snippets",
       "mikavilpas/blink-ripgrep.nvim",
       "moyiz/blink-emoji.nvim",
-      -- { dir = "~/workspace/neovim/blink-emoji.nvim" },
     },
     version = "*",
     ---@module 'blink.cmp'
@@ -99,6 +98,7 @@ return {
           "buffer",
           "ripgrep",
           "emoji",
+          "cwdpath",
         },
         providers = {
           lazydev = {
@@ -106,12 +106,26 @@ return {
             module = "lazydev.integrations.blink",
             score_offset = 100,
           },
-          path = {
+          cwdpath = {
+            module = "blink.cmp.sources.path",
+            score_offset = 5,
+            fallbacks = { "buffer" },
             opts = {
+              trailing_slash = true,
+              label_trailing_slash = true,
               -- path completions to be relative to cwd (instead of buffer)
               get_cwd = function(_)
                 return vim.fn.getcwd()
               end,
+              show_hidden_files_by_default = true,
+              -- Treat `/path` as starting from the current working directory (cwd) instead of the root of your filesystem
+              ignore_root_slash = false,
+            },
+          },
+          path = {
+            score_offset = 3,
+            opts = {
+              show_hidden_files_by_default = true,
             },
           },
           ripgrep = {
@@ -128,7 +142,7 @@ return {
             -- score_offset = 15,
           },
           lsp = {
-            score_offset = 200,
+            score_offset = 500,
           },
         },
       },
