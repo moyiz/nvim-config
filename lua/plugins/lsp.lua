@@ -96,8 +96,6 @@ return {
       vim.api.nvim_create_autocmd("LspAttach", {
         group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
         callback = function(event)
-          -- In this case, we create a function that lets us more easily define mappings specific
-          -- for LSP related items. It sets the mode, buffer and description for us each time.
           local map = function(keys, func, desc)
             vim.keymap.set(
               "n",
@@ -107,46 +105,51 @@ return {
             )
           end
 
-          -- Jump to the definition of the word under your cursor.
-          --  This is where a variable was first declared, or where a function is defined, etc.
-          --  To jump back, press <C-T>.
           map(
             "gd",
-            require("telescope.builtin").lsp_definitions,
+            -- require("telescope.builtin").lsp_definitions,
+            function()
+              require("mini.extra").pickers.lsp { scope = "definition" }
+            end,
             "[G]oto [D]efinition"
           )
-          map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
-
-          -- Find references for the word under your cursor.
+          map(
+            "gD",
+            -- vim.lsp.buf.declaration,
+            function()
+              require("mini.extra").pickers.lsp { scope = "declaration" }
+            end,
+            "[G]oto [D]eclaration"
+          )
           map(
             "gr",
-            require("telescope.builtin").lsp_references,
+            -- require("telescope.builtin").lsp_references,
+            function()
+              require("mini.extra").pickers.lsp { scope = "references" }
+            end,
             "[G]oto [R]eferences"
           )
 
-          -- Jump to the implementation of the word under your cursor.
-          --  Useful when your language has ways of declaring types without an actual implementation.
           map(
             "gI",
-            require("telescope.builtin").lsp_implementations,
+            -- require("telescope.builtin").lsp_implementations,
+            function()
+              require("mini.extra").pickers.lsp { scope = "implementation" }
+            end,
             "[G]oto [I]mplementation"
           )
 
-          -- Jump to the type of the word under your cursor.
-          --  Useful when you're not sure what type a variable is and you want to see
-          --  the definition of its *type*, not where it was *defined*.
           map(
             "gy",
-            require("telescope.builtin").lsp_type_definitions,
-            "Type [D]efinition"
+            -- require("telescope.builtin").lsp_type_definitions,
+            function()
+              require("mini.extra").pickers.lsp { scope = "type_definition" }
+            end,
+            "{G]oto T[y]pe def"
           )
 
-          -- Rename the variable under your cursor
-          --  Most Language Servers support renaming across files, etc.
           map("<leader>cr", vim.lsp.buf.rename, "[R]ename")
 
-          -- Execute a code action, usually your cursor needs to be on top of an error
-          -- or a suggestion from your LSP for this to activate.
           -- map("<leader>ca", vim.lsp.buf.code_action, "[A]ction")
           map("<leader>ca", function()
             require("tiny-code-action").code_action {}
@@ -160,19 +163,21 @@ return {
             { buffer = event.buf, desc = "LSP: [F]ormat" }
           )
 
-          -- Fuzzy find all the symbols in your current document.
-          --  Symbols are things like variables, functions, types, etc.
           map(
             "<leader>csd",
-            require("telescope.builtin").lsp_document_symbols,
+            -- require("telescope.builtin").lsp_document_symbols,
+            function()
+              require("mini.extra").pickers.lsp { scope = "document_symbol" }
+            end,
             "[D]ocument"
           )
 
-          -- Fuzzy find all the symbols in your current workspace
-          --  Similar to document symbols, except searches over your whole project.
           map(
             "<leader>csw",
-            require("telescope.builtin").lsp_dynamic_workspace_symbols,
+            -- require("telescope.builtin").lsp_dynamic_workspace_symbols,
+            function()
+              require("mini.extra").pickers.lsp { scope = "workspace_symbol" }
+            end,
             "[W]orkspace"
           )
 
@@ -219,11 +224,7 @@ return {
           --   end,
           -- })
 
-          -- The following two autocommands are used to highlight references of the
-          -- word under your cursor when your cursor rests there for a little while.
-          --    See `:help CursorHold` for information about when this is executed
-          --
-          -- When you move your cursor, the highlights will be cleared (the second autocommand).
+          -- Highlight references of current word
           local client = vim.lsp.get_client_by_id(event.data.client_id)
           if
             client and client.server_capabilities.documentHighlightProvider
@@ -241,10 +242,6 @@ return {
         end,
       })
 
-      -- Enable the following language servers
-      --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
-      --
-      --  Add any additional override configuration in the following tables. Available keys are:
       --  - cmd (table): Override the default command used to start the server
       --  - filetypes (table): Override the default list of associated filetypes for the server
       --  - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP features.
@@ -258,15 +255,7 @@ return {
 
         asm_lsp = {},
         asmfmt = {},
-        clangd = {
-          on_attach = function(_)
-            vim.keymap.set(
-              "n",
-              "<leader>ch",
-              "<cmd>ClangdSwitchSourceHeader<cr>"
-            )
-          end,
-        },
+        clangd = {},
 
         basedpyright = {},
         ty = {},
