@@ -40,25 +40,15 @@ return {
         use_cache = false,
       },
       window = {
-        -- TODO: choose values dynamically based on screen size
-        -- config = function()
-        --   return {
-        --     anchor = "NW",
-        --     relative = "editor",
-        --     col = 0,
-        --     row = 0,
-        --     width = math.floor(vim.o.columns * 0.8),
-        --     height = math.floor(vim.o.lines * 0.8),
-        --   }
-        -- end,
-        config = {
-          -- relative = "cursor",
-          -- anchor = "NW",
-          -- row = 0,
-          -- col = 0,
-          width = 80,
-          height = 20,
-        },
+        config = function()
+          return {
+            -- anchor = "NW",
+            -- relative = "editor",
+            -- col = 0,
+            width = math.max(80, math.floor(vim.o.columns * 0.8)),
+            height = math.max(20, math.floor(vim.o.lines * 0.40)),
+          }
+        end,
       },
     }
 
