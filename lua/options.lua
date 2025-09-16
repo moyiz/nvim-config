@@ -139,6 +139,28 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "man" },
+  callback = function()
+    vim.keymap.set("n", "d", "<C-d>", {
+      buffer = true,
+      silent = true,
+    })
+    vim.keymap.set("n", "u", "<C-u>", {
+      buffer = true,
+      silent = true,
+    })
+    vim.keymap.set("n", "f", "<C-f>", {
+      buffer = true,
+      silent = true,
+    })
+    vim.keymap.set("n", "b", "<C-b>", {
+      buffer = true,
+      silent = true,
+    })
+  end,
+})
+
 local disabled_built_ins = {
   -- 'netrw',
   -- 'netrwPlugin',
