@@ -1,5 +1,5 @@
 return {
-  "echasnovski/mini.nvim",
+  "nvim-mini/mini.nvim",
   config = function()
     -- Better Around/Inside textobjects
     --
@@ -550,9 +550,10 @@ return {
     -- Easymotion movements
     local jump2d = require "mini.jump2d"
     jump2d.setup {
-      labels = "tnresaio",
+      labels = "tnresaioluc,dh",
       -- spotter = jump2d.builtin_opts.word_start.spotter,
-      spotter = jump2d.gen_spotter.vimpattern "[A-Z]*[a-z0-9]\\+",
+      -- spotter = jump2d.gen_spotter.vimpattern "[A-Z]*[a-z0-9]\\+",
+      spotter = jump2d.gen_spotter.vimpattern "[A-Za-z0-9]\\+",
       view = {
         n_steps_ahead = 5,
       },
