@@ -158,6 +158,11 @@ vim.api.nvim_create_autocmd("FileType", {
       buffer = true,
       silent = true,
     })
+    vim.keymap.set("n", "q", "<cmd>q!<cr>", {
+      buffer = true,
+      silent = true,
+    })
+    -- vim.opt_local.laststatus = 0 -- global T_T
   end,
 })
 
