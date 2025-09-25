@@ -52,9 +52,11 @@ return {
     cd_type = "tab",
     opener = function(dir, _, selected_path)
       vim.cmd "tabnew"
-      vim.cmd("edit " .. vim.fn.fnameescape(dir))
+      vim.cmd("tcd " .. vim.fn.fnameescape(dir))
       if selected_path then
         vim.cmd("edit " .. selected_path)
+      else
+        vim.cmd("edit " .. dir)
       end
     end,
     verbose = true,
@@ -70,7 +72,7 @@ return {
     xdg_handler = {
       enabled = true,
       script = {
-        content = '#!/usr/bin/env sh\nalacritty -e nvim -c GitDevXDGHandle\\ "$@"',
+        content = '#!/usr/bin/env sh\nkitty -e nvim -c GitDevXDGHandle\\ "$@"',
       },
     },
   },
