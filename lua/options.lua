@@ -58,7 +58,7 @@ vim.api.nvim_create_autocmd({ "InsertLeave" }, {
 })
 
 -- Minimal number of screen lines to keep above and below the cursor.
-vim.opt.scrolloff = 10
+vim.opt.scrolloff = 7
 
 vim.opt.colorcolumn = "80"
 
@@ -71,6 +71,9 @@ vim.opt.spelloptions = "camel"
 vim.opt.wildmenu = true
 vim.opt.wildmode = "longest:full,full"
 vim.opt.wildoptions = "pum"
+
+-- exrc
+vim.opt.exrc = true
 
 -- Folding
 vim.opt.foldmethod = "expr"
