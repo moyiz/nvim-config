@@ -8,8 +8,11 @@ vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.mouse = "a"
 
--- Don't show the mode, since it's already in status line
+-- Hide mode (already in status line)
 vim.opt.showmode = false
+
+-- cmdline overlays status line
+vim.opt.cmdheight = 0
 
 vim.opt.clipboard = "unnamedplus"
 
