@@ -5,7 +5,13 @@ return {
     opts = {
       window = {
         padding = 0,
-        margin = { horizontal = 0 },
+        margin = { horizontal = 0, vertical = 0 },
+        overlap = {
+          borders = true,
+          tabline = true,
+          winbar = true,
+          statusline = false,
+        },
       },
       render = function(props)
         local filename =
