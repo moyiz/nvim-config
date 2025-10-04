@@ -14,6 +14,9 @@ vim.opt.showmode = false
 -- cmdline overlays status line
 vim.opt.cmdheight = 0
 
+-- Single status line
+vim.opt.laststatus = 3
+
 vim.opt.clipboard = "unnamedplus"
 
 -- Enable break indent
