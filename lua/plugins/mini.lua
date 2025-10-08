@@ -222,6 +222,10 @@ return {
       MiniExtra.pickers.marks {}
     end, { desc = "[M]arks" })
 
+    vim.keymap.set("n", "<leader>,c", function()
+      MiniExtra.pickers.colorschemes()
+    end, { desc = "[C]olorscheme" })
+
     local ns_id = vim.api.nvim_create_namespace "stam"
     vim.keymap.set("n", "<leader>sm", function()
       local topic_section = function(item)
