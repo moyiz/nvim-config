@@ -3,6 +3,9 @@ return {
     "b0o/incline.nvim",
     event = "VeryLazy",
     opts = {
+      hide = {
+        only_win = true,
+      },
       window = {
         padding = 0,
         margin = { horizontal = 0, vertical = 0 },
