@@ -1,5 +1,7 @@
 -- [[ Setting options ]]
 
+vim.fn.setenv("MANWIDTH", "999")
+
 vim.opt.shiftwidth = 4
 vim.opt.tabstop = 4
 vim.opt.softtabstop = -1
@@ -12,7 +14,7 @@ vim.opt.mouse = "a"
 vim.opt.showmode = false
 
 -- cmdline overlays status line
-vim.opt.cmdheight = 0
+-- vim.opt.cmdheight = 0
 
 -- Single status line
 vim.opt.laststatus = 3
@@ -166,6 +168,11 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.keymap.set("n", "b", "<C-b>", {
       buffer = true,
       silent = true,
+    })
+    vim.keymap.set("n", "g", "gg", {
+      buffer = true,
+      silent = true,
+      noremap = true,
     })
     vim.keymap.set("n", "q", "<cmd>q!<cr>", {
       buffer = true,
