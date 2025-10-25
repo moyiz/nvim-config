@@ -1,5 +1,6 @@
 return {
   "nvim-mini/mini.nvim",
+  version = false,
   config = function()
     -- Better Around/Inside textobjects
     --
@@ -225,6 +226,18 @@ return {
     vim.keymap.set("n", "<leader>,c", function()
       MiniExtra.pickers.colorschemes()
     end, { desc = "[C]olorscheme" })
+
+    vim.keymap.set("n", "<leader>sp", function()
+      local items = vim.tbl_keys(MiniPick.registry)
+      table.sort(items)
+      local source =
+        { items = items, name = "Registry", choose = function() end }
+      local chosen_picker_name = MiniPick.start { source = source }
+      if chosen_picker_name == nil then
+        return
+      end
+      return MiniPick.registry[chosen_picker_name]()
+    end, { desc = "[S]earch [P]ickers" })
 
     local ns_id = vim.api.nvim_create_namespace "stam"
     vim.keymap.set("n", "<leader>sm", function()
