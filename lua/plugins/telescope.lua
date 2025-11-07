@@ -1,7 +1,7 @@
 return {
   {
     "nvim-telescope/telescope.nvim",
-    -- enabled = false,
+    enabled = false,
     event = "VeryLazy",
     dependencies = {
       "nvim-lua/plenary.nvim",
@@ -46,12 +46,6 @@ return {
           },
         },
       }
-
-      -- Enable telescope extensions, if they are installed
-      -- pcall(require("telescope").load_extension, "fzf")
-      -- pcall(require("telescope").load_extension, "ui-select")
-      pcall(require("telescope").load_extension, "git_dev")
-      -- pcall(require("telescope").load_extension, "live_grep_args")
 
       local builtin = require "telescope.builtin"
       -- vim.keymap.set(
