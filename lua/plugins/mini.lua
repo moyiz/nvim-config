@@ -98,6 +98,7 @@ return {
     }
 
     require("mini.extra").setup {}
+    -- local ui_select = vim.ui.select
     require("mini.pick").setup {
       mappings = {
         choose_in_split = "<C-h>",
@@ -122,6 +123,7 @@ return {
         end,
       },
     }
+    -- vim.ui.select = ui_select
 
     -- window-picker for files picker
     local _pick_window_picker = function(pre_cmd)
