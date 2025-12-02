@@ -34,13 +34,8 @@ pcall(function()
   vim.loader.enable()
 end)
 
--- [[ Setting options ]]
 require "options"
-
--- [[ Basic Keymaps ]]
 require "keymaps"
-
--- [[ User Commands ]]
 require "commands"
 
 -- [[ Install `lazy.nvim` plugin manager ]]
@@ -56,10 +51,11 @@ if not vim.uv.fs_stat(lazypath) then
     lazyrepo,
     lazypath,
   }
-end ---@diagnostic disable-next-line: undefined-field
+end
+
+---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
 
--- [[ Configure and install plugins ]]
 require("lazy").setup("plugins", {
   change_detection = {
     notify = false,
