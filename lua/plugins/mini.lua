@@ -27,6 +27,76 @@ return {
       },
     }
 
+    require("mini.bufremove").setup {}
+    vim.keymap.set("n", "<leader>bd", function()
+      require("mini.bufremove").delete(0, false)
+    end, { desc = "[B]uffer [D]elete" })
+    vim.keymap.set("n", "<leader>bD", function()
+      require("mini.bufremove").delete(0, true)
+    end, { desc = "[B]uffer [D]elete (force)" })
+    vim.keymap.set("n", "<leader>bw", function()
+      require("mini.bufremove").wipeout(0, false)
+    end, { desc = "[B]uffer [W]ipeout" })
+    vim.keymap.set("n", "<leader>bW", function()
+      require("mini.bufremove").wipeout(0, true)
+    end, { desc = "[B]uffer [W]ipeout (force)" })
+
+    local clue = require "mini.clue"
+    clue.setup {
+      triggers = {
+        -- Leader triggers
+        { mode = "n", keys = "<Leader>" },
+        { mode = "x", keys = "<Leader>" },
+        -- `[` and `]` keys
+        { mode = "n", keys = "[" },
+        { mode = "n", keys = "]" },
+        -- Built-in completion
+        { mode = "i", keys = "<C-x>" },
+        -- `g` key
+        { mode = "n", keys = "g" },
+        { mode = "x", keys = "g" },
+        -- Marks
+        { mode = "n", keys = "'" },
+        { mode = "n", keys = "`" },
+        { mode = "x", keys = "'" },
+        { mode = "x", keys = "`" },
+        -- Registers
+        { mode = "n", keys = '"' },
+        { mode = "x", keys = '"' },
+        { mode = "i", keys = "<C-r>" },
+        { mode = "c", keys = "<C-r>" },
+        -- Window commands
+        { mode = "n", keys = "<C-w>" },
+        -- `z` key
+        { mode = "n", keys = "z" },
+        { mode = "x", keys = "z" },
+      },
+      clues = {
+        -- Enhance this by adding descriptions for <Leader> mapping groups
+        clue.gen_clues.square_brackets(),
+        clue.gen_clues.builtin_completion(),
+        clue.gen_clues.g(),
+        clue.gen_clues.marks(),
+        clue.gen_clues.registers(),
+        clue.gen_clues.windows(),
+        clue.gen_clues.z(),
+        { mode = "n", keys = "<leader>b", desc = "[B]uffers" },
+        { mode = "n", keys = "<leader>c", desc = "[C]ode" },
+        { mode = "n", keys = "<leader>cs", desc = "[S]ymbols" },
+        { mode = "n", keys = "<leader>s", desc = "[S]earch" },
+        { mode = "n", keys = "<leader>d", desc = "[D]ebug" },
+        { mode = "n", keys = "<leader>m", desc = "[M]ap" },
+        { mode = "n", keys = "<leader>t", desc = "[T]elescope" },
+        { mode = "n", keys = "<leader>g", desc = "[G]it" },
+      },
+      window = {
+        delay = 30,
+        config = {
+          width = "auto",
+        },
+      },
+    }
+
     require("mini.extra").setup {}
     require("mini.pick").setup {
       mappings = {

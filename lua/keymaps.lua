@@ -24,7 +24,7 @@ vim.keymap.set({ "n", "x" }, "s", "<Nop>") -- since no timeoutlen
 
 vim.keymap.set("n", "<leader>n", ":bn<cr>", { desc = "[N]ext buffer" })
 vim.keymap.set("n", "<leader>p", ":bp<cr>", { desc = "[P]revious buffer" })
-vim.keymap.set("n", "<leader>b", ":b#<cr>", { desc = "Last [B]uffer" })
+vim.keymap.set("n", "<leader>bb", ":b#<cr>", { desc = "Last [B]uffer" })
 
 -- Tabs
 vim.keymap.set("n", "<leader>tn", ":tabn<cr>", { desc = "[N]ext [t]ab" })
@@ -187,7 +187,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
     { clear = true }
   ),
   callback = function()
-    vim.highlight.on_yank()
+    vim.hl.on_yank()
   end,
 })
 
