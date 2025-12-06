@@ -2,7 +2,7 @@ return {
   "s1n7ax/nvim-window-picker",
   name = "window-picker",
   event = "VeryLazy",
-  version = "2.*",
+  -- version = "2.*",
   keys = {
     {
       "<leader>,",
@@ -31,7 +31,7 @@ return {
           "minipick",
           "incline",
         },
-        buftype = { "quickfix", "ministarter" },
+        buftype = { "quickfix", "ministarter", "aerial" },
         -- buftype = { "terminal", "quickfix", "ministarter" },
       },
     },
