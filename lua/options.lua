@@ -104,8 +104,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
 vim.api.nvim_create_autocmd("BufEnter", {
   callback = function()
     vim.opt_local.formatoptions:remove { "o" } -- Do not insert comment for 'o' and 'O'
+    vim.opt_local.formatoptions:remove { "o" } -- Do not insert comment for 'o' and 'O'
+    vim.opt_local.formatoptions:remove { "r" } -- Do not insert comment after <CR>
     vim.opt_local.formatoptions:append { "n" } -- Indent new lines in numbered lists
-    vim.opt_local.formatoptions:append { "r" } -- Insert after <Enter>
   end,
 })
 
