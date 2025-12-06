@@ -207,7 +207,7 @@ return {
         -- preserve_order = true,
       }
     end, { desc = '[S]earch Recent Files ("." for repeat)' })
-    vim.keymap.set("n", "<leader><leader>", function()
+    vim.keymap.set("n", "<leader>bl", function()
       MiniPick.builtin.buffers({
         -- include_current = false,
         -- include_unlisted = true,
@@ -647,7 +647,7 @@ return {
         n_steps_ahead = 5,
       },
       mappings = {
-        start_jumping = "<leader><cr>",
+        start_jumping = "<leader><leader>",
       },
     }
     -- vim.api.nvim_set_hl(0, "MiniJump2dSpot", { reverse = true })
