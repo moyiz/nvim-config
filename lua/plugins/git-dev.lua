@@ -8,7 +8,8 @@ return {
     "GitDevCleanAll",
     "GitDevCloseBuffers",
     "GitDevOpen",
-    "GitDevRecents",
+    "GitDevPersist",
+    "GitDevHistory",
     "GitDevToggleUI",
     "GitDevXDGHandle",
   },
@@ -27,7 +28,7 @@ return {
     },
     {
       "<leader>gr",
-      "<cmd>GitDevRecents<cr>",
+      "<cmd>GitDevHistory<cr>",
       mode = "n",
       desc = "[R]ecently opened git repositories",
     },
