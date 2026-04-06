@@ -1,88 +1,101 @@
 return {
   {
     "nvim-treesitter/nvim-treesitter",
-    -- lazy = true,
-    event = "VeryLazy",
+    branch = "main",
+    lazy = false,
     build = ":TSUpdate",
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter-context",
-      "nvim-treesitter/nvim-treesitter-textobjects",
-    },
     config = function()
-      require("nvim-treesitter.configs").setup {
-        modules = {},
-        ensure_installed = {
-          "bash",
-          "c",
-          "go",
-          "html",
-          "java",
-          "json",
-          "lua",
-          "make",
-          "markdown",
-          "markdown_inline",
-          "python",
-          "query",
-          "regex",
-          "vim",
-          "vimdoc",
-          "yaml",
-        },
-        sync_install = false,
-        ignore_install = {},
-        -- Autoinstall languages that are not installed
-        auto_install = true,
-        highlight = { enable = true },
-        indent = {
+      local ts = require "nvim-treesitter"
+      ts.setup {}
+      local ensure_installed = {
+        "bash",
+        "c",
+        "go",
+        "html",
+        "java",
+        "json",
+        "lua",
+        "make",
+        "markdown",
+        "markdown_inline",
+        "python",
+        "query",
+        "regex",
+        "vim",
+        "vimdoc",
+        "yaml",
+      }
+      ts.install(ensure_installed)
+      -- local already_installed = ts.get_installed "parsers"
+      -- local parsers_to_install = vim
+      --   .iter(ensure_installed)
+      --   :filter(function(parser)
+      --     return not vim.tbl_contains(already_installed, parser)
+      --   end)
+      --   :totable()
+      -- if #parsers_to_install > 0 then
+      --   ts.install(parsers_to_install)
+      -- end
+
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = "*",
+        callback = function()
+          pcall(function()
+            vim.treesitter.start()
+            vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+          end)
+        end,
+      })
+    end,
+  },
+
+  {
+    "nvim-treesitter/nvim-treesitter-textobjects",
+    branch = "main",
+    event = "VeryLazy",
+    config = function()
+      require("nvim-treesitter-textobjects").setup {
+        move = {
           enable = true,
-          disable = { "markdown" }, -- To prevent bad indentation in lists.
-        },
-        textobjects = {
-          lsp_interop = {
-            enable = true,
-            border = "single",
-            floating_preview_opts = {},
-            peek_definition_code = {
-              ["<leader>k"] = "@function.outer",
-              ["<leader>K"] = "@class.outer",
-            },
-          },
-          move = {
-            enable = true,
-            set_jumps = true,
-            goto_next_start = {
-              ["]s"] = {
-                query = "@local.scope",
-                query_group = "locals",
-                desc = "Next scope",
-              },
-            },
-            goto_previous_start = {
-              ["[s"] = {
-                query = "@local.scope",
-                query_group = "locals",
-                desc = "Previous scope",
-              },
-            },
-          },
-        },
-        incremental_selection = {
-          enable = true,
-          keymaps = {
-            init_selection = "<CR>",
-            scope_incremental = "<CR>",
-            node_incremental = "<TAB>",
-            node_decremental = "<S-TAB>",
-          },
+          set_jumps = true,
         },
       }
 
-      require("treesitter-context").setup {
-        multiline_threshold = 3,
-        separator = "—",
-      }
+      local move = require "nvim-treesitter-textobjects.move"
+      local select = require "nvim-treesitter-textobjects.select"
+
+      vim.keymap.set({ "n", "x", "o" }, "[a", function()
+        move.goto_previous_start("@parameter.inner", "textobjects")
+      end, { desc = "Previous argument" })
+
+      vim.keymap.set({ "n", "x", "o" }, "]a", function()
+        move.goto_next_start("@parameter.inner", "textobjects")
+      end, { desc = "Next argument" })
+
+      vim.keymap.set({ "n", "x", "o" }, "[A", function()
+        move.goto_previous_end("@parameter.outer", "textobjects")
+      end, { desc = "Previous argument end" })
+
+      vim.keymap.set({ "n", "x", "o" }, "]A", function()
+        move.goto_next_end("@parameter.outer", "textobjects")
+      end, { desc = "Next argument end" })
+
+      vim.keymap.set({ "n", "x", "o" }, "[s", function()
+        move.goto_previous_start("@local.scope", "locals")
+      end, { desc = "Previous scope" })
+
+      vim.keymap.set({ "n", "x", "o" }, "]s", function()
+        move.goto_next_start("@local.scope", "locals")
+      end, { desc = "Next scope" })
     end,
   },
+
+  {
+    "nvim-treesitter/nvim-treesitter-context",
+    event = "VeryLazy",
+    opts = {
+      multiline_threshold = 3,
+      separator = "—",
+    },
+  },
 }
--- vim: ts=2 sts=2 sw=2 et
