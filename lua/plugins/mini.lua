@@ -166,23 +166,7 @@ return {
     }
 
     vim.keymap.set("n", "<leader>gf", function()
-      -- when to pick cwd and when buffer's path?
-      local cwd = vim.fn.getcwd()
-      local repo_dir = vim.fn.systemlist({
-        "git",
-        "-C",
-        cwd,
-        "rev-parse",
-        "--show-toplevel",
-      })[1]
-      if vim.v.shell_error ~= 0 then
-        vim.notify(
-          "'" .. cwd .. "' is not a git repository",
-          vim.log.levels.ERROR
-        )
-        return
-      end
-      MiniExtra.pickers.git_files({ path = repo_dir }, files_opts)
+      MiniExtra.pickers.git_files(nil, files_opts)
     end, { desc = "[G]it [F]iles" })
 
     vim.keymap.set("n", "<leader>sf", function()
