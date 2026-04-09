@@ -1,5 +1,6 @@
 return {
   "moyiz/git-dev.nvim",
+  -- dir = "~/dev/moyiz/git-dev.nvim",
   -- dir = "~/workspace/neovim/git-dev.nvim",
   -- event = "VeryLazy",
   lazy = true,
