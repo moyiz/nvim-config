@@ -33,17 +33,22 @@ vim.api.nvim_create_user_command(
   "xa<bang> <args>",
   { bang = true, nargs = "*" }
 )
-vim.api.nvim_create_user_command("CloseBuffersOthers", function()
-  local current_dir = vim.fn.getcwd()
+vim.api.nvim_create_user_command("BufferCloseOthers", function()
+  local current_dir = vim.fs.normalize(vim.fn.getcwd())
   for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-    if vim.api.nvim_buf_is_loaded(buf) then
-      local buf_name = vim.api.nvim_buf_get_name(buf)
-      local buf_dir = vim.fn.fnamemodify(buf_name, ":h")
-
-      -- Check if the buffer's directory is not the current directory or a subdirectory
-      if not buf_dir:find(current_dir, 1, true) then
+    local buf_name = vim.api.nvim_buf_get_name(buf)
+    -- Leave unnamed, scratch and terminal buffers alone.
+    if
+      vim.api.nvim_buf_is_loaded(buf)
+      and buf_name ~= ""
+      and vim.bo[buf].buftype == ""
+    then
+      local buf_dir = vim.fs.normalize(vim.fn.fnamemodify(buf_name, ":h"))
+      local inside = buf_dir == current_dir
+        or vim.startswith(buf_dir, current_dir .. "/")
+      if not inside then
         vim.api.nvim_buf_delete(buf, { force = true })
       end
     end
   end
-end, {})
+end, { desc = "Close buffers outside the current working directory" })
