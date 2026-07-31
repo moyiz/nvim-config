@@ -216,19 +216,47 @@ return {
           --   end,
           -- })
 
-          -- Highlight references of current word
+          -- Highlight references of current word.
+          -- The group is per-buffer and cleared on creation, so a second client
+          -- attaching (or a server restart) replaces these rather than stacking
+          -- another copy onto a CursorHold hot path.
           local client = vim.lsp.get_client_by_id(event.data.client_id)
           if
-            client and client.server_capabilities.documentHighlightProvider
+            client and client:supports_method "textDocument/documentHighlight"
           then
+            local hl_group = vim.api.nvim_create_augroup(
+              "user-lsp-highlight-" .. event.buf,
+              { clear = true }
+            )
+
             vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+              group = hl_group,
               buffer = event.buf,
               callback = vim.lsp.buf.document_highlight,
             })
 
             vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+              group = hl_group,
               buffer = event.buf,
               callback = vim.lsp.buf.clear_references,
+            })
+
+            vim.api.nvim_create_autocmd("LspDetach", {
+              group = hl_group,
+              buffer = event.buf,
+              callback = function(detach)
+                -- Only tear down once no highlight-capable client is left.
+                for _, c in ipairs(vim.lsp.get_clients { bufnr = detach.buf }) do
+                  if
+                    c.id ~= detach.data.client_id
+                    and c:supports_method "textDocument/documentHighlight"
+                  then
+                    return
+                  end
+                end
+                vim.lsp.buf.clear_references()
+                pcall(vim.api.nvim_del_augroup_by_id, hl_group)
+              end,
             })
           end
         end,
