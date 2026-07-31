@@ -101,12 +101,13 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 -- Format options
 -- Default: jcroql / cljrqo1
-vim.api.nvim_create_autocmd("BufEnter", {
+vim.api.nvim_create_autocmd("FileType", {
+  group = vim.api.nvim_create_augroup("user-formatoptions", { clear = true }),
+  desc = "Undo ftplugin comment-continuation defaults",
   callback = function()
-    vim.opt_local.formatoptions:remove { "o" } -- Do not insert comment for 'o' and 'O'
-    vim.opt_local.formatoptions:remove { "o" } -- Do not insert comment for 'o' and 'O'
-    vim.opt_local.formatoptions:remove { "r" } -- Do not insert comment after <CR>
-    vim.opt_local.formatoptions:append { "n" } -- Indent new lines in numbered lists
+    vim.opt_local.formatoptions:remove "o" -- Do not insert comment for 'o' and 'O'
+    vim.opt_local.formatoptions:remove "r" -- Do not insert comment after <CR>
+    vim.opt_local.formatoptions:append "n" -- Indent new lines in numbered lists
   end,
 })
 
