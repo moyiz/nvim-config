@@ -89,6 +89,8 @@ vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 vim.opt.foldenable = false
 vim.opt.foldminlines = 5
 vim.api.nvim_create_autocmd("LspAttach", {
+  group = vim.api.nvim_create_augroup("user-lsp-folds", { clear = true }),
+  desc = "Prefer LSP folding ranges over treesitter where available",
   callback = function(args)
     local client = vim.lsp.get_client_by_id(args.data.client_id)
     if client and client:supports_method "textDocument/foldingRange" then
