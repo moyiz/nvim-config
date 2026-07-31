@@ -201,10 +201,6 @@ return {
             { desc = "Open diagnostic [Q]uickfix list" }
           )
 
-          -- Opens a popup that displays documentation about the word under your cursor
-          --  See `:help K` for why this keymap
-          map("K", vim.lsp.buf.hover, "Hover Documentation")
-
           -- Show errors and warnings in a floating window
           -- vim.api.nvim_create_autocmd("CursorHold", {
           --   callback = function()
