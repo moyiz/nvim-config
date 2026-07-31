@@ -81,7 +81,6 @@ return {
           },
         },
         opts = {
-
           layout = {
             default_direction = "prefer_left",
           },
@@ -242,122 +241,41 @@ return {
         end,
       })
 
-      --  - cmd (table): Override the default command used to start the server
-      --  - filetypes (table): Override the default list of associated filetypes for the server
-      --  - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP features.
-      --  - settings (table): Override the default settings passed when initializing the server.
-      --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
-      local servers = {
-        bashls = {},
-        shellcheck = {},
-
-        checkmake = {},
-
-        asm_lsp = {},
-        asmfmt = {},
-        clangd = {},
-
-        basedpyright = {},
-        ty = {},
-        ruff = {},
-
-        rust_analyzer = {},
-        zls = {},
-        nim_langserver = {},
-        gopls = {},
-
-        -- Java (eclipse)
-        jdtls = {},
-        jsonls = {},
-
-        stylua = {},
-        lua_ls = {
-          settings = {
-            Lua = {
-              runtime = { version = "LuaJIT" },
-              workspace = {
-                checkThirdParty = false,
-                -- Tells lua_ls where to find all the Lua files that you have loaded
-                -- for your neovim configuration.
-                -- library = {
-                --   "${3rd}/luv/library",
-                --   unpack(vim.api.nvim_get_runtime_file("", true)),
-                -- },
-                -- If lua_ls is really slow on your computer, you can try this instead:
-                library = { vim.env.VIMRUNTIME },
-                telemetry = { enable = false },
-              },
-              -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
-              diagnostics = { disable = { "missing-fields" } },
-            },
-          },
-        },
-
-        prettier = {},
-        yamlls = {
-          on_attach = function(client, _)
-            -- Formatting support needs to be forcibly enabled
-            client.server_capabilities.documentFormattingProvider = true
-          end,
-          settings = {
-            editor = {
-              tabSize = 2,
-            },
-            yaml = {
-              format = {
-                enable = true,
-                singleQuote = false,
-              },
-              validate = true,
-              completion = true,
-            },
-            schemaStore = {
-              enable = true,
-            },
-            schemas = {
-              ["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*",
-            },
-          },
-          redhat = {
-            telemetry = {
-              enabled = false,
-            },
-          },
-        },
-        actionlint = {},
-        helm_ls = {
-          ["helm-ls"] = {
-            yamlls = {
-              path = "yaml-language-server",
-            },
-          },
-        },
-        terraformls = {},
-        tflint = {},
-        hclfmt = {},
-      }
-
+      -- Per-server overrides live in `lsp/<name>.lua`
       require("mason-tool-installer").setup {
-        ensure_installed = vim.tbl_keys(servers or {}),
+        ensure_installed = {
+          "actionlint",
+          "asm_lsp",
+          "asmfmt",
+          "basedpyright",
+          "bashls",
+          "checkmake",
+          "clangd",
+          "golangci-lint",
+          "golangci-lint-langserver",
+          "gopls",
+          "hclfmt",
+          "helm_ls",
+          "jdtls",
+          "jsonls",
+          "lua_ls",
+          "nim_langserver",
+          "prettier",
+          "ruff",
+          "rust_analyzer",
+          "shellcheck",
+          "stylua",
+          "terraformls",
+          "tflint",
+          "ty",
+          "yamlls",
+          "zls",
+        },
       }
 
       require("mason-lspconfig").setup {
         ensure_installed = {},
         automatic_enable = true,
-        handlers = {
-          function(server_name)
-            local server = servers[server_name] or {}
-            require("lspconfig")[server_name].setup {
-              cmd = server.cmd,
-              settings = server.settings,
-              filetypes = server.filetypes,
-              capabilities = require("blink.cmp").get_lsp_capabilities(
-                server.capabilities
-              ),
-              on_attach = server.on_attach,
-            }
-          end,
-        },
       }
     end,
   },
