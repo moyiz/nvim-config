@@ -786,7 +786,6 @@ return {
         end),
         { section = "Tools", name = "Lazy", action = "Lazy" },
         { section = "Tools", name = "Mason", action = "Mason" },
-        { section = "Tools", name = "Telescope", action = "Telescope" },
         starter.sections.builtin_actions(),
       },
       content_hooks = {
