@@ -1,7 +1,7 @@
 return {
   "akinsho/bufferline.nvim",
   version = "*",
-  dependencies = "nvim-tree/nvim-web-devicons",
+  -- No nvim-web-devicons, uses mini.icons mock.
   event = "VeryLazy",
   opts = {},
 }
