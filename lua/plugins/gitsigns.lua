@@ -12,10 +12,10 @@ return {
         changedelete = { text = "~" },
       },
     },
-    key = {
+    keys = {
       {
         "<leader>ga",
-        "<Cmd>Gitsigns blame",
+        "<Cmd>Gitsigns blame<cr>",
         mode = { "n", "v" },
         desc = "[G]it Bl[a]me",
       },
