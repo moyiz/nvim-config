@@ -280,6 +280,8 @@ return {
     end, { desc = "[M]arks" })
 
     vim.keymap.set("n", "<leader>,c", function()
+      -- `base16-nvim` is lazy. Force load.
+      pcall(require("lazy").load, { plugins = { "base16-nvim" } })
       MiniExtra.pickers.colorschemes()
     end, { desc = "[C]olorscheme" })
 
