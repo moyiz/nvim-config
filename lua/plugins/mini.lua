@@ -86,7 +86,7 @@ return {
         { mode = "n", keys = "<leader>s", desc = "[S]earch" },
         { mode = "n", keys = "<leader>d", desc = "[D]ebug" },
         { mode = "n", keys = "<leader>m", desc = "[M]ap" },
-        { mode = "n", keys = "<leader>t", desc = "[T]elescope" },
+        { mode = "n", keys = "<leader>t", desc = "[T]abs" },
         { mode = "n", keys = "<leader>g", desc = "[G]it" },
       },
       window = {
