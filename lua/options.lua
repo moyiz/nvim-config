@@ -42,6 +42,10 @@ vim.opt.timeoutlen = 300
 vim.opt.splitright = true
 vim.opt.splitbelow = true
 
+-- Default border for every floating window that does not ask for its own,
+-- instead of setting `border` per plugin.
+vim.opt.winborder = "single"
+
 -- Sets how neovim will display certain whitespace in the editor.
 --  See :help 'list'
 --  and :help 'listchars'
