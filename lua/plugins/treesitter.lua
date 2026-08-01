@@ -37,13 +37,26 @@ return {
       --   ts.install(parsers_to_install)
       -- end
 
+      local group = vim.api.nvim_create_augroup("user-treesitter", {
+        clear = true,
+      })
       vim.api.nvim_create_autocmd("FileType", {
-        pattern = "*",
+        group = group,
+        desc = "Start treesitter highlighting; use its indent only as a fallback",
         callback = function()
-          pcall(function()
-            vim.treesitter.start()
+          if not pcall(vim.treesitter.start) then
+            return
+          end
+
+          -- Prefer the runtime indent wherever one exists.
+          -- Fallback to treesitter instead of plain autoindent.
+          if vim.bo.indentexpr ~= "" or vim.bo.cindent or vim.bo.lisp then
+            return
+          end
+          local lang = vim.treesitter.language.get_lang(vim.bo.filetype)
+          if lang and vim.treesitter.query.get(lang, "indents") then
             vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
-          end)
+          end
         end,
       })
     end,
