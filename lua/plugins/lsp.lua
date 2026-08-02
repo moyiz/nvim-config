@@ -22,67 +22,6 @@ return {
 
       -- UI for notifications and LSP progress messages
       { "j-hui/fidget.nvim", opts = {} },
-
-      { "tridactyl/vim-tridactyl", ft = "tridactyl" },
-      { "towolf/vim-helm", ft = "helm" },
-      -- {
-      --   "nvim-java/nvim-java",
-      --   ft = "java",
-      --   opts = {
-      --     notifications = {
-      --       dap = false,
-      --     },
-      --   },
-      -- },
-
-      {
-        "rachartier/tiny-code-action.nvim",
-        dependencies = { "nvim-lua/plenary.nvim" },
-        event = "LspAttach",
-        opts = {
-          -- Use 'buffer' for previews
-          picker = {
-            "buffer",
-            opts = {
-              auto_preview = true,
-              hotkeys = true,
-            },
-          },
-        },
-      },
-
-      {
-        "folke/lazydev.nvim",
-        ft = "lua",
-        dependencies = {
-          { "Bilal2453/luvit-meta", lazy = true },
-        },
-        opts = {
-          library = {
-            { path = "luvit-meta/library", words = { "vim%.uv" } },
-          },
-        },
-      },
-
-      {
-        "stevearc/aerial.nvim",
-        keys = {
-          {
-            "<leader>co",
-            "<cmd>AerialToggle!<cr>",
-            desc = "[C]ode [O]utline",
-          },
-        },
-        opts = {
-          layout = {
-            default_direction = "prefer_left",
-          },
-          highlight_on_hover = true,
-          manage_folds = true,
-          link_folds_to_tree = true,
-          show_guides = true,
-        },
-      },
     },
     config = function()
       vim.api.nvim_create_autocmd("LspAttach", {
@@ -258,6 +197,90 @@ return {
       require("mason-lspconfig").setup {
         ensure_installed = {},
         automatic_enable = true,
+      }
+    end,
+  },
+
+  {
+    "rachartier/tiny-code-action.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    event = "LspAttach",
+    opts = {
+      -- Use 'buffer' for previews
+      picker = {
+        "buffer",
+        opts = {
+          auto_preview = true,
+          hotkeys = true,
+        },
+      },
+    },
+  },
+
+  {
+    "folke/lazydev.nvim",
+    ft = "lua",
+    dependencies = {
+      { "Bilal2453/luvit-meta", lazy = true },
+    },
+    opts = {
+      library = {
+        { path = "luvit-meta/library", words = { "vim%.uv" } },
+      },
+    },
+  },
+
+  {
+    "stevearc/aerial.nvim",
+    keys = {
+      {
+        "<leader>co",
+        "<cmd>AerialToggle!<cr>",
+        desc = "[C]ode [O]utline",
+      },
+    },
+    opts = {
+      layout = {
+        default_direction = "prefer_left",
+      },
+      highlight_on_hover = true,
+      manage_folds = true,
+      link_folds_to_tree = true,
+      show_guides = true,
+    },
+  },
+
+  {
+    "tridactyl/vim-tridactyl",
+    ft = "tridactyl",
+    init = function()
+      vim.filetype.add {
+        pattern = { [".*tridactylrc"] = "tridactyl" },
+      }
+    end,
+  },
+
+  {
+    "towolf/vim-helm",
+    ft = "helm",
+    init = function()
+      -- A chart file is one under `templates/` whose chart root has a
+      -- `Chart.yaml`, which is why this cannot be a plain pattern.
+      local chart_template = function(path)
+        local root = path:match "^(.*)/templates/"
+        if root ~= nil and vim.uv.fs_stat(root .. "/Chart.yaml") ~= nil then
+          return "helm"
+        end
+      end
+      vim.filetype.add {
+        pattern = {
+          [".*/templates/.*%.ya?ml"] = chart_template,
+          [".*/templates/.*%.tpl"] = chart_template,
+          [".*/templates/.*%.txt"] = chart_template,
+          [".*/[^/]*helmfile[^/]*%.ya?ml"] = "helm",
+          -- Beats the `templates/` rules above, as in the plugin's ftdetect.
+          [".*/values[^/]*%.yaml"] = { "yaml.helm-values", { priority = 1 } },
+        },
       }
     end,
   },
