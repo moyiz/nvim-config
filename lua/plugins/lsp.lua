@@ -150,21 +150,21 @@ return {
           -- Diagnostic keymaps
           vim.keymap.set("n", "[d", function()
             vim.diagnostic.jump { count = -1, float = true }
-          end, { desc = "Go to previous [D]iagnostic message" })
+          end, { desc = "Previous [D]iagnostic" })
           vim.keymap.set("n", "]d", function()
             vim.diagnostic.jump { count = 1, float = true }
-          end, { desc = "Go to next [D]iagnostic message" })
+          end, { desc = "Next [D]iagnostic" })
           vim.keymap.set(
             "n",
             "<leader>ce",
             vim.diagnostic.open_float,
-            { desc = "Show diagnostic [E]rror messages" }
+            { desc = "Diagnostic [E]rror messages" }
           )
           vim.keymap.set(
             "n",
             "<leader>cq",
             vim.diagnostic.setloclist,
-            { desc = "Open diagnostic [Q]uickfix list" }
+            { desc = "Diagnostic [Q]uickfix list" }
           )
 
           -- Show errors and warnings in a floating window
