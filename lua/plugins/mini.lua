@@ -632,18 +632,25 @@ return {
         start_jumping = "<leader><leader>",
       },
     }
-    -- vim.api.nvim_set_hl(0, "MiniJump2dSpot", { reverse = true })
-    vim.api.nvim_set_hl(0, "MiniJump2dSpot", {
-      nocombine = true,
-      fg = "White",
-      bg = "#aa0000",
+    -- A colorscheme resets the highlight namespace, so re-apply on every switch.
+    local set_jump2d_hl = function()
+      vim.api.nvim_set_hl(0, "MiniJump2dSpot", {
+        nocombine = true,
+        fg = "White",
+        bg = "#aa0000",
+      })
+      vim.api.nvim_set_hl(0, "MiniJump2dSpotAhead", {
+        nocombine = true,
+        fg = "White",
+        bg = "Black",
+      })
+    end
+    vim.api.nvim_create_autocmd("ColorScheme", {
+      group = vim.api.nvim_create_augroup("user-jump2d-hl", { clear = true }),
+      desc = "Keep the jump2d label colors across colorschemes",
+      callback = set_jump2d_hl,
     })
-
-    vim.api.nvim_set_hl(0, "MiniJump2dSpotAhead", {
-      nocombine = true,
-      fg = "White",
-      bg = "Black",
-    })
+    set_jump2d_hl()
 
     require("mini.trailspace").setup {}
 
