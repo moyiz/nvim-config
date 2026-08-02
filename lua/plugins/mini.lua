@@ -123,6 +123,7 @@ return {
         end,
       },
     }
+
     -- vim.ui.select = ui_select
 
     -- window-picker for files picker
@@ -285,7 +286,7 @@ return {
       return MiniPick.registry[chosen_picker_name]()
     end, { desc = "[S]earch [P]ickers" })
 
-    local ns_id = vim.api.nvim_create_namespace "stam"
+    local ns_id = vim.api.nvim_create_namespace "user-man-picker"
     vim.keymap.set("n", "<leader>sM", function()
       local topic_section = function(item)
         local _, _, topic, section = item:find "([%w%-%_%:%.%@]+)%s+%((%w+)%)"
@@ -306,17 +307,20 @@ return {
         source = {
           show = function(buf_id, items_to_show, query)
             MiniPick.default_show(buf_id, items_to_show, query, nil)
+            vim.api.nvim_buf_clear_namespace(buf_id, ns_id, 0, -1)
             for i, line in ipairs(items_to_show) do
-              -- local topic, section = topic_section(line)
-              vim.api.nvim_buf_set_extmark(buf_id, ns_id, i - 1, 0, {
-                end_col = 0,
-                end_row = i,
-                hl_mode = "blend",
-                -- TODO:
-                -- hl_group = "Tag",
-              })
+              local topic = line:match "^(%S+)%s+%(%w+%)"
+              if topic ~= nil then
+                vim.api.nvim_buf_set_extmark(buf_id, ns_id, i - 1, 0, {
+                  end_row = i - 1,
+                  end_col = #topic,
+                  hl_group = "Title",
+                  hl_mode = "blend",
+                  -- Under `MiniPickMatchRanges` (200) so query hits stay visible.
+                  priority = 199,
+                })
+              end
             end
-            -- return MiniPick.default_show(buf_id, items_to_show, query, nil)
           end,
           choose = function(item)
             if item == nil then
@@ -354,8 +358,6 @@ return {
     end, { desc = "[S]earch [M]an pages" })
 
     require("mini.align").setup {}
-
-    require("mini.fuzzy").setup {}
 
     require("mini.notify").setup {
       content = {
