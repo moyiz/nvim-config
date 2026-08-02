@@ -97,55 +97,31 @@ return {
             )
           end
 
-          map(
-            "gd",
-            -- require("telescope.builtin").lsp_definitions,
-            function()
-              require("mini.extra").pickers.lsp { scope = "definition" }
-            end,
-            "[G]oto [D]efinition"
-          )
-          map(
-            "gD",
-            -- vim.lsp.buf.declaration,
-            function()
-              require("mini.extra").pickers.lsp { scope = "declaration" }
-            end,
-            "[G]oto [D]eclaration"
-          )
-          map(
-            "gr",
-            -- require("telescope.builtin").lsp_references,
-            function()
-              require("mini.extra").pickers.lsp { scope = "references" }
-            end,
-            "[G]oto [R]eferences"
-          )
+          map("grd", function()
+            require("mini.extra").pickers.lsp { scope = "definition" }
+          end, "[D]efinition")
 
-          map(
-            "gI",
-            -- require("telescope.builtin").lsp_implementations,
-            function()
-              require("mini.extra").pickers.lsp { scope = "implementation" }
-            end,
-            "[G]oto [I]mplementation"
-          )
+          map("grD", function()
+            require("mini.extra").pickers.lsp { scope = "declaration" }
+          end, "[D]eclaration")
 
-          map(
-            "gy",
-            -- require("telescope.builtin").lsp_type_definitions,
-            function()
-              require("mini.extra").pickers.lsp { scope = "type_definition" }
-            end,
-            "{G]oto T[y]pe def"
-          )
+          map("grr", function()
+            require("mini.extra").pickers.lsp { scope = "references" }
+          end, "[R]eferences")
 
-          map("<leader>cr", vim.lsp.buf.rename, "[R]ename")
+          map("gri", function()
+            require("mini.extra").pickers.lsp { scope = "implementation" }
+          end, "[I]mplementation")
 
-          -- map("<leader>ca", vim.lsp.buf.code_action, "[A]ction")
-          map("<leader>ca", function()
+          map("grt", function()
+            require("mini.extra").pickers.lsp { scope = "type_definition" }
+          end, "[T]ype definition")
+
+          map("grn", vim.lsp.buf.rename, "Re[n]ame")
+
+          map("gra", function()
             require("tiny-code-action").code_action {}
-          end, "[A]ction")
+          end, "Code [A]ction")
 
           -- Format buffer
           vim.keymap.set(
@@ -155,23 +131,13 @@ return {
             { buffer = event.buf, desc = "LSP: [F]ormat" }
           )
 
-          map(
-            "<leader>csd",
-            -- require("telescope.builtin").lsp_document_symbols,
-            function()
-              require("mini.extra").pickers.lsp { scope = "document_symbol" }
-            end,
-            "[D]ocument"
-          )
+          map("<leader>csd", function()
+            require("mini.extra").pickers.lsp { scope = "document_symbol" }
+          end, "[D]ocument")
 
-          map(
-            "<leader>csw",
-            -- require("telescope.builtin").lsp_dynamic_workspace_symbols,
-            function()
-              require("mini.extra").pickers.lsp { scope = "workspace_symbol" }
-            end,
-            "[W]orkspace"
-          )
+          map("<leader>csw", function()
+            require("mini.extra").pickers.lsp { scope = "workspace_symbol" }
+          end, "[W]orkspace")
 
           vim.diagnostic.config { virtual_text = true, virtual_lines = false }
           -- Toggle diagnostics
