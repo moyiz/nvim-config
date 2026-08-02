@@ -27,7 +27,7 @@ return {
       })
     end,
     opts = {
-      notify_on_error = false,
+      notify_on_error = true,
       format_on_save = function(bufnr)
         -- Disable with a global or buffer-local variable
         if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
@@ -36,7 +36,7 @@ return {
         return { timeout_ms = 1000, lsp_format = "fallback" }
       end,
       formatters_by_ft = {
-        lua = { "stylua" },
+        -- lua = { "stylua" },
         go = { "goimports", "gofmt" },
         -- go = { "goimports", "gofumpt" },
         yaml = { "prettier" },
