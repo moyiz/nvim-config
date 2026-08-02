@@ -96,6 +96,8 @@ vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 vim.opt.foldenable = false
 vim.opt.foldminlines = 5
+
+-- Prefer LSP folding if client supports it
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("user-lsp-folds", { clear = true }),
   desc = "Prefer LSP folding ranges over treesitter where available",
@@ -107,7 +109,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end
   end,
 })
--- Auto-commands
 
 -- Format options
 -- Default: jcroql / cljrqo1
