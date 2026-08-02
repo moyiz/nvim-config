@@ -88,9 +88,9 @@ return {
       vim.api.nvim_create_autocmd("LspAttach", {
         group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
         callback = function(event)
-          local map = function(keys, func, desc)
+          local map = function(keys, func, desc, mode)
             vim.keymap.set(
-              "n",
+              mode or "n",
               keys,
               func,
               { buffer = event.buf, desc = "LSP: " .. desc }
@@ -121,7 +121,7 @@ return {
 
           map("gra", function()
             require("tiny-code-action").code_action {}
-          end, "Code [A]ction")
+          end, "Code [A]ction", { "n", "x" })
 
           -- Format buffer
           vim.keymap.set(
