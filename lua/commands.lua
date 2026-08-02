@@ -33,8 +33,9 @@ vim.api.nvim_create_user_command(
   "xa<bang> <args>",
   { bang = true, nargs = "*" }
 )
-vim.api.nvim_create_user_command("BufferCloseOthers", function()
+vim.api.nvim_create_user_command("BufferCloseOthers", function(opts)
   local current_dir = vim.fs.normalize(vim.fn.getcwd())
+  local kept = {}
   for _, buf in ipairs(vim.api.nvim_list_bufs()) do
     local buf_name = vim.api.nvim_buf_get_name(buf)
     -- Leave unnamed, scratch and terminal buffers alone.
@@ -47,8 +48,24 @@ vim.api.nvim_create_user_command("BufferCloseOthers", function()
       local inside = buf_dir == current_dir
         or vim.startswith(buf_dir, current_dir .. "/")
       if not inside then
-        vim.api.nvim_buf_delete(buf, { force = true })
+        if opts.bang or not vim.bo[buf].modified then
+          vim.api.nvim_buf_delete(buf, { force = opts.bang })
+        else
+          table.insert(kept, vim.fn.fnamemodify(buf_name, ":~"))
+        end
       end
     end
   end
-end, { desc = "Close buffers outside the current working directory" })
+  if #kept > 0 then
+    vim.notify(
+      ("Kept %d modified buffer(s), :BufferCloseOthers! to discard:\n%s"):format(
+        #kept,
+        table.concat(kept, "\n")
+      ),
+      vim.log.levels.WARN
+    )
+  end
+end, {
+  bang = true,
+  desc = "Close buffers outside the current working directory",
+})
