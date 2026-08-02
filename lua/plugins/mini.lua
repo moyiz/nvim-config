@@ -263,9 +263,9 @@ return {
       MiniExtra.pickers.hl_groups {}
     end, { desc = "[S]earch H[i]ghlight groups" })
 
-    vim.keymap.set("n", "<leader>tm", function()
+    vim.keymap.set("n", "<leader>sm", function()
       MiniExtra.pickers.marks {}
-    end, { desc = "[M]arks" })
+    end, { desc = "[S]earch [M]arks" })
 
     vim.keymap.set("n", "<leader>sc", function()
       -- `base16-nvim` is lazy. Force load.
@@ -286,7 +286,7 @@ return {
     end, { desc = "[S]earch [P]ickers" })
 
     local ns_id = vim.api.nvim_create_namespace "stam"
-    vim.keymap.set("n", "<leader>sm", function()
+    vim.keymap.set("n", "<leader>sM", function()
       local topic_section = function(item)
         local _, _, topic, section = item:find "([%w%-%_%:%.%@]+)%s+%((%w+)%)"
         return topic, section
