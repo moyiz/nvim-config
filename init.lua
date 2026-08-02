@@ -10,8 +10,8 @@ if vim.uv.os_uname().sysname == "Darwin" then
       ["*"] = "pbcopy -i",
     },
     paste = {
-      ["+"] = "pbpaste -i",
-      ["*"] = "pbpaste -i",
+      ["+"] = "pbpaste",
+      ["*"] = "pbpaste",
     },
   }
 else
