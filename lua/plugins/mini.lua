@@ -243,18 +243,6 @@ return {
         },
       })
     end, { desc = "[S]earch [N]eovim files" })
-    vim.keymap.set("n", "<leader>st", function()
-      MiniExtra.pickers.lsp {
-        -- "declaration".
-        -- "definition".
-        -- "document_symbol".
-        -- "implementation".
-        -- "references".
-        -- "type_definition".
-        -- "workspace_symbol".
-        scope = "document_symbol",
-      }
-    end, { desc = "[S]earch [T]reesitter" })
     vim.keymap.set("n", "<leader>gm", function()
       MiniExtra.pickers.git_commits {
         path = vim.fn.expand "%",
