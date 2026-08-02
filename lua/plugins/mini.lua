@@ -549,19 +549,23 @@ return {
       end,
     })
 
-    -- For telescope to not auto-close when mini.files closes
     vim.api.nvim_create_autocmd("BufEnter", {
       group = files_group,
+      desc = "Close 'mini.files' on lost focus",
       callback = function()
         local ft = vim.bo.filetype
         if ft == "minifiles" or ft == "minifiles-help" then
           return
         end
+        if MiniFiles.get_explorer_state() == nil then
+          return
+        end
+        -- Closing restores focus to the explorer's target window, which steals
+        -- it from whatever we just entered.
         local cur_win_id = vim.api.nvim_get_current_win()
         MiniFiles.close()
         pcall(vim.api.nvim_set_current_win, cur_win_id)
       end,
-      desc = "Close 'mini.files' on lost focus",
     })
 
     -- Diff
