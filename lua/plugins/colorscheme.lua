@@ -64,31 +64,4 @@ return {
     "RRethy/base16-nvim",
     lazy = true,
   },
-
-  {
-    "folke/tokyonight.nvim",
-    enabled = false,
-    lazy = false,
-    priority = 1000,
-    config = function()
-      require("tokyonight").setup {
-        transparent = true,
-        styles = {
-          sidebars = "transparent",
-          floats = "transparent",
-        },
-        on_highlights = function(hl, c)
-          hl.Comment = {
-            italic = true,
-            fg = "#207ffc",
-          }
-          hl.DiagnosticUnnecessary = {
-            underline = true,
-            fg = "#207ffc",
-          }
-        end,
-      }
-      vim.cmd.colorscheme "tokyonight-storm"
-    end,
-  },
 }
