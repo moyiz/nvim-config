@@ -63,13 +63,13 @@ local cursorcolumn_group =
 vim.api.nvim_create_autocmd("InsertEnter", {
   group = cursorcolumn_group,
   callback = function()
-    vim.opt.cursorcolumn = true
+    vim.opt_local.cursorcolumn = true
   end,
 })
 vim.api.nvim_create_autocmd("InsertLeave", {
   group = cursorcolumn_group,
   callback = function()
-    vim.opt.cursorcolumn = false
+    vim.opt_local.cursorcolumn = false
   end,
 })
 
@@ -217,7 +217,6 @@ local disabled_built_ins = {
   "logipat",
   "rrhelper",
   "spellfile_plugin",
-  "matchit",
   -- Reduce startup time for python files
   -- /usr/share/nvim/runtime/autoload/provider/python3.vim
   "python3_provider",
