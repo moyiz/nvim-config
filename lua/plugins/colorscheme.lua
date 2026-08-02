@@ -12,6 +12,9 @@ return {
       c.bg = "#000000"
 
       require("midnight").setup {
+        MiniPickMatchRanges = {
+          link = "CurSearch",
+        },
         MiniStarterSection = {
           link = "Keyword",
         },
