@@ -158,9 +158,9 @@ return {
     {
       "<leader>ds",
       function()
-        require("dap").continue()
+        require("dap").session()
       end,
-      desc = "Start",
+      desc = "Session",
     },
     {
       "<leader>dd",
@@ -172,9 +172,9 @@ return {
     {
       "<leader>dg",
       function()
-        require("dap").session()
+        require("dap").goto_()
       end,
-      desc = "Get Session",
+      desc = "Go to Line (No Execute)",
     },
     {
       "<leader>dh",
