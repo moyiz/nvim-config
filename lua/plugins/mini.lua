@@ -267,7 +267,7 @@ return {
       MiniExtra.pickers.marks {}
     end, { desc = "[M]arks" })
 
-    vim.keymap.set("n", "<leader>,c", function()
+    vim.keymap.set("n", "<leader>sc", function()
       -- `base16-nvim` is lazy. Force load.
       pcall(require("lazy").load, { plugins = { "base16-nvim" } })
       MiniExtra.pickers.colorschemes()
