@@ -40,9 +40,7 @@ return {
         go = { "goimports", "gofmt" },
         -- go = { "goimports", "gofumpt" },
         yaml = { "prettier" },
-        -- Conform can also run multiple formatters sequentially
-        -- python = { "isort", "black" },
-        --
+        -- python = { "ruff_organize_imports", "ruff_format" },
         javascript = { "prettier" },
         html = { "prettier" },
         css = { "prettier" },
