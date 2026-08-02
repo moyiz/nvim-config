@@ -93,11 +93,13 @@ return {
         move.goto_next_end("@parameter.outer", "textobjects")
       end, { desc = "Next argument end" })
 
-      vim.keymap.set({ "n", "x", "o" }, "[s", function()
+      -- Capitalised so `[s` / `]s` stay with spell checking, which is on
+      -- globally via `vim.opt.spell`.
+      vim.keymap.set({ "n", "x", "o" }, "[S", function()
         move.goto_previous_start("@local.scope", "locals")
       end, { desc = "Previous scope" })
 
-      vim.keymap.set({ "n", "x", "o" }, "]s", function()
+      vim.keymap.set({ "n", "x", "o" }, "]S", function()
         move.goto_next_start("@local.scope", "locals")
       end, { desc = "Next scope" })
     end,
