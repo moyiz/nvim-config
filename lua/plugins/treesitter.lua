@@ -40,10 +40,19 @@ return {
       local group = vim.api.nvim_create_augroup("user-treesitter", {
         clear = true,
       })
+      local max_filesize = 1024 * 1024
       vim.api.nvim_create_autocmd("FileType", {
         group = group,
         desc = "Start treesitter highlighting; use its indent only as a fallback",
-        callback = function()
+        callback = function(args)
+          local stat = vim.uv.fs_stat(vim.api.nvim_buf_get_name(args.buf))
+          if stat and stat.size > max_filesize then
+            -- The runtime ftplugins for lua, markdown, help and query start
+            -- treesitter before this runs, so stop rather than just skip.
+            pcall(vim.treesitter.stop, args.buf)
+            return
+          end
+
           if not pcall(vim.treesitter.start) then
             return
           end
