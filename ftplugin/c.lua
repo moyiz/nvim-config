@@ -1,4 +1,4 @@
-vim.lsp.inlay_hint.enable()
+vim.lsp.inlay_hint.enable(true, { bufnr = 0 })
 vim.keymap.set(
   "n",
   "<leader>ch",
