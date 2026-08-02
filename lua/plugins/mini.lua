@@ -463,7 +463,10 @@ return {
       end
     end, { desc = "File [E]xplorer" })
 
+    local files_group =
+      vim.api.nvim_create_augroup("user-mini-files", { clear = true })
     vim.api.nvim_create_autocmd("User", {
+      group = files_group,
       pattern = "MiniFilesBufferCreate",
       callback = function(args)
         local set = function(rhs, lhs)
@@ -548,6 +551,7 @@ return {
 
     -- For telescope to not auto-close when mini.files closes
     vim.api.nvim_create_autocmd("BufEnter", {
+      group = files_group,
       callback = function()
         local ft = vim.bo.filetype
         if ft == "minifiles" or ft == "minifiles-help" then
@@ -644,6 +648,7 @@ return {
 
     -- Set starter footer and refresh after `startuptime` is available
     vim.api.nvim_create_autocmd("User", {
+      group = vim.api.nvim_create_augroup("user-starter", { clear = true }),
       pattern = "LazyVimStarted",
       callback = function()
         local starter = require "mini.starter"

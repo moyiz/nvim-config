@@ -58,12 +58,16 @@ vim.opt.inccommand = "split"
 vim.opt.cursorline = true
 
 -- Toggle cursor column with insert mode
-vim.api.nvim_create_autocmd({ "InsertEnter" }, {
+local cursorcolumn_group =
+  vim.api.nvim_create_augroup("user-cursorcolumn", { clear = true })
+vim.api.nvim_create_autocmd("InsertEnter", {
+  group = cursorcolumn_group,
   callback = function()
     vim.opt.cursorcolumn = true
   end,
 })
-vim.api.nvim_create_autocmd({ "InsertLeave" }, {
+vim.api.nvim_create_autocmd("InsertLeave", {
+  group = cursorcolumn_group,
   callback = function()
     vim.opt.cursorcolumn = false
   end,
@@ -117,8 +121,8 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
-vim.api.nvim_create_autocmd({ "TermOpen" }, {
-  pattern = { "*" },
+vim.api.nvim_create_autocmd("TermOpen", {
+  group = vim.api.nvim_create_augroup("user-terminal", { clear = true }),
   callback = function()
     vim.wo.number = false
     vim.wo.relativenumber = false
@@ -127,7 +131,8 @@ vim.api.nvim_create_autocmd({ "TermOpen" }, {
 })
 
 -- resize splits if window got resized
-vim.api.nvim_create_autocmd({ "VimResized" }, {
+vim.api.nvim_create_autocmd("VimResized", {
+  group = vim.api.nvim_create_augroup("user-resize", { clear = true }),
   callback = function()
     vim.cmd "wincmd ="
     vim.cmd "tabdo wincmd ="
@@ -135,7 +140,10 @@ vim.api.nvim_create_autocmd({ "VimResized" }, {
 })
 
 -- close some filetypes with <q>
+local filetype_group =
+  vim.api.nvim_create_augroup("user-filetype", { clear = true })
 vim.api.nvim_create_autocmd("FileType", {
+  group = filetype_group,
   pattern = {
     "PlenaryTestPopup",
     "help",
@@ -159,6 +167,7 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 vim.api.nvim_create_autocmd("FileType", {
+  group = filetype_group,
   pattern = { "man" },
   callback = function()
     vim.keymap.set("n", "d", "<C-d>", {

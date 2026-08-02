@@ -202,6 +202,7 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 
 -- Help in a vertical split
 vim.api.nvim_create_autocmd("FileType", {
+  group = vim.api.nvim_create_augroup("user-help-split", { clear = true }),
   pattern = { "help", "man" },
   callback = function()
     vim.opt_local.bufhidden = "unload"
@@ -212,6 +213,7 @@ vim.api.nvim_create_autocmd("FileType", {
 
 -- Disable features in terminal
 vim.api.nvim_create_autocmd("TermOpen", {
+  group = vim.api.nvim_create_augroup("user-terminal-spell", { clear = true }),
   pattern = "term://*",
   command = "setlocal nospell",
 })
