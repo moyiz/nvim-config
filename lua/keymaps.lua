@@ -8,7 +8,9 @@ vim.opt.hlsearch = true
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
 -- vim.keymap.set({ "n", "x" }, "g", "<Nop>") -- since no timeoutlen
-vim.keymap.set({ "n", "x" }, "s", "<Nop>") -- since no timeoutlen
+-- `mini.surround` owns the `s` prefix; drop the built-in substitute so a
+-- mistyped `s` cannot eat a character. Use `cl` / `c` for the old behaviour.
+vim.keymap.set({ "n", "x" }, "s", "<Nop>")
 -- Commented out due to no timeoutlen
 -- vim.keymap.set(
 --   "t",
