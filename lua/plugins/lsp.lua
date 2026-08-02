@@ -24,6 +24,34 @@ return {
       { "j-hui/fidget.nvim", opts = {} },
     },
     config = function()
+      vim.diagnostic.config { virtual_text = true, virtual_lines = false }
+      -- Toggle diagnostics
+      vim.keymap.set("n", "<leader>cc", function()
+        local state = not vim.diagnostic.is_enabled()
+        vim.diagnostic.enable(state)
+        -- vim.diagnostic.config { virtual_lines = state }
+      end, { desc = "Toggle diagnostics" })
+
+      -- Diagnostic keymaps
+      vim.keymap.set("n", "[d", function()
+        vim.diagnostic.jump { count = -1, float = true }
+      end, { desc = "Previous [D]iagnostic" })
+      vim.keymap.set("n", "]d", function()
+        vim.diagnostic.jump { count = 1, float = true }
+      end, { desc = "Next [D]iagnostic" })
+      vim.keymap.set(
+        "n",
+        "<leader>ce",
+        vim.diagnostic.open_float,
+        { desc = "Diagnostic [E]rror messages" }
+      )
+      vim.keymap.set(
+        "n",
+        "<leader>cq",
+        vim.diagnostic.setloclist,
+        { desc = "Diagnostic [Q]uickfix list" }
+      )
+
       vim.api.nvim_create_autocmd("LspAttach", {
         group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
         callback = function(event)
@@ -77,34 +105,6 @@ return {
           map("<leader>csw", function()
             require("mini.extra").pickers.lsp { scope = "workspace_symbol" }
           end, "[W]orkspace")
-
-          vim.diagnostic.config { virtual_text = true, virtual_lines = false }
-          -- Toggle diagnostics
-          map("<leader>cc", function()
-            local state = not vim.diagnostic.is_enabled()
-            vim.diagnostic.enable(state)
-            -- vim.diagnostic.config { virtual_lines = state }
-          end, "Toggle diagnostics")
-
-          -- Diagnostic keymaps
-          vim.keymap.set("n", "[d", function()
-            vim.diagnostic.jump { count = -1, float = true }
-          end, { desc = "Previous [D]iagnostic" })
-          vim.keymap.set("n", "]d", function()
-            vim.diagnostic.jump { count = 1, float = true }
-          end, { desc = "Next [D]iagnostic" })
-          vim.keymap.set(
-            "n",
-            "<leader>ce",
-            vim.diagnostic.open_float,
-            { desc = "Diagnostic [E]rror messages" }
-          )
-          vim.keymap.set(
-            "n",
-            "<leader>cq",
-            vim.diagnostic.setloclist,
-            { desc = "Diagnostic [Q]uickfix list" }
-          )
 
           -- Show errors and warnings in a floating window
           -- vim.api.nvim_create_autocmd("CursorHold", {
