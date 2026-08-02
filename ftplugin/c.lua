@@ -3,5 +3,5 @@ vim.keymap.set(
   "n",
   "<leader>ch",
   "<cmd>LspClangdSwitchSourceHeader<cr>",
-  { buffer = true }
+  { buffer = true, desc = "[C] <-> [H]eader" }
 )
