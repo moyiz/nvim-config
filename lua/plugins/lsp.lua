@@ -242,6 +242,7 @@ return {
     opts = {
       layout = {
         default_direction = "prefer_left",
+        max_width = { 60, 0.4 },
       },
       highlight_on_hover = true,
       manage_folds = true,
