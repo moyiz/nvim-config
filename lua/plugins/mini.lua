@@ -580,7 +580,26 @@ return {
     )
 
     -- overview of current buffer text.
-    require("mini.map").setup()
+    local minimap = require "mini.map"
+    minimap.setup {
+      -- integrations = {
+      --   minimap.gen_integration.builtin_search(),
+      --   minimap.gen_integration.diagnostic(),
+      --   -- minimap.gen_integration.gitsigns(), -- depends on gitsigns.nvim
+      --   minimap.gen_integration.diff(),
+      -- },
+      symbols = {
+        scroll_line = "█",
+        scroll_view = "┃",
+      },
+      window = {
+        winblend = 100,
+        --  scrollbar mode
+        width = 1,
+        -- Don't need extra column
+        show_integration_count = false,
+      },
+    }
     vim.keymap.set(
       "n",
       "<Leader>mf",
@@ -599,6 +618,12 @@ return {
       require("mini.map").toggle,
       { desc = "[T]oggle" }
     )
+
+    vim.api.nvim_create_autocmd("VimEnter", {
+      group = vim.api.nvim_create_augroup("user-map-open", { clear = true }),
+      desc = "Open map on launch",
+      callback = minimap.open,
+    })
 
     -- Highlight word under cursor
     require("mini.cursorword").setup {
