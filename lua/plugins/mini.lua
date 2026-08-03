@@ -98,6 +98,7 @@ return {
     }
 
     require("mini.extra").setup {}
+
     -- local ui_select = vim.ui.select
     require("mini.pick").setup {
       mappings = {
@@ -680,6 +681,13 @@ return {
     set_jump2d_hl()
 
     require("mini.trailspace").setup {}
+
+    require("mini.misc").setup {}
+    MiniMisc.setup_restore_cursor()
+    MiniMisc.setup_auto_root()
+    vim.keymap.set("n", "<leader>Z", function()
+      MiniMisc.zoom()
+    end, { desc = "[Z]oom window" })
 
     require("mini.icons").setup {}
     MiniIcons.mock_nvim_web_devicons()
