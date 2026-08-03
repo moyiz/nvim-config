@@ -582,12 +582,12 @@ return {
     -- overview of current buffer text.
     local minimap = require "mini.map"
     minimap.setup {
-      -- integrations = {
-      --   minimap.gen_integration.builtin_search(),
-      --   minimap.gen_integration.diagnostic(),
-      --   -- minimap.gen_integration.gitsigns(), -- depends on gitsigns.nvim
-      --   minimap.gen_integration.diff(),
-      -- },
+      integrations = {
+        minimap.gen_integration.builtin_search(),
+        minimap.gen_integration.diagnostic(),
+        -- minimap.gen_integration.gitsigns(), -- depends on gitsigns.nvim
+        minimap.gen_integration.diff(),
+      },
       symbols = {
         scroll_line = "█",
         scroll_view = "┃",
@@ -595,7 +595,7 @@ return {
       window = {
         winblend = 100,
         --  scrollbar mode
-        width = 1,
+        width = 2,
         -- Don't need extra column
         show_integration_count = false,
       },
