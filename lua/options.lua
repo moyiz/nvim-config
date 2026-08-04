@@ -218,9 +218,10 @@ local disabled_built_ins = {
   "logipat",
   "rrhelper",
   "spellfile_plugin",
-  -- Reduce startup time for python files
-  -- /usr/share/nvim/runtime/autoload/provider/python3.vim
   "python3_provider",
+  "ruby_provider",
+  "perl_provider",
+  "node_provider",
 }
 
 for _, plugin in pairs(disabled_built_ins) do
