@@ -1,7 +1,7 @@
 return {
   {
     "NMAC427/guess-indent.nvim",
-    event = "VeryLazy",
+    event = { "BufReadPre", "BufNewFile" },
     opts = {},
   },
 }
