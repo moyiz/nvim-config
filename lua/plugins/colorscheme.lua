@@ -58,6 +58,26 @@ return {
         Comment = {
           fg = p.gray[4],
         },
+        MiniTablineCurrent = {
+          fg = p.cyan[3],
+          bold = true,
+        },
+        MiniTablineVisible = {
+          fg = p.blue[3],
+        },
+        -- MiniTablineModifiedCurrent = {
+        --   fg = p.black,
+        --   bg = p.purple[3],
+        --   bold = true,
+        -- },
+        -- MiniTablineModifiedVisible = {
+        --   fg = p.black,
+        --   bg = p.teal[1],
+        -- },
+        -- MiniTablineModifiedHidden = {
+        --   fg = p.black,
+        --   bg = p.red[5],
+        -- },
       }
       vim.cmd.colorscheme "midnight"
     end,

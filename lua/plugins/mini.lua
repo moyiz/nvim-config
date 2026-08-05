@@ -414,10 +414,16 @@ return {
     require("mini.tabline").setup {
       tabpage_section = "right",
       format = function(buf_id, label)
-        local suffix = vim.bo[buf_id].modified and "➕  " or ""
-        return MiniTabline.default_format(buf_id, label) .. suffix
+        local suffix = vim.bo[buf_id].modified and "🔸" or " "
+        return " " .. MiniTabline.default_format(buf_id, label) .. suffix
       end,
     }
+    vim.api.nvim_set_hl(0, "MiniTablineModifiedVisible", {
+      link = "MiniTablineVisible",
+    })
+    vim.api.nvim_set_hl(0, "MiniTablineModifiedCurrent", {
+      link = "MiniTablineCurrent",
+    })
 
     require("mini.indentscope").setup {
       symbol = "▏",
